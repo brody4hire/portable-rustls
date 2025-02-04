@@ -314,8 +314,8 @@
 //!   use it as the default `CryptoProvider`, or provide it explicitly
 //!   when making a `ClientConfig` or `ServerConfig`.
 //!
-//! - `fips`: enable support for FIPS140-3-approved cryptography, via the aws-lc-rs crate.
-//!   This feature enables the `aws-lc-rs` feature, which makes the rustls crate depend
+//! - `fips`: enable support for FIPS140-3-approved cryptography, via the `aws-lc-rs` crate.
+//!   This feature enables the `aws-lc-rs` crate feature, which makes the rustls crate depend
 //!   on [aws-lc-rs](https://github.com/aws/aws-lc-rs).  It also changes the default
 //!   for [`ServerConfig::require_ems`] and [`ClientConfig::require_ems`].
 //!
