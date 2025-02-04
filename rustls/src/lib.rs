@@ -293,7 +293,7 @@
 //! - `std` (enabled by default): enable the high-level (buffered) Connection API and other functionality
 //!   which relies on the `std` library.
 //!
-//! - `aws_lc_rs` (enabled by default): makes the rustls crate depend on the [`aws-lc-rs`] crate.
+//! - `aws-lc-rs` (enabled by default): makes the rustls crate depend on the [`aws-lc-rs`] crate.
 //!   Use `rustls::crypto::aws_lc_rs::default_provider().install_default()` to
 //!   use it as the default `CryptoProvider`, or provide it explicitly
 //!   when making a `ClientConfig` or `ServerConfig`.
@@ -393,6 +393,10 @@
 #![cfg_attr(read_buf, feature(core_io_borrowed_buf))]
 #![cfg_attr(bench, feature(test))]
 #![no_std]
+
+// ENFORCE USE OF UPDATED `aws-lc-rs` ALIAS IN THIS FORK:
+#[cfg(all(feature = "aws_lc_rs", not(feature = "aws-lc-rs")))]
+compile_error!("must use updated `aws-lc-rs` feature name for aws-lc-rs in this fork");
 
 extern crate alloc;
 // This `extern crate` plus the `#![no_std]` attribute changes the default prelude from
