@@ -12,8 +12,8 @@
 Rustls is a modern TLS library written in Rust.
 </p>
 
-<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
-RECOMMENDED USAGE OF THIS FORK:
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
+RECOMMENDED USAGE OF THIS FORK (as stated below):
 * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
 * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 
@@ -58,6 +58,11 @@ https://docs.rs/rustls/
 -- -->
 
 # Approach
+
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+RECOMMENDED USAGE OF THIS FORK:
+* USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
+* IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 
 <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
 Rustls is a TLS library that aims to provide a good level of cryptographic security,
