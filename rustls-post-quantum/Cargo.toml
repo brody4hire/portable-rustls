@@ -14,7 +14,11 @@ autobenches = false
 
 [dependencies]
 # WITH ADAPTED MAIN PACKAGE NAME for this fork (MISSING version - should be OK in this fork)
-rustls = { features = ["aws_lc_rs", "prefer-post-quantum"], package = "portable-rustls", path = "../rustls" }
+rustls = { package = "portable-rustls", path = "../rustls", features = [
+  "aws-lc-rs",
+  "prefer-post-quantum",
+  "std",
+] }
 
 [dev-dependencies]
 criterion = "0.5"

@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 clap = { workspace = true }
-rustls = { package = "portable-rustls", path = "../rustls" }
+rustls = { package = "portable-rustls", path = "../rustls", features = ["std", "tls12"] }
 rustls-post-quantum = { path = "../rustls-post-quantum", optional = true }
 
 [features]

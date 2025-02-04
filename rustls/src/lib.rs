@@ -6,6 +6,7 @@
 //! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 //! RECOMMENDED USAGE OF THIS FORK:
 //! * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
+//! * NEED TO ENABLE FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
 //! * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 //!
 //! <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
@@ -19,8 +20,11 @@
 //!
 //! ### Platform support
 //!
-//! While Rustls itself is platform independent, by default it uses [`aws-lc-rs`] for implementing
-//! the cryptography in TLS.  See [the aws-lc-rs FAQ][aws-lc-rs-platforms-faq] for more details of the
+//! While Rustls itself is platform independent, there are some additional platform requirements
+//! for the built-in providers.
+//!
+//! [`aws-lc-rs`] is commonly used as the provider that implements the cryptography in TLS.
+//! See [the aws-lc-rs FAQ][aws-lc-rs-platforms-faq] for more details of the
 //! platform/architecture support constraints in aws-lc-rs.
 //!
 //! [`ring`] is also available via the `ring` crate feature: see
@@ -54,10 +58,11 @@
 //!
 //! #### Built-in providers
 //!
-//! Rustls ships with two built-in providers controlled with associated feature flags:
+//! Rustls ships with two built-in providers controlled by associated crate features,
+//! which are both optional in this fork:
 //!
-//!   * [`aws-lc-rs`] - enabled by default, available with the `aws_lc_rs` feature flag enabled.
-//!   * [`ring`] - available with the `ring` feature flag enabled.
+//!   * [`aws-lc-rs`] - available with the `aws-lc-rs` crate feature enabled.
+//!   * [`ring`] - available with the `ring` crate feature enabled.
 //!
 //! See the documentation for [`crypto::CryptoProvider`] for details on how providers are
 //! selected.
@@ -293,10 +298,10 @@
 //! Here's a list of what features are exposed by the rustls crate and what
 //! they mean.
 //!
-//! - `std` (enabled by default): enable the high-level (buffered) Connection API and other functionality
+//! - `std`: enable the high-level (buffered) Connection API and other functionality
 //!   which relies on the `std` library.
 //!
-//! - `aws_lc_rs` (enabled by default): makes the rustls crate depend on the [`aws-lc-rs`] crate.
+//! - `aws-lc-rs`: makes the rustls crate depend on the [`aws-lc-rs`] crate.
 //!   Use `rustls::crypto::aws_lc_rs::default_provider().install_default()` to
 //!   use it as the default `CryptoProvider`, or provide it explicitly
 //!   when making a `ClientConfig` or `ServerConfig`.
@@ -310,7 +315,7 @@
 //!   when making a `ClientConfig` or `ServerConfig`.
 //!
 //! - `fips`: enable support for FIPS140-3-approved cryptography, via the aws-lc-rs crate.
-//!   This feature enables the `aws_lc_rs` feature, which makes the rustls crate depend
+//!   This feature enables the `aws-lc-rs` feature, which makes the rustls crate depend
 //!   on [aws-lc-rs](https://github.com/aws/aws-lc-rs).  It also changes the default
 //!   for [`ServerConfig::require_ems`] and [`ClientConfig::require_ems`].
 //!
@@ -325,13 +330,13 @@
 //! - `custom-provider`: disables implicit use of built-in providers (`aws-lc-rs` or `ring`). This forces
 //!    applications to manually install one, for instance, when using a custom `CryptoProvider`.
 //!
-//! - `tls12` (enabled by default): enable support for TLS version 1.2. Note that, due to the
+//! - `tls12`: enable support for TLS version 1.2. Note that, due to the
 //!   additive nature of Cargo features and because it is enabled by default, other crates
 //!   in your dependency graph could re-enable it for your application. If you want to disable
 //!   TLS 1.2 for security reasons, consider explicitly enabling TLS 1.3 only in the config
 //!   builder API.
 //!
-//! - `logging` (enabled by default): make the rustls crate depend on the `log` crate.
+//! - `logging`: make the rustls crate depend on the `log` crate.
 //!   rustls outputs interesting protocol-level messages at `trace!` and `debug!` level,
 //!   and protocol-level errors at `warn!` and `error!` level.  The log messages do not
 //!   contain secret key data, and so are safe to archive without affecting session security.

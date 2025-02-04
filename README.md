@@ -18,6 +18,7 @@ IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTI
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 RECOMMENDED USAGE OF THIS FORK (as stated below):
 * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
+* NEED TO ENABLE FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
 * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 
 # Status
@@ -68,6 +69,7 @@ IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTI
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 RECOMMENDED USAGE OF THIS FORK:
 * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
+* NEED TO ENABLE FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
 * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 
 <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
@@ -81,8 +83,11 @@ list of protocol features](https://docs.rs/rustls/latest/rustls/manual/_04_featu
 
 ### Platform support
 
-While Rustls itself is platform independent, by default it uses [`aws-lc-rs`] for implementing
-the cryptography in TLS.  See [the aws-lc-rs FAQ][aws-lc-rs-platforms-faq] for more details of the
+While Rustls itself is platform independent, there are some additional platform requirements
+for the built-in providers.
+
+[`aws-lc-rs`] is commonly used as the provider that implements the cryptography in TLS.
+See [the aws-lc-rs FAQ][aws-lc-rs-platforms-faq] for more details of the
 platform/architecture support constraints in aws-lc-rs.
 
 [`ring`] is also available via the `ring` crate feature: see
@@ -116,10 +121,11 @@ builder types. See the [`crypto::CryptoProvider`] documentation for more details
 
 #### Built-in providers
 
-Rustls ships with two built-in providers controlled with associated feature flags:
+Rustls ships with two built-in providers controlled by associated crate features,
+which are both optional in this fork:
 
-* [`aws-lc-rs`] - enabled by default, available with the `aws_lc_rs` feature flag enabled.
-* [`ring`] - available with the `ring` feature flag enabled.
+* [`aws-lc-rs`] - available with the `aws-lc-rs` crate feature enabled.
+* [`ring`] - available with the `ring` crate feature enabled.
 
 See the documentation for [`crypto::CryptoProvider`] for details on how providers are
 selected.
