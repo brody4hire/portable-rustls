@@ -1,5 +1,8 @@
 name: CIFuzz
-on: [pull_request]
+
+# QUICK WORKAROUND in this fork:
+on:
+  workflow_dispatch
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
