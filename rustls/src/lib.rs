@@ -1,6 +1,9 @@
 //! # Rustls - a modern TLS library - portable-rustls fork
 //!
 //! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+//! IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK AS STATED FURTHER BELOW
+//!
+//! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 //! RECOMMENDED USAGE OF THIS FORK:
 //! * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
 //! * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
