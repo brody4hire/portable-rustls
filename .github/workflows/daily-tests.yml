@@ -150,7 +150,7 @@ jobs:
       - name: Check feature powerset
         run: >
             cargo hack check
-            --package rustls
+            --package portable-rustls
             --feature-powerset
             --no-dev-deps
             --group-features aws_lc_rs,aws-lc-rs
