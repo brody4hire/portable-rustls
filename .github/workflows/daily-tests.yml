@@ -157,6 +157,7 @@ jobs:
             --group-features fips,aws_lc_rs
             --mutually-exclusive-features fips,ring
             --mutually-exclusive-features custom_provider,aws_lc_rs
+            --mutually-exclusive-features custom_provider,default
             --mutually-exclusive-features custom_provider,ring
         # XXX TBD ???:
         # env:
