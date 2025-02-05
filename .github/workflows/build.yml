@@ -487,10 +487,11 @@ jobs:
         uses: dtolnay/rust-toolchain@nightly
         with:
           components: clippy
+      # XXX TODO UPDATE COMMENTS FOR THIS FORK:
       # Do not deny warnings, as nightly clippy sometimes has false negatives.
       # - Ignore `clippy::disallowed_types` as a workaround since `disallowed_types` configured in `.clippy.toml`
       #   is only intended for main `rustls` crate.
-      - run: ./admin/clippy -- --allow clippy::disallowed_types
+      - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
       # Check the main crate for any Clippy nightly warnings, but do not deny them.
       - run: cargo clippy -p portable-rustls
 
