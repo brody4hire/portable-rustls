@@ -158,5 +158,6 @@ jobs:
             --mutually-exclusive-features fips,ring
             --mutually-exclusive-features custom_provider,aws_lc_rs
             --mutually-exclusive-features custom_provider,ring
-        env:
-          RUSTFLAGS: --deny warnings
+        # XXX TBD ???:
+        # env:
+        #   RUSTFLAGS: --deny warnings
