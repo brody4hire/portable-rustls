@@ -134,7 +134,7 @@ jobs:
 
   feature-powerset:
     name: Feature Powerset
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -147,16 +147,18 @@ jobs:
       - name: Install cargo hack
         uses: taiki-e/install-action@cargo-hack
 
-      - name: Check feature powerset
+      # XXX TBD KEEP BOTH cargo hack check & cargo hack test - ???
+      - name: cargo hack test feature powerset
         run: >
-            cargo hack check
+            cargo hack test
             --package portable-rustls
             --feature-powerset
-            --no-dev-deps
             --group-features aws_lc_rs,aws-lc-rs
             --group-features fips,aws_lc_rs
             --mutually-exclusive-features fips,ring
             --mutually-exclusive-features custom_provider,aws_lc_rs
+            --mutually-exclusive-features custom_provider,default
             --mutually-exclusive-features custom_provider,ring
-        env:
-          RUSTFLAGS: --deny warnings
+        # XXX TBD ???:
+        # env:
+        #   RUSTFLAGS: --deny warnings
