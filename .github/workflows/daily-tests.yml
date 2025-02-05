@@ -134,7 +134,7 @@ jobs:
 
   feature-powerset:
     name: Feature Powerset
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
