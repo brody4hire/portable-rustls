@@ -147,12 +147,12 @@ jobs:
       - name: Install cargo hack
         uses: taiki-e/install-action@cargo-hack
 
-      - name: Check feature powerset
+      # XXX TBD KEEP BOTH cargo hack check & cargo hack test - ???
+      - name: cargo hack test feature powerset
         run: >
-            cargo hack check
+            cargo hack test
             --package portable-rustls
             --feature-powerset
-            --no-dev-deps
             --group-features aws_lc_rs,aws-lc-rs
             --group-features fips,aws_lc_rs
             --mutually-exclusive-features fips,ring
