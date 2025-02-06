@@ -224,9 +224,10 @@ jobs:
         run: cargo test --no-default-features --features aws_lc_rs,tls12,std
         working-directory: rustls
 
-      - name: cargo test (debug; no default features; fips,tls12)
-        run: cargo test --no-default-features --features fips,tls12,std
-        working-directory: rustls
+      # XXX TBD SKIP FOR NOW AT LEAST - XXX XXX NEED GO ON MACOS TO TEST THIS
+      # - name: cargo test (debug; no default features; fips,tls12)
+      #   run: cargo test --no-default-features --features fips,tls12,std
+      #   working-directory: rustls
 
       - name: cargo test (release; no run)
         run: cargo test --locked --release --no-run
