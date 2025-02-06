@@ -18,7 +18,7 @@ build = "build.rs"
 [features]
 default = []
 
-# IMPORTANT: NEED TO DIRECTLY OR INDIRECTLY REFERENCE ALL FEATURES IN docs.rs config FURTHER BELOW
+# XXX XXX NOTE LIKELY NOT NEEDED AFTER MERGING PR 7: IMPORTANT: NEED TO DIRECTLY OR INDIRECTLY REFERENCE ALL FEATURES IN docs.rs config FURTHER BELOW
 aws-lc-rs = ["aws_lc_rs"] # ALIAS - FAVORED OVER `aws_lc_rs` FEATURE NAME IN THIS FORK
 aws_lc_rs = ["dep:aws-lc-rs", "webpki/aws_lc_rs"]
 brotli = ["dep:brotli", "dep:brotli-decompressor", "std"]
@@ -28,6 +28,7 @@ logging = ["log"]
 prefer-post-quantum = ["aws-lc-rs"]
 read_buf = ["rustversion", "std"]
 ring = ["dep:ring", "webpki/ring"]
+# XXX XXX TODO DECOUPLE std & logging features
 std = ["logging", "webpki/std", "pki-types/std", "once_cell/std"]
 tls12 = []
 zlib = ["dep:zlib-rs"]
@@ -113,6 +114,7 @@ name = "unbuffered"
 path = "tests/runners/unbuffered.rs"
 
 [package.metadata.docs.rs]
+# XXX XXX LIKELY TO BE SUPERSEDED BY UPDATES FROM PR 7
 # all (non-default) features except fips (cannot build on docs.rs environment)
 # (NEED TO SYNCHRONIZE WITH CARGO DOC CI TESTING IN: .github/workflows/docs.yml)
 features = ["aws-lc-rs", "read_buf", "ring", "std", "tls12"]

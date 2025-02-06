@@ -38,6 +38,7 @@ jobs:
             "</script>"
 
       - name: cargo doc
+        # XXX XXX LIKELY TO BE SUPERSEDED BY UPDATES FROM PR 7
         # keep features in sync with Cargo.toml `[package.metadata.docs.rs]` section
         run: cargo doc --locked --features aws-lc-rs,read_buf,ring,std,tls12 --no-deps --package portable-rustls
         env:

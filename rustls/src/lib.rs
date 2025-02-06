@@ -327,6 +327,7 @@
 //!   to the default set in a future minor release.  See [the manual][x25519mlkem768-manual]
 //!   for more details.
 //!
+//! <!-- XXX XXX MAY WANT TO REVISIT THIS AS BUILT-IN PROVIDER NEEDS TO BE ENABLED BY EXPLICIT FEATURE OPTION (SOMEHOW) -->
 //! - `custom-provider`: disables implicit use of built-in providers (`aws-lc-rs` or `ring`). This forces
 //!   applications to manually install one, for instance, when using a custom `CryptoProvider`.
 //!
