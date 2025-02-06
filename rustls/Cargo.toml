@@ -23,8 +23,7 @@ aws-lc-rs = ["aws_lc_rs"] # REQUIRED ALIAS IN THIS FORK
 aws_lc_rs = ["dep:aws-lc-rs", "webpki/aws_lc_rs"]
 brotli = ["dep:brotli", "dep:brotli-decompressor", "std"]
 custom-provider = []
-# XXX XXX FIX FEATURE NAME - XXX cargo hack should detect this - check daily tests in CI ???
-fips = ["aws_lc_rs", "aws-lc-rs?/fips"]
+fips = ["aws-lc-rs", "aws-lc-rs?/fips"]
 logging = ["log"]
 # XXX XXX FIX FEATURE NAME - XXX cargo hack should detect this - check daily tests in CI ???
 prefer-post-quantum = ["aws_lc_rs"]
