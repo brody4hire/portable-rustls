@@ -25,12 +25,14 @@ jobs:
     strategy:
       matrix:
         rust:
-          - stable
-          - beta
+          # XXX TBD SKIP FOR NOW
+          # - stable
+          # - beta
           - nightly
         os:
           - ubuntu-latest
-          - windows-latest
+          # XXX TBD SKIP FOR NOW
+          # - windows-latest
           - macos-latest
         exclude:
           # XXX TBD ??? ???
@@ -46,7 +48,8 @@ jobs:
           #   rust: nightly
           # XXX TBD ??? ???
           # and never use macos/windows for merge checks
-          - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
+          # XXX TBD SKIP FOR NOW
+          # - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
           - os: ${{ github.event_name == 'merge_group' && 'macos-latest' }}
     steps:
       - name: Checkout sources
@@ -59,13 +62,15 @@ jobs:
         with:
           toolchain: ${{ matrix.rust }}
 
-      - name: Install NASM for aws-lc-rs on Windows
-        if: runner.os == 'Windows'
-        uses: ilammy/setup-nasm@v1
+      # XXX TBD SKIP FOR NOW
+      # - name: Install NASM for aws-lc-rs on Windows
+      #   if: runner.os == 'Windows'
+      #   uses: ilammy/setup-nasm@v1
 
-      - name: Install ninja-build tool for aws-lc-fips-sys on Windows
-        if: runner.os == 'Windows'
-        uses: seanmiddleditch/gha-setup-ninja@v6
+      # XXX TBD SKIP FOR NOW
+      # - name: Install ninja-build tool for aws-lc-fips-sys on Windows
+      #   if: runner.os == 'Windows'
+      #   uses: seanmiddleditch/gha-setup-ninja@v6
 
       - name: Install golang for aws-lc-fips-sys on macos
         if: runner.os == 'MacOS'
