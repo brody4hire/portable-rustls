@@ -16,7 +16,7 @@ exclude = ["src/testdata", "tests/**"]
 build = "build.rs"
 
 [features]
-default = ["aws_lc_rs", "logging", "std", "tls12"]
+default = ["aws-lc-rs", "logging", "std", "tls12"]
 
 aws-lc-rs = ["aws_lc_rs"] # REQUIRED ALIAS IN THIS FORK
 # KEEP `aws_lc_rs` to AVOID EXTRA CHANGES in src - MUST USE ALIAS IN THIS FORK AS ENFORCED IN: rustls/src/lib.rs
