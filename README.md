@@ -13,6 +13,9 @@ Rustls is a modern TLS library written in Rust.
 </p>
 
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
+IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK AS STATED FURTHER BELOW
+
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 RECOMMENDED USAGE OF THIS FORK (as stated below):
 * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
 * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
@@ -58,6 +61,9 @@ https://docs.rs/rustls/
 -- -->
 
 # Approach
+
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK AS STATED FURTHER BELOW
 
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 RECOMMENDED USAGE OF THIS FORK:
@@ -110,10 +116,10 @@ builder types. See the [`crypto::CryptoProvider`] documentation for more details
 
 #### Built-in providers
 
-Rustls ships with two built-in providers controlled with associated feature flags:
+Rustls ships with two built-in providers controlled by associated crate features:
 
-* [`aws-lc-rs`] - enabled by default, available with the `aws_lc_rs` feature flag enabled.
-* [`ring`] - available with the `ring` feature flag enabled.
+* [`aws-lc-rs`] - enabled by default, available with the `aws_lc_rs` crate feature enabled.
+* [`ring`] - available with the `ring` crate feature enabled.
 
 See the documentation for [`crypto::CryptoProvider`] for details on how providers are
 selected.

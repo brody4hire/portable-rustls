@@ -1,6 +1,9 @@
 //! # Rustls - a modern TLS library - portable-rustls fork
 //!
 //! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+//! IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK AS STATED FURTHER BELOW
+//!
+//! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 //! RECOMMENDED USAGE OF THIS FORK:
 //! * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
 //! * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
@@ -51,10 +54,10 @@
 //!
 //! #### Built-in providers
 //!
-//! Rustls ships with two built-in providers controlled with associated feature flags:
+//! Rustls ships with two built-in providers controlled by associated crate features:
 //!
-//!   * [`aws-lc-rs`] - enabled by default, available with the `aws_lc_rs` feature flag enabled.
-//!   * [`ring`] - available with the `ring` feature flag enabled.
+//!   * [`aws-lc-rs`] - enabled by default, available with the `aws_lc_rs` crate feature enabled.
+//!   * [`ring`] - available with the `ring` crate feature enabled.
 //!
 //! See the documentation for [`crypto::CryptoProvider`] for details on how providers are
 //! selected.
@@ -306,8 +309,8 @@
 //!   use it as the default `CryptoProvider`, or provide it explicitly
 //!   when making a `ClientConfig` or `ServerConfig`.
 //!
-//! - `fips`: enable support for FIPS140-3-approved cryptography, via the aws-lc-rs crate.
-//!   This feature enables the `aws_lc_rs` feature, which makes the rustls crate depend
+//! - `fips`: enable support for FIPS140-3-approved cryptography, via the [`aws-lc-rs`] crate.
+//!   This feature enables the `aws_lc_rs` crate feature, which makes the rustls crate depend
 //!   on [aws-lc-rs](https://github.com/aws/aws-lc-rs).  It also changes the default
 //!   for [`ServerConfig::require_ems`] and [`ClientConfig::require_ems`].
 //!
@@ -320,7 +323,7 @@
 //!   for more details.
 //!
 //! - `custom-provider`: disables implicit use of built-in providers (`aws-lc-rs` or `ring`). This forces
-//!    applications to manually install one, for instance, when using a custom `CryptoProvider`.
+//!   applications to manually install one, for instance, when using a custom `CryptoProvider`.
 //!
 //! - `tls12` (enabled by default): enable support for TLS version 1.2. Note that, due to the
 //!   additive nature of Cargo features and because it is enabled by default, other crates
