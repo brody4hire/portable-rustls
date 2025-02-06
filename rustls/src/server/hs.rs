@@ -264,7 +264,16 @@ impl ExtensionProcessing {
             client_supports.contains(&CertificateType::X509),
         ) {
             (true, true, _) => Ok((extension_type, CertificateType::RawPublicKey)),
-            (false, _, true) => Ok((extension_type, CertificateType::X509)),
+            // XXX XXX TRY REPLACING THIS WITH FINER CASES BELOW
+            // (false, _, true) => Ok((extension_type, CertificateType::X509)),
+            // XXX THIS CASE SEEMS TO BE NEVER TESTED - NOT IN MAIN CRATE TESTS & NOT IN `openssl-tests`
+            (false, false, true) => panic!("XXX"),
+            // XXX THIS CASE ONLY TRIGGERS FAILURE IN `openssl-tests` - DOES NOT TRIGGER FAILURE IN MAIN CRATE
+            // (false, true, true) => panic!("XXX"),
+            // XXX FINISH WITH NO CERT TYPE EXTENSION IN THIS CASE - DOES NOT SEEM TO TRIGGER ANY TEST FAILURES
+            (false, true, true) => return Ok(()),
+            // XXX THIS UPDATE ALSO ALSO DOES NOT SEEM TO TRIGGER ANY TEST FAILURES:
+            // (false, true, true) => Ok((extension_type, CertificateType::RawPublicKey)),
             (false, true, false) => Err(Error::PeerIncompatible(
                 PeerIncompatible::IncorrectCertificateTypeExtension,
             )),
