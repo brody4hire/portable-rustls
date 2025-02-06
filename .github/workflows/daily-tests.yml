@@ -133,24 +133,49 @@ jobs:
 
 
   feature-powerset:
-    name: Feature Powerset
-    runs-on: ubuntu-latest
+    # UPDATED TITLE IN THIS FORK
+    name: Feature Powerset - build
+    # FOR MORE FLEXIBLE FEATURE POWERSET CI CONFIGURATION IN THIS FORK
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          # FEATURE POWERSET ON MULTIPLE PLATFORMS IN THIS FORK
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        rust:
+          # MULTIPLE RUST VERSIONS FOR FUTURE CONSIDERATION IN THIS FORK
+          - stable
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
+      # FOR MORE FLEXIBLE FEATURE POWERSET CI CONFIGURATION IN THIS FORK
+      - name: Install ${{ matrix.rust }} toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
 
       - name: Install cargo hack
         uses: taiki-e/install-action@cargo-hack
 
+      # FOR MORE FLEXIBLE FEATURE POWERSET CI CONFIGURATION IN THIS FORK
+      - name: Install NASM for aws-lc-rs on Windows
+        if: runner.os == 'Windows'
+        uses: ilammy/setup-nasm@v1
+
+      # FOR MORE FLEXIBLE FEATURE POWERSET CI CONFIGURATION IN THIS FORK
+      - name: Install ninja-build tool for aws-lc-fips-sys on Windows
+        if: runner.os == 'Windows'
+        uses: seanmiddleditch/gha-setup-ninja@v6
+
       - name: Check feature powerset
         run: >
             cargo hack check
-            --package rustls
+            --package portable-rustls
             --feature-powerset
             --no-dev-deps
             --group-features aws_lc_rs,aws-lc-rs
