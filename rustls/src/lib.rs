@@ -12,6 +12,7 @@
 //! * USE Rust nightly toolchain
 //! * USE `--cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
 //! * USE `--cfg unstable_arc` in RUSTFLAGS FOR `cargo build` (etc.)
+//!
 //! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
 //! * `once_cell`
 //! * `portable-atomic`
