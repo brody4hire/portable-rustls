@@ -21,6 +21,39 @@ concurrency:
   # cancel-in-progress: true
 
 jobs:
+  # XXX TBD JOB NAMING - ???
+  portable-build:
+    name: Portable build test
+    runs-on: ubuntu-latest
+    strategy:
+      # XXX TBD ??? ???
+      # fail-fast: false
+      matrix:
+        target:
+          # 32-bit target(s) with no atomic ptr:
+          - riscv32imc-unknown-none-elf
+          # XXX TBD OTHER TARGET(S) - ???
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install nightly toolchain
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          target: ${{ matrix.target }}
+
+      # XXX TBD PARTIAL BUILD WORKAROUNDS - XXX TBD add feature(s) to configure these Cargo updates - ???
+      - run: cargo add once_cell -F critical-section -p portable-rustls
+      - run: cargo add portable-atomic -F critical-section -p portable-rustls
+
+      - name: cargo build (debug; no default features; no-std) # no std; no built-in provider
+        run: cargo build --locked --no-default-features --target ${{ matrix.target }}
+        working-directory: rustls
+
+      # XXX TODO: TRY BUILDING with hashbrown & include a built-in provider (aws-lc-rs or ring), if possible
+
   cross-build:
     name: cross build testing
     runs-on: ubuntu-latest
