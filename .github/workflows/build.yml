@@ -167,17 +167,20 @@ jobs:
         exclude:
           # XXX TBD ??? ???
           # only stable on macos/windows (slower platforms)
-          - os: windows-latest
-            rust: beta
-          - os: windows-latest
-            rust: nightly
-          - os: macos-latest
-            rust: beta
-          - os: macos-latest
-            rust: nightly
+          # XXX XXX
+          # - os: windows-latest
+          #   rust: beta
+          # - os: windows-latest
+          #   rust: nightly
+          # XXX TBD ??? ???
+          # - os: macos-latest
+          #   rust: beta
+          # - os: macos-latest
+          #   rust: nightly
           # XXX TBD ??? ???
           # and never use macos/windows for merge checks
-          - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
+          # XXX XXX
+          # - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
           - os: ${{ github.event_name == 'merge_group' && 'macos-latest' }}
     steps:
       - name: Checkout sources
