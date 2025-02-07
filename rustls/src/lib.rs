@@ -414,6 +414,7 @@ extern crate alloc;
 extern crate std;
 
 // XXX XXX TBD ... ... ...
+// XXX TODO ADD NOTE THAT EXCEPTION FOR -F std IS NOT DOCUMENTED & ONLY ADDED FOR CI TESTING PURPOSES
 // #[cfg(not(unstable_arc))]
 // #[cfg(not(any(docsrs,unstable_arc)))]
 // #[cfg(not(any(docsrs,unstable_arc, feature = "std")))]
