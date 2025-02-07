@@ -51,6 +51,8 @@ jobs:
       - name: cargo build (debug; no default features; no-std) # no std; no built-in provider
         run: cargo build --locked --no-default-features --target ${{ matrix.target }}
         working-directory: rustls
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_arc
 
       # XXX TODO: TRY BUILDING with hashbrown & include a built-in provider (aws-lc-rs or ring), if possible
 
@@ -83,3 +85,5 @@ jobs:
       - run: cargo add once_cell -F critical-section -p portable-rustls
       - run: cargo add portable-atomic -F critical-section -p portable-rustls
       - run: cross build --no-default-features --package portable-rustls --target ${{ matrix.target }}
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_arc
