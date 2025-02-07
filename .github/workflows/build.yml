@@ -155,8 +155,9 @@ jobs:
       matrix:
         rust:
           # XXX TBD ??? ???
-          - stable
-          - beta
+          # XXX XXX SKIP FOR NOW:
+          # - stable
+          # - beta
           - nightly
         os:
           # XXX TBD ??? ???
