@@ -192,6 +192,39 @@ jobs:
         run: cargo test --locked --release --no-run
         working-directory: rustls
 
+  portable-build:
+    name: Portable build test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          # 32-bit target(s) with no atomic ptr:
+          - riscv32imc-unknown-none-elf
+          # XXX TBD OTHER TARGET(S) - ???
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install nightly toolchain
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          target: ${{ matrix.target }}
+
+      # XXX TBD PARTIAL BUILD WORKAROUNDS - add feature(s) to configure these Cargo updates - ???
+      - run: cargo add once_cell -F critical-section -p portable-rustls
+      - run: cargo add portable-atomic -F critical-section -p portable-rustls
+
+      - name: cargo build (debug; no default features; no-std) # no std; no built-in provider
+        run: cargo build --locked --no-default-features --target ${{ matrix.target }}
+        working-directory: rustls
+        # XXX TBD unstable portable-atomic feature configuration - NEEDED FOR UPDATE with portable_atomic_util::Arc
+        # env:
+        #   RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+
+      # XXX TODO: TRY BUILDING with hashbrown & include a built-in provider (aws-lc-rs or ring), if possible
+
   bogo:
     name: BoGo test suite
     runs-on: ubuntu-latest
@@ -391,6 +424,35 @@ jobs:
         if: ${{ matrix.target != 'i686-unknown-linux-gnu' }}
         run: cargo add --dev --features bindgen 'aws-lc-sys@>0.20' --package portable-rustls --verbose && cargo install bindgen-cli --verbose
       - run: cross test --package portable-rustls --target ${{ matrix.target }}
+
+  cross-build:
+    name: portable cross build testing
+    runs-on: ubuntu-latest
+    # XXX TBD KEEP if: here - ???
+    if: github.event_name != 'merge_group'
+    strategy:
+      matrix:
+        target:
+          # 32-bit target(s) with no atomic ptr:
+          - thumbv6m-none-eabi
+          # XXX TBD OTHER TARGET(S) - ???
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install rust-toolchain - nightly # XXX TBD for unstable features (...)
+        uses: dtolnay/rust-toolchain@nightly
+      - name: Install cross (cross-rs) from GitHub
+        run: cargo install cross --git https://github.com/cross-rs/cross
+      # XXX TBD PARTIAL BUILD WORKAROUNDS - add feature(s) to configure these Cargo updates - ???
+      - run: cargo add once_cell -F critical-section -p portable-rustls
+      - run: cargo add portable-atomic -F critical-section -p portable-rustls
+      - run: cross build --no-default-features --package portable-rustls --target ${{ matrix.target }}
+        # XXX TBD unstable portable-atomic feature configuration - NEEDED FOR UPDATE with portable_atomic_util::Arc
+        # env:
+        #   RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
   semver:
     name: Check semver compatibility
