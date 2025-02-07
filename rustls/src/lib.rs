@@ -13,6 +13,10 @@
 //! * USE XXX --cfg flag in XXX
 //! * USE XXX XXX --cfg flag: unstable_arc
 //!
+//! FOR TARGETS WITH NO ATOMIC PTR NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
+//! * `once_cell`
+//! * `portable-atomic`
+//!
 //! <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
 //! Rustls is a TLS library that aims to provide a good level of cryptographic security,
 //! requires no configuration to achieve that security, and provides no unsafe features or

@@ -26,6 +26,8 @@ RECOMMENDED USAGE OF THIS FORK (as stated below):
 * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
 * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 
+SEE FURTHER BELOW FOR ADDITIONAL REQUIREMENTS FOR TARGETS WITH NO ATOMIC PTR
+
 # Status
 
 <!-- TODO(portable-rustls) UPDATE & CLEAN UP INFO FOR THIS FORK -->
@@ -80,6 +82,10 @@ XXX TODO DOCUMENT MAJOR DIFFERENCE(S): THIS FORK USES `Arc` FROM XXX WITH THE FO
 * RUST NIGHTLY TOOLCHAIN
 * USE XXX --cfg flag in XXX
 * USE XXX XXX --cfg flag: unstable_arc
+
+FOR TARGETS WITH NO ATOMIC PTR NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
+* `once_cell`
+* `portable-atomic`
 
 <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
 Rustls is a TLS library that aims to provide a good level of cryptographic security,
