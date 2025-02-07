@@ -387,7 +387,7 @@
     clippy::single_component_path_imports,
     clippy::new_without_default
 )]
-// XXX XX
+// XXX XXX
 #![allow(unexpected_cfgs)]
 // Enable documentation for all features on docs.rs
 #![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
