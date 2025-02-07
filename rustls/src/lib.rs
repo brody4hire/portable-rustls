@@ -8,6 +8,15 @@
 //! * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
 //! * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 //!
+//! THIS FORK SUPPORTS using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
+//! * USE Rust nightly toolchain
+//! * USE `--cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
+//! * USE `--cfg unstable_arc` in RUSTFLAGS FOR `cargo build` (etc.)
+//!
+//! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
+//! * `once_cell`
+//! * `portable-atomic`
+//!
 //! <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
 //! Rustls is a TLS library that aims to provide a good level of cryptographic security,
 //! requires no configuration to achieve that security, and provides no unsafe features or
@@ -382,6 +391,8 @@
     clippy::single_component_path_imports,
     clippy::new_without_default
 )]
+// XXX XXX
+#![allow(unexpected_cfgs)]
 // Enable documentation for all features on docs.rs
 #![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
 // XXX: Because of https://github.com/rust-lang/rust/issues/54726, we cannot
@@ -431,10 +442,11 @@ mod log {
 #[macro_use]
 mod test_macros;
 
-/// This internal `sync` module aliases the `Arc` implementation to allow downstream forks
-/// of rustls targetting architectures without atomic pointers to replace the implementation
-/// with another implementation such as `portable_atomic_util::Arc` in one central location.
+// XXX XXX
 mod sync {
+    #[cfg(unstable_arc)]
+    pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;
+    #[cfg(not(unstable_arc))]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = alloc::sync::Arc<T>;
 }
