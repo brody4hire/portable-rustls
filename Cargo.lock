@@ -2562,6 +2562,7 @@ dependencies = [
  "num-bigint",
  "once_cell",
  "openssl",
+ "portable-atomic-util",
  "portable-rustls",
 ]
 
