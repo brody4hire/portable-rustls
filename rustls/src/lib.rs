@@ -8,6 +8,10 @@
 //! * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
 //! * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 //!
+//! XXX TODO DOCUMENT MAJOR DIFFERENCE(S): THIS FORK USES `Arc` FROM XXX WITH THE FOLLOWING REQUIREMENTS (as stated below):
+//! * RUST NIGHTLY TOOLCHAIN
+//! * USE XXX --cfg flag in XXX
+//!
 //! <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
 //! Rustls is a TLS library that aims to provide a good level of cryptographic security,
 //! requires no configuration to achieve that security, and provides no unsafe features or
