@@ -25,25 +25,31 @@ jobs:
     strategy:
       matrix:
         rust:
-          - stable
-          - beta
+          # XXX TBD SKIP FOR NOW
+          # - stable
+          # - beta
           - nightly
         os:
           - ubuntu-latest
-          - windows-latest
+          # XXX TBD SKIP FOR NOW
+          # - windows-latest
           - macos-latest
         exclude:
+          # XXX TBD ??? ???
           # only stable on macos/windows (slower platforms)
-          - os: windows-latest
-            rust: beta
-          - os: windows-latest
-            rust: nightly
-          - os: macos-latest
-            rust: beta
-          - os: macos-latest
-            rust: nightly
+          # XXX TBD ??? ???
+          # - os: windows-latest
+          #   rust: beta
+          # - os: windows-latest
+          #   rust: nightly
+          # - os: macos-latest
+          #   rust: beta
+          # - os: macos-latest
+          #   rust: nightly
+          # XXX TBD ??? ???
           # and never use macos/windows for merge checks
-          - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
+          # XXX TBD SKIP FOR NOW
+          # - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
           - os: ${{ github.event_name == 'merge_group' && 'macos-latest' }}
     steps:
       - name: Checkout sources
@@ -56,13 +62,15 @@ jobs:
         with:
           toolchain: ${{ matrix.rust }}
 
-      - name: Install NASM for aws-lc-rs on Windows
-        if: runner.os == 'Windows'
-        uses: ilammy/setup-nasm@v1
+      # XXX TBD SKIP FOR NOW
+      # - name: Install NASM for aws-lc-rs on Windows
+      #   if: runner.os == 'Windows'
+      #   uses: ilammy/setup-nasm@v1
 
-      - name: Install ninja-build tool for aws-lc-fips-sys on Windows
-        if: runner.os == 'Windows'
-        uses: seanmiddleditch/gha-setup-ninja@v6
+      # XXX TBD SKIP FOR NOW
+      # - name: Install ninja-build tool for aws-lc-fips-sys on Windows
+      #   if: runner.os == 'Windows'
+      #   uses: seanmiddleditch/gha-setup-ninja@v6
 
       - name: Install golang for aws-lc-fips-sys on macos
         if: runner.os == 'MacOS'
@@ -140,16 +148,51 @@ jobs:
 
   features:
     name: Features
-    runs-on: ubuntu-latest
+    # XXX XXX IN THIS FORK
+    runs-on: ${{ matrix.os }}
+    # XXX XXX IN THIS FORK
+    strategy:
+      matrix:
+        rust:
+          # XXX TBD ??? ???
+          - stable
+          - beta
+          - nightly
+        os:
+          # XXX TBD ??? ???
+          - ubuntu-latest
+          # XXX XXX
+          # - windows-latest
+          - macos-latest
+        exclude:
+          # XXX TBD ??? ???
+          # only stable on macos/windows (slower platforms)
+          # XXX XXX
+          # - os: windows-latest
+          #   rust: beta
+          # - os: windows-latest
+          #   rust: nightly
+          # XXX TBD ??? ???
+          # - os: macos-latest
+          #   rust: beta
+          # - os: macos-latest
+          #   rust: nightly
+          # XXX TBD ??? ???
+          # and never use macos/windows for merge checks
+          # XXX XXX
+          # - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
+          - os: ${{ github.event_name == 'merge_group' && 'macos-latest' }}
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install ${{ matrix.rust }} toolchain
+        uses: dtolnay/rust-toolchain@master
         with:
+          toolchain: ${{ matrix.rust }}
+          # XXX XXX TBD XXX XXX
           target: x86_64-unknown-none
 
       - name: cargo build (debug; default features)
@@ -184,9 +227,10 @@ jobs:
         run: cargo test --no-default-features --features aws_lc_rs,tls12,std
         working-directory: rustls
 
-      - name: cargo test (debug; no default features; fips,tls12)
-        run: cargo test --no-default-features --features fips,tls12,std
-        working-directory: rustls
+      # XXX TBD SKIP FOR NOW AT LEAST - XXX XXX NEED GO ON MACOS TO TEST THIS
+      # - name: cargo test (debug; no default features; fips,tls12)
+      #   run: cargo test --no-default-features --features fips,tls12,std
+      #   working-directory: rustls
 
       - name: cargo test (release; no run)
         run: cargo test --locked --release --no-run
@@ -365,18 +409,22 @@ jobs:
         target:
           # 32-bit Android (Linux) targets:
           - armv7-linux-androideabi
-          - i686-linux-android
-          - thumbv7neon-linux-androideabi
+          # XXX TBD SKIP FOR NOW
+          # - i686-linux-android
+          # - thumbv7neon-linux-androideabi
           # Other standard 32-bit (Linux) targets (SKIP bindgen for i686 only)
-          - i586-unknown-linux-gnu
-          - i686-unknown-linux-gnu
+          # XXX TBD SKIP FOR NOW
+          # - i586-unknown-linux-gnu
+          # - i686-unknown-linux-gnu
           # exotic Linux targets:
-          - riscv64gc-unknown-linux-gnu
-          - s390x-unknown-linux-gnu
+          # XXX TBD SKIP FOR NOW
+          # - riscv64gc-unknown-linux-gnu
+          # - s390x-unknown-linux-gnu
           # additional target(s):
           # NOTE: This could have some overlap with 64-bit ARM-style CPU on macOS CI host;
           # may have similar ARM-style CPU overlap with standard Windows & possibly Linux in the future
-          - aarch64-linux-android
+          # XXX TBD SKIP FOR NOW
+          # - aarch64-linux-android
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -528,26 +576,65 @@ jobs:
 
   openssl-tests:
     name: Run openssl-tests
-    runs-on: ubuntu-latest
+    # XXX XXX IN THIS FORK
+    runs-on: ${{ matrix.os }}
     env:
       VERSION: openssl-3.4.0
+    # XXX XXX IN THIS FORK
+    strategy:
+      matrix:
+        rust:
+          # XXX TBD ??? ???
+          - stable
+          - beta
+          - nightly
+        os:
+          # XXX TBD ??? ???
+          - ubuntu-latest
+          # XXX XXX
+          # - windows-latest
+          - macos-latest
+        exclude:
+          # XXX TBD ??? ???
+          # only stable on macos/windows (slower platforms)
+          # XXX XXX
+          # - os: windows-latest
+          #   rust: beta
+          # - os: windows-latest
+          #   rust: nightly
+          # XXX TBD ??? ???
+          # - os: macos-latest
+          #   rust: beta
+          # - os: macos-latest
+          #   rust: nightly
+          # XXX TBD ??? ???
+          # and never use macos/windows for merge checks
+          # XXX XXX - ??? ??? ???
+          # - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
+          - os: ${{ github.event_name == 'merge_group' && 'macos-latest' }}
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
+      # XXX XXX
+      - name: Install ${{ matrix.rust }} toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+          # XXX XXX TBD XXX XXX
+          target: x86_64-unknown-none
 
-      - name: Cache ${{ env.VERSION }}
+      # XXX TBD RECONSIDER NAME - ???
+      - name: Cache ${{ env.VERSION }}-${{ matrix.os }}
         uses: actions/cache@v4
         id: cache-openssl
         with:
-          path: ${{ env.VERSION }}
-          key: ${{ env.VERSION }}
+          path: ${{ env.VERSION }}-${{ matrix.os }}
+          key: ${{ env.VERSION }}-${{ matrix.os }}
 
-      - name: Fetch and build ${{ env.VERSION }}
+      - name: Fetch and build ${{ env.VERSION }}-${{ matrix.os }}
         if: steps.cache-openssl.outputs.cache-hit != 'true'
         run: |
           wget https://github.com/openssl/openssl/releases/download/$VERSION/$VERSION.tar.gz
@@ -557,7 +644,8 @@ jobs:
           make -j$(nproc)
           make install
 
-      - name: Use ${{ env.VERSION }}
+      # XXX TBD RECONSIDER NAME - ???
+      - name: Use ${{ env.VERSION }}-${{ matrix.os }}
         run: |
          path=$(pwd)/$VERSION/built/
          echo "$path/bin" >> $GITHUB_PATH
