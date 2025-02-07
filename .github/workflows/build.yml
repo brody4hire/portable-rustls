@@ -626,15 +626,15 @@ jobs:
           # XXX XXX TBD XXX XXX
           target: x86_64-unknown-none
 
-      # XXX XXX NOT EXPECTED TO WORK WITH BOTH UBUNTU & MACOS:
-      - name: Cache ${{ env.VERSION }}
+      # XXX TBD RECONSIDER NAME - ???
+      - name: Cache ${{ env.VERSION }}-${{ matrix.os }}
         uses: actions/cache@v4
         id: cache-openssl
         with:
-          path: ${{ env.VERSION }}
-          key: ${{ env.VERSION }}
+          path: ${{ env.VERSION }}-${{ matrix.os }}
+          key: ${{ env.VERSION }}-${{ matrix.os }}
 
-      - name: Fetch and build ${{ env.VERSION }}
+      - name: Fetch and build ${{ env.VERSION }}-${{ matrix.os }}
         if: steps.cache-openssl.outputs.cache-hit != 'true'
         run: |
           wget https://github.com/openssl/openssl/releases/download/$VERSION/$VERSION.tar.gz
@@ -644,7 +644,8 @@ jobs:
           make -j$(nproc)
           make install
 
-      - name: Use ${{ env.VERSION }}
+      # XXX TBD RECONSIDER NAME - ???
+      - name: Use ${{ env.VERSION }}-${{ matrix.os }}
         run: |
          path=$(pwd)/$VERSION/built/
          echo "$path/bin" >> $GITHUB_PATH
