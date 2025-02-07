@@ -577,26 +577,65 @@ jobs:
 
   openssl-tests:
     name: Run openssl-tests
-    runs-on: ubuntu-latest
+    # XXX XXX IN THIS FORK
+    runs-on: ${{ matrix.os }}
     env:
       VERSION: openssl-3.4.0
+    # XXX XXX IN THIS FORK
+    strategy:
+      matrix:
+        rust:
+          # XXX TBD ??? ???
+          - stable
+          - beta
+          - nightly
+        os:
+          # XXX TBD ??? ???
+          - ubuntu-latest
+          # XXX XXX
+          # - windows-latest
+          - macos-latest
+        exclude:
+          # XXX TBD ??? ???
+          # only stable on macos/windows (slower platforms)
+          # XXX XXX
+          # - os: windows-latest
+          #   rust: beta
+          # - os: windows-latest
+          #   rust: nightly
+          # XXX TBD ??? ???
+          # - os: macos-latest
+          #   rust: beta
+          # - os: macos-latest
+          #   rust: nightly
+          # XXX TBD ??? ???
+          # and never use macos/windows for merge checks
+          # XXX XXX - ??? ??? ???
+          # - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
+          - os: ${{ github.event_name == 'merge_group' && 'macos-latest' }}
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
+      # XXX XXX
+      - name: Install ${{ matrix.rust }} toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+          # XXX XXX TBD XXX XXX
+          target: x86_64-unknown-none
 
-      - name: Cache ${{ env.VERSION }}
+      # XXX TBD RECONSIDER NAME - ???
+      - name: Cache ${{ env.VERSION }}-${{ matrix.os }}
         uses: actions/cache@v4
         id: cache-openssl
         with:
-          path: ${{ env.VERSION }}
-          key: ${{ env.VERSION }}
+          path: ${{ env.VERSION }}-${{ matrix.os }}
+          key: ${{ env.VERSION }}-${{ matrix.os }}
 
-      - name: Fetch and build ${{ env.VERSION }}
+      - name: Fetch and build ${{ env.VERSION }}-${{ matrix.os }}
         if: steps.cache-openssl.outputs.cache-hit != 'true'
         run: |
           wget https://github.com/openssl/openssl/releases/download/$VERSION/$VERSION.tar.gz
@@ -606,7 +645,8 @@ jobs:
           make -j$(nproc)
           make install
 
-      - name: Use ${{ env.VERSION }}
+      # XXX TBD RECONSIDER NAME - ???
+      - name: Use ${{ env.VERSION }}-${{ matrix.os }}
         run: |
          path=$(pwd)/$VERSION/built/
          echo "$path/bin" >> $GITHUB_PATH
