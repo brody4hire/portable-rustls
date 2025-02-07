@@ -11,6 +11,7 @@
 //! XXX TODO DOCUMENT MAJOR DIFFERENCE(S): THIS FORK USES `Arc` FROM XXX WITH THE FOLLOWING REQUIREMENTS (as stated below):
 //! * RUST NIGHTLY TOOLCHAIN
 //! * USE XXX --cfg flag in XXX
+//! * USE XXX XXX --cfg flag: unstable_arc
 //!
 //! <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
 //! Rustls is a TLS library that aims to provide a good level of cryptographic security,
@@ -386,6 +387,8 @@
     clippy::single_component_path_imports,
     clippy::new_without_default
 )]
+// XXX XX
+#![allow(unexpected_cfgs)]
 // Enable documentation for all features on docs.rs
 #![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
 // XXX: Because of https://github.com/rust-lang/rust/issues/54726, we cannot
@@ -409,6 +412,13 @@ extern crate alloc;
 // `cargo build --no-default-features` locally will get errors when they rely on `std::prelude` API.
 #[cfg(any(feature = "std", test))]
 extern crate std;
+
+// XXX XXX TBD ... ... ...
+// #[cfg(not(unstable_arc))]
+// #[cfg(not(any(docsrs,unstable_arc)))]
+// #[cfg(not(any(docsrs,unstable_arc, feature = "std")))]
+#[cfg(not(any(unstable_arc, feature = "std")))]
+compile_error!("XXX");
 
 #[cfg(doc)]
 use crate::crypto::CryptoProvider;
