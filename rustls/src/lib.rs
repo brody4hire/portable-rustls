@@ -8,12 +8,11 @@
 //! * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
 //! * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 //!
-//! XXX TODO DOCUMENT MAJOR DIFFERENCE(S): THIS FORK USES `Arc` FROM XXX WITH THE FOLLOWING REQUIREMENTS (as stated below):
-//! * RUST NIGHTLY TOOLCHAIN
-//! * USE XXX --cfg flag in XXX
-//! * USE XXX XXX --cfg flag: unstable_arc
-//!
-//! FOR TARGETS WITH NO ATOMIC PTR NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
+//! THIS FORK SUPPORTS using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
+//! * USE Rust nightly toolchain
+//! * USE `--cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
+//! * USE `--cfg unstable_arc` in RUSTFLAGS FOR `cargo build` (etc.)
+//! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
 //! * `once_cell`
 //! * `portable-atomic`
 //!
@@ -417,14 +416,6 @@ extern crate alloc;
 #[cfg(any(feature = "std", test))]
 extern crate std;
 
-// XXX XXX TBD ... ... ...
-// XXX TODO ADD NOTE THAT EXCEPTION FOR -F std IS NOT DOCUMENTED & ONLY ADDED FOR CI TESTING PURPOSES
-// #[cfg(not(unstable_arc))]
-// #[cfg(not(any(docsrs,unstable_arc)))]
-// #[cfg(not(any(docsrs,unstable_arc, feature = "std")))]
-#[cfg(not(any(unstable_arc, feature = "std")))]
-compile_error!("XXX");
-
 #[cfg(doc)]
 use crate::crypto::CryptoProvider;
 
@@ -452,9 +443,11 @@ mod test_macros;
 
 // XXX XXX
 mod sync {
-    // XXX XXX TBD UPDATE disallowed types config etc. elsewhere - ???
-    // #[allow(clippy::disallowed_types)]
+    #[cfg(unstable_arc)]
     pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;
+    #[cfg(not(unstable_arc))]
+    #[allow(clippy::disallowed_types)]
+    pub(crate) type Arc<T> = alloc::sync::Arc<T>;
 }
 
 #[macro_use]

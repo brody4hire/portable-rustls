@@ -16,17 +16,12 @@ Rustls is a modern TLS library written in Rust.
 <!-- XXX TODO ADD AS STATED BELOW COMMENT IN THIS COPY OF THE IMPORTANT NOTICE -->
 IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK AS STATED FURTHER BELOW
 
-XXX TODO DOCUMENT MAJOR DIFFERENCE(S): THIS FORK USES `Arc` FROM XXX WITH THE FOLLOWING REQUIREMENTS (as stated below):
-* RUST NIGHTLY TOOLCHAIN
-* USE XXX --cfg flag in XXX
-* USE XXX XXX --cfg flag: unstable_arc
-
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 RECOMMENDED USAGE OF THIS FORK (as stated below):
 * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
 * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 
-SEE FURTHER BELOW FOR ADDITIONAL REQUIREMENTS FOR TARGETS WITH NO ATOMIC PTR
+THIS FORK SUPPORTS BUILDING FOR TARGETS WITH NO ATOMIC PTR - SEE INFO FURTHER BELOW
 
 # Status
 
@@ -78,12 +73,11 @@ RECOMMENDED USAGE OF THIS FORK:
 * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
 * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 
-XXX TODO DOCUMENT MAJOR DIFFERENCE(S): THIS FORK USES `Arc` FROM XXX WITH THE FOLLOWING REQUIREMENTS (as stated below):
-* RUST NIGHTLY TOOLCHAIN
-* USE XXX --cfg flag in XXX
-* USE XXX XXX --cfg flag: unstable_arc
-
-FOR TARGETS WITH NO ATOMIC PTR NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
+THIS FORK SUPPORTS using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
+* USE Rust nightly toolchain
+* USE `--cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
+* USE `--cfg unstable_arc` in RUSTFLAGS FOR `cargo build` (etc.)
+WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
 * `once_cell`
 * `portable-atomic`
 
