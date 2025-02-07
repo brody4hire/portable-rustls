@@ -1,7 +1,6 @@
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
-// use std::sync::Arc;
-use portable_atomic_util::Arc;
+use std::sync::Arc;
 use std::{fs, str, thread};
 
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
