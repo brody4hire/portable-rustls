@@ -1,0 +1,48 @@
+name: portable-rustls CI
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches-ignore:
+    - 'gh-readonly-queue/**'
+    tags:
+    - '**'
+  pull_request:
+  merge_group:
+  schedule:
+    - cron: '0 18 * * *'
+
+# XXX TBD ??? ???
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cross-build:
+    name: cross build testing
+    runs-on: ubuntu-latest
+    # XXX TBD KEEP if: here - ???
+    if: github.event_name != 'merge_group'
+    strategy:
+      matrix:
+        target:
+          # 32-bit Android (Linux) targets:
+          - armv7-linux-androideabi
+          # TODO (NOT YET SUPPORTED)
+          # 32-bit target(s) with no atomic ptr:
+          # - thumbv6m-none-eabi
+          # XXX TBD OTHER TARGET(S) - ???
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install rust-toolchain - nightly # XXX TBD for unstable features (...)
+        uses: dtolnay/rust-toolchain@nightly
+      - name: Install cross (cross-rs) from GitHub
+        run: cargo install cross --git https://github.com/cross-rs/cross
+      # XXX TBD ???
+      - run: cross build --no-default-features --package portable-rustls --target ${{ matrix.target }}
