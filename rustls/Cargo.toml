@@ -48,6 +48,9 @@ webpki = { workspace = true }
 pki-types = { workspace = true }
 zeroize = { workspace = true }
 zlib-rs = { workspace = true, optional = true }
+# XXX TODO SHOULD BE OPTIONAL
+# XXX TODO FIX SORTING
+# XXX TODO DEFINE VERSION IN WORKSPACE TO IMPROVE CONSISTENCY
 portable-atomic-util = { version = "0.2.4", features = ["alloc"] }
 
 [dev-dependencies]
