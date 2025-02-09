@@ -181,7 +181,7 @@
 //! and use it for all connections made by that process.
 //!
 //! ```rust,no_run
-//! # #[cfg(feature = "aws_lc_rs")] {
+//! # #[cfg(feature = "aws-lc-rs")] {
 //! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # let root_store: rustls::RootCertStore = panic!();
 //! let config = rustls::ClientConfig::builder()
@@ -194,7 +194,7 @@
 //! know what to expect to find in the server's certificate.
 //!
 //! ```rust
-//! # #[cfg(feature = "aws_lc_rs")] {
+//! # #[cfg(feature = "aws-lc-rs")] {
 //! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # use webpki;
 //! # use std::sync::Arc;
@@ -237,7 +237,7 @@
 //! errors.
 //!
 //! ```rust,no_run
-//! # #[cfg(feature = "aws_lc_rs")] {
+//! # #[cfg(feature = "aws-lc-rs")] {
 //! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # let mut client = rustls::ClientConnection::new(panic!(), panic!()).unwrap();
 //! # struct Socket { }
@@ -403,7 +403,7 @@
 #![no_std]
 
 // ENFORCE USE OF UPDATED `aws-lc-rs` ALIAS IN THIS FORK:
-#[cfg(all(feature = "aws_lc_rs", not(feature = "aws-lc-rs")))]
+#[cfg(all(feature = "aws-lc-rs", not(feature = "aws-lc-rs")))]
 compile_error!("must use updated `aws-lc-rs` feature name for aws-lc-rs in this fork");
 
 extern crate alloc;
