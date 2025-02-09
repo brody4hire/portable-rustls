@@ -23,7 +23,7 @@ aws-lc-rs = ["aws_lc_rs"] # REQUIRED ALIAS IN THIS FORK
 aws_lc_rs = ["dep:aws-lc-rs", "webpki/aws_lc_rs"]
 brotli = ["dep:brotli", "dep:brotli-decompressor", "std"]
 custom-provider = []
-fips = ["aws-lc-rs", "aws-lc-rs?/fips"]
+# [FIPS REMOVED FROM THIS FORK] fips = ...
 logging = ["log"]
 prefer-post-quantum = ["aws-lc-rs"]
 read_buf = ["rustversion", "std"]
@@ -113,8 +113,8 @@ name = "unbuffered"
 path = "tests/runners/unbuffered.rs"
 
 [package.metadata.docs.rs]
-# all non-default features except fips (cannot build on docs.rs environment)
-features = ["read_buf", "ring"]
+# (CARGO DOC WITH ALL FEATURES IN THIS FORK)
+all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
 [package.metadata.cargo_check_external_types]

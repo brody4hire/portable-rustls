@@ -13,4 +13,4 @@ rustls-post-quantum = { path = "../rustls-post-quantum", optional = true }
 [features]
 default = []
 post-quantum = ["dep:rustls-post-quantum"]
-fips = ["rustls/fips"]
+# [FIPS REMOVED FROM THIS FORK] fips = ...

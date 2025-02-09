@@ -654,46 +654,11 @@ impl From<Vec<u8>> for SharedSecret {
     }
 }
 
-/// This function returns a [`CryptoProvider`] that uses
-/// FIPS140-3-approved cryptography.
-///
-/// Using this function expresses in your code that you require
-/// FIPS-approved cryptography, and will not compile if you make
-/// a mistake with cargo features.
-///
-/// See our [FIPS documentation](crate::manual::_06_fips) for
-/// more detail.
-///
-/// Install this as the process-default provider, like:
-///
-/// ```rust
-/// # #[cfg(feature = "fips")] {
-/// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
-/// rustls::crypto::default_fips_provider().install_default()
-///     .expect("default provider already set elsewhere");
-/// # }
-/// ```
-///
-/// You can also use this explicitly, like:
-///
-/// ```rust
-/// # #[cfg(feature = "fips")] {
-/// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
-/// # let root_store = rustls::RootCertStore::empty();
-/// let config = rustls::ClientConfig::builder_with_provider(
-///         rustls::crypto::default_fips_provider().into()
-///     )
-///     .with_safe_default_protocol_versions()
-///     .unwrap()
-///     .with_root_certificates(root_store)
-///     .with_no_client_auth();
-/// # }
-/// ```
-#[cfg(all(feature = "aws_lc_rs", any(feature = "fips", docsrs)))]
-#[cfg_attr(docsrs, doc(cfg(feature = "fips")))]
-pub fn default_fips_provider() -> CryptoProvider {
-    aws_lc_rs::default_provider()
-}
+// [FIPS REMOVED FROM THIS FORK]
+// /// This function returns a [`CryptoProvider`] that uses
+// /// FIPS140-3-approved cryptography.
+// ...
+// pub fn default_fips_provider() ...
 
 mod static_default {
     #[cfg(not(feature = "std"))]

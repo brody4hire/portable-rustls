@@ -11,7 +11,7 @@ rustls-post-quantum = { path = "../rustls-post-quantum", optional = true }
 [features]
 default = []
 aws-lc-rs = ["rustls/aws-lc-rs"]
-fips = ["rustls/fips", "aws-lc-rs"]
+# [FIPS REMOVED FROM THIS FORK] fips = ...
 post-quantum = ["dep:rustls-post-quantum"]
 ring = ["rustls/ring"]
 

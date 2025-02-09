@@ -345,15 +345,21 @@ pub struct ServerConfig {
     /// If set to `true`, requires the client to support the extended
     /// master secret extraction method defined in [RFC 7627].
     ///
+    /// <!-- [FIPS REMOVED FROM THIS FORK]
     /// The default is `true` if the "fips" crate feature is enabled,
     /// `false` otherwise.
+    /// -- -->
     ///
+    /// <!-- [FIPS REMOVED FROM THIS FORK]
     /// It must be set to `true` to meet FIPS requirement mentioned in section
     /// **D.Q Transition of the TLS 1.2 KDF to Support the Extended Master
     /// Secret** from [FIPS 140-3 IG.pdf].
+    /// -- -->
     ///
     /// [RFC 7627]: https://datatracker.ietf.org/doc/html/rfc7627
+    /// <!-- [FIPS REMOVED FROM THIS FORK]
     /// [FIPS 140-3 IG.pdf]: https://csrc.nist.gov/csrc/media/Projects/cryptographic-module-validation-program/documents/fips%20140-3/FIPS%20140-3%20IG.pdf
+    /// -- -->
     #[cfg(feature = "tls12")]
     pub require_ems: bool,
 
@@ -478,9 +484,11 @@ impl ServerConfig {
     /// Return `true` if connections made with this `ServerConfig` will
     /// operate in FIPS mode.
     ///
+    /// <!-- [FIPS REMOVED FROM THIS FORK]
     /// This is different from [`CryptoProvider::fips()`]: [`CryptoProvider::fips()`]
     /// is concerned only with cryptography, whereas this _also_ covers TLS-level
     /// configuration that NIST recommends.
+    /// -- -->
     pub fn fips(&self) -> bool {
         #[cfg(feature = "tls12")]
         {
@@ -662,9 +670,11 @@ mod connection {
 
         /// Return true if the connection was made with a `ServerConfig` that is FIPS compatible.
         ///
+        /// <!-- [FIPS REMOVED FROM THIS FORK]
         /// This is different from [`crate::crypto::CryptoProvider::fips()`]:
         /// it is concerned only with cryptography, whereas this _also_ covers TLS-level
         /// configuration that NIST recommends, as well as ECH HPKE suites if applicable.
+        /// -- -->
         pub fn fips(&self) -> bool {
             self.inner.core.common_state.fips
         }

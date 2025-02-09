@@ -4,21 +4,28 @@
 </p>
 -- -->
 
+<!-- SUPERSEDED IN THIS FORK
+<p align="center">
+Rustls is a modern TLS library written in Rust.
+</p>
+-->
+
 <!-- TODO(portable-rustls) UPDATE INFO & LINKS BELOW FOR THIS FORK -->
 
 # portable-rustls - a fork of upstream rustls
 
-<p align="center">
-Rustls is a modern TLS library written in Rust.
-</p>
+<p align="center">☆ ☆ ☆ (a modern TLS library IMPLEMENTED IN RUST) ☆ ☆ ☆</p>
 
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
-IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK AS STATED FURTHER BELOW
+IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK (AS STATED FURTHER BELOW)
 
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
-RECOMMENDED USAGE OF THIS FORK (as stated below):
+RECOMMENDED USAGE OF THIS FORK (as stated further below):
 * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
 * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
+
+ADDITIONAL NOTE (as stated further below): FIPS SUPPORT IS REMOVED FROM THIS FORK. THERE MAY BE SOME VESTIGES IN THE API,
+IMPLEMENTATION OR DOCUMENTATION BUT THIS DOES NOT IMPLY EXISTENCE OF FIPS SUPPORT IN ANY FORM.
 
 # Status
 
@@ -69,6 +76,9 @@ IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTI
 RECOMMENDED USAGE OF THIS FORK:
 * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
 * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
+
+ADDITIONAL NOTE: FIPS SUPPORT IS REMOVED FROM THIS FORK. THERE MAY BE SOME VESTIGES IN THE API,
+IMPLEMENTATION OR DOCUMENTATION BUT THIS DOES NOT IMPLY EXISTENCE OF FIPS SUPPORT IN ANY FORM.
 
 <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
 Rustls is a TLS library that aims to provide a good level of cryptographic security,

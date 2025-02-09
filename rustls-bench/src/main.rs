@@ -928,8 +928,9 @@ impl ResumptionParam {
 enum Provider {
     #[cfg(feature = "aws-lc-rs")]
     AwsLcRs,
-    #[cfg(all(feature = "aws-lc-rs", feature = "fips"))]
-    AwsLcRsFips,
+    // [FIPS REMOVED FROM THIS FORK]
+    // #[cfg(all(..., ... "fips"))]
+    // AwsLcRsFips,
     #[cfg(feature = "post-quantum")]
     PostQuantum,
     #[cfg(feature = "ring")]
@@ -943,8 +944,9 @@ impl Provider {
         match self {
             #[cfg(feature = "aws-lc-rs")]
             Self::AwsLcRs => rustls::crypto::aws_lc_rs::default_provider(),
-            #[cfg(all(feature = "aws-lc-rs", feature = "fips"))]
-            Self::AwsLcRsFips => rustls::crypto::default_fips_provider(),
+            // [FIPS REMOVED FROM THIS FORK]
+            // #[cfg(all(..., ... "fips"))]
+            // Self::AwsLcRsFips => ...
             #[cfg(feature = "post-quantum")]
             Self::PostQuantum => rustls_post_quantum::provider(),
             #[cfg(feature = "ring")]
@@ -957,8 +959,9 @@ impl Provider {
         match self {
             #[cfg(feature = "aws-lc-rs")]
             Self::AwsLcRs => rustls::crypto::aws_lc_rs::Ticketer::new(),
-            #[cfg(all(feature = "aws-lc-rs", feature = "fips"))]
-            Self::AwsLcRsFips => rustls::crypto::aws_lc_rs::Ticketer::new(),
+            // [FIPS REMOVED FROM THIS FORK]
+            // #[cfg(all(..., ... "fips"))]
+            // Self::AwsLcRsFips => ...
             #[cfg(feature = "post-quantum")]
             Self::PostQuantum => rustls::crypto::aws_lc_rs::Ticketer::new(),
             #[cfg(feature = "ring")]
@@ -994,8 +997,9 @@ impl Provider {
         #[cfg(feature = "aws-lc-rs")]
         available.push(Self::AwsLcRs);
 
-        #[cfg(all(feature = "aws-lc-rs", feature = "fips"))]
-        available.push(Self::AwsLcRsFips);
+        // [FIPS REMOVED FROM THIS FORK]
+        // #[cfg(all(..., ... "fips"))]
+        // available.push(...);
 
         #[cfg(feature = "post-quantum")]
         available.push(Self::PostQuantum);

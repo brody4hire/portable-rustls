@@ -27,21 +27,21 @@ use crate::{Error, OtherError};
 pub static ALL_SUPPORTED_SUITES: &[&dyn Hpke] = &[
     DH_KEM_P256_HKDF_SHA256_AES_128,
     DH_KEM_P256_HKDF_SHA256_AES_256,
-    #[cfg(not(feature = "fips"))]
+    // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))]
     DH_KEM_P256_HKDF_SHA256_CHACHA20_POLY1305,
     DH_KEM_P384_HKDF_SHA384_AES_128,
     DH_KEM_P384_HKDF_SHA384_AES_256,
-    #[cfg(not(feature = "fips"))]
+    // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))]
     DH_KEM_P384_HKDF_SHA384_CHACHA20_POLY1305,
     DH_KEM_P521_HKDF_SHA512_AES_128,
     DH_KEM_P521_HKDF_SHA512_AES_256,
-    #[cfg(not(feature = "fips"))]
+    // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))]
     DH_KEM_P521_HKDF_SHA512_CHACHA20_POLY1305,
-    #[cfg(not(feature = "fips"))]
+    // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))]
     DH_KEM_X25519_HKDF_SHA256_AES_128,
-    #[cfg(not(feature = "fips"))]
+    // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))]
     DH_KEM_X25519_HKDF_SHA256_AES_256,
-    #[cfg(not(feature = "fips"))]
+    // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))]
     DH_KEM_X25519_HKDF_SHA256_CHACHA20_POLY1305,
 ];
 
@@ -1007,7 +1007,7 @@ mod tests {
         }
     }
 
-    #[cfg(not(feature = "fips"))] // Ensure all supported suites are available to test.
+    // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))] // Ensure all supported suites are available to test.
     #[test]
     fn test_fips() {
         let testcases: &[(&dyn Hpke, bool)] = &[
@@ -1108,21 +1108,21 @@ mod rfc_tests {
     static TEST_SUITES: &[&dyn TestHpke] = &[
         DH_KEM_P256_HKDF_SHA256_AES_128,
         DH_KEM_P256_HKDF_SHA256_AES_256,
-        #[cfg(not(feature = "fips"))]
+        // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))]
         DH_KEM_P256_HKDF_SHA256_CHACHA20_POLY1305,
         DH_KEM_P384_HKDF_SHA384_AES_128,
         DH_KEM_P384_HKDF_SHA384_AES_256,
-        #[cfg(not(feature = "fips"))]
+        // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))]
         DH_KEM_P384_HKDF_SHA384_CHACHA20_POLY1305,
         DH_KEM_P521_HKDF_SHA512_AES_128,
         DH_KEM_P521_HKDF_SHA512_AES_256,
-        #[cfg(not(feature = "fips"))]
+        // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))]
         DH_KEM_P521_HKDF_SHA512_CHACHA20_POLY1305,
-        #[cfg(not(feature = "fips"))]
+        // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))]
         DH_KEM_X25519_HKDF_SHA256_AES_128,
-        #[cfg(not(feature = "fips"))]
+        // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))]
         DH_KEM_X25519_HKDF_SHA256_AES_256,
-        #[cfg(not(feature = "fips"))]
+        // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))]
         DH_KEM_X25519_HKDF_SHA256_CHACHA20_POLY1305,
     ];
 
