@@ -44,9 +44,9 @@ jobs:
         if: runner.os == 'Windows'
         uses: ilammy/setup-nasm@v1
 
-      - name: Install ninja-build tool for aws-lc-fips-sys on Windows
-        if: runner.os == 'Windows'
-        uses: seanmiddleditch/gha-setup-ninja@v6
+      # [FIPS REMOVED FROM THIS FORK]
+      # - name: Install ninja-build tool for aws-lc-fips-sys on Windows
+      #   ...
 
       - name: Build example programs
         run: cargo build --locked -p rustls-examples
@@ -88,9 +88,9 @@ jobs:
         if: runner.os == 'Windows'
         uses: ilammy/setup-nasm@v1
 
-      - name: Install ninja-build tool for aws-lc-fips-sys on Windows
-        if: runner.os == 'Windows'
-        uses: seanmiddleditch/gha-setup-ninja@v6
+      # [FIPS REMOVED FROM THIS FORK]
+      # - name: Install ninja-build tool for aws-lc-fips-sys on Windows
+      #   ...
 
       - name: Check simple client
         run: cargo run --locked -p rustls-examples --bin simpleclient
@@ -167,20 +167,18 @@ jobs:
         if: runner.os == 'Windows'
         uses: ilammy/setup-nasm@v1
 
-      # FOR FEATURE POWERSET CI ON WINDOWS IN THIS FORK
-      - name: Install ninja-build tool for aws-lc-fips-sys on Windows
-        if: runner.os == 'Windows'
-        uses: seanmiddleditch/gha-setup-ninja@v6
+      # FOR FEATURE POWERSET CI ON WINDOWS IN THIS FORK - NO LONGER NEEDED [FIPS REMOVED FROM THIS FORK]
+      # - name: Install ninja-build tool for aws-lc-fips-sys on Windows
+      #   ...
 
       - name: Check feature powerset
+        # REMOVED cargo hack check --...features OPTIONS FOR `fips` [FIPS REMOVED FROM THIS FORK]
         run: >
             cargo hack check
             --package portable-rustls
             --feature-powerset
             --no-dev-deps
             --group-features aws_lc_rs,aws-lc-rs
-            --group-features fips,aws_lc_rs
-            --mutually-exclusive-features fips,ring
             --mutually-exclusive-features custom_provider,aws_lc_rs
             --mutually-exclusive-features custom_provider,ring
         env:

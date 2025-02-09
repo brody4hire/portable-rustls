@@ -14,11 +14,10 @@ fn run_bogo_tests_aws_lc_rs() {
     run_bogo_tests("aws-lc-rs");
 }
 
-#[test]
-#[ignore]
-fn run_bogo_tests_aws_lc_rs_fips() {
-    run_bogo_tests("aws-lc-rs-fips");
-}
+// [FIPS REMOVED FROM THIS FORK]
+// #[test]
+// ...
+// fn run_bogo_tests_aws_lc_rs_fips() ...
 
 #[test]
 #[ignore]

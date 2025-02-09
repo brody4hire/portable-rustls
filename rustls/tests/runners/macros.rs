@@ -39,7 +39,9 @@ macro_rules! provider_aws_lc_rs {
         }
         #[allow(dead_code)]
         const fn provider_is_fips() -> bool {
-            cfg!(feature = "fips")
+            // [FIPS REMOVED FROM THIS FORK]
+            // cfg!(... "fips")
+            false
         }
     };
 }

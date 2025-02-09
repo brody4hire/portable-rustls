@@ -60,21 +60,18 @@ jobs:
         if: runner.os == 'Windows'
         uses: ilammy/setup-nasm@v1
 
-      - name: Install ninja-build tool for aws-lc-fips-sys on Windows
-        if: runner.os == 'Windows'
-        uses: seanmiddleditch/gha-setup-ninja@v6
+      # [FIPS REMOVED FROM THIS FORK]
+      # - name: Install ninja-build tool for aws-lc-fips-sys on Windows
+      #   ...
 
-      - name: Install golang for aws-lc-fips-sys on macos
-        if: runner.os == 'MacOS'
-        uses: actions/setup-go@v5
-        with:
-          go-version: "1.22.2"
+      # [FIPS REMOVED FROM THIS FORK]
+      # - name: Install golang for aws-lc-fips-sys on macos
+      #   ...
 
       - name: cargo build (debug; default features)
         run: cargo build --locked
 
-      # nb. feature sets that include "fips" should be --release --
-      # this is required for fips on windows.
+      # N/A [FIPS REMOVED FROM THIS FORK]: nb. feature sets that include "fips" ...
       # nb. "--all-targets" does not include doctests
       - name: cargo test (release; all features)
         run: cargo test --release --locked --all-features --all-targets
@@ -93,10 +90,9 @@ jobs:
         env:
           RUST_BACKTRACE: 1
 
-      - name: cargo test (release; fips)
-        run: cargo test --release --no-default-features --features fips,tls12,read_buf,logging,std --all-targets
-        env:
-          RUST_BACKTRACE: 1
+      # [FIPS REMOVED FROM THIS FORK]
+      # - name: cargo test (release; fips)
+      #   ...
 
       - name: cargo build (debug; rustls-provider-example)
         run: cargo build --locked -p rustls-provider-example
@@ -184,9 +180,9 @@ jobs:
         run: cargo test --no-default-features --features aws_lc_rs,tls12,std
         working-directory: rustls
 
-      - name: cargo test (debug; no default features; fips,tls12)
-        run: cargo test --no-default-features --features fips,tls12,std
-        working-directory: rustls
+      # [FIPS REMOVED FROM THIS FORK]
+      # - name: cargo test (debug; no default features; fips,tls12)
+      #   ...
 
       - name: cargo test (release; no run)
         run: cargo test --locked --release --no-run
@@ -222,11 +218,9 @@ jobs:
         env:
           BOGO_SHIM_PROVIDER: aws-lc-rs
 
-      - name: Run test suite (aws-lc-rs-fips)
-        working-directory: bogo
-        run: ./runme
-        env:
-          BOGO_SHIM_PROVIDER: aws-lc-rs-fips
+      # [FIPS REMOVED FROM THIS FORK]
+      # - name: Run test suite (aws-lc-rs-fips)
+      #   ...
 
       - name: Run test suite (post-quantum)
         working-directory: bogo
@@ -274,8 +268,9 @@ jobs:
       - name: Smoke-test benchmark program (aws-lc-rs)
         run: cargo run -p rustls-bench --profile=bench --locked --features aws-lc-rs -- --multiplier 0.1
 
-      - name: Smoke-test benchmark program (fips)
-        run: cargo run -p rustls-bench --profile=bench --locked --features fips -- --provider aws-lc-rs-fips --multiplier 0.1
+      # [FIPS REMOVED FROM THIS FORK]
+      # - name: Smoke-test benchmark program (fips)
+      #   ...
 
       - name: Run micro-benchmarks
         run: cargo bench --locked --all-features

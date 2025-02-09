@@ -6,7 +6,7 @@ permissions:
 on:
   workflow_dispatch:
   push:
-    # GONE FROM THIS FORK:
+    # [REMOVED FROM THIS FORK]
     # branches:
     #   - main
   schedule:
@@ -25,7 +25,7 @@ jobs:
       - name: Install rust toolchain
         uses: dtolnay/rust-toolchain@nightly
 
-      # GONE FROM THIS FORK:
+      # [REMOVED FROM THIS FORK]
       # - name: Install zola
       # ...
 
@@ -38,18 +38,19 @@ jobs:
             "</script>"
 
       - name: cargo doc
-        # keep features in sync with Cargo.toml `[package.metadata.docs.rs]` section
-        run: cargo doc --locked --features read_buf,ring --no-deps --package portable-rustls
+        # (CARGO DOC WITH ALL FEATURES IN THIS FORK)
+        run: cargo doc --locked --all-features --no-deps --package portable-rustls
         env:
           RUSTDOCFLAGS: -Dwarnings --cfg=docsrs --html-after-content tag.html
 
-      # GONE FROM THIS FORK: Generate other pages for website (etc.)
+      # [REMOVED FROM THIS FORK] Generate other pages for website (etc.)
 
+  # SKIPPING CI JOB IN THIS FORK, AS CONFIGURED BELOW (FOR FUTURE CONSIDERATION)
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    # SKIP IN THIS FORK
-    # if: github.repository == 'rustls/rustls'
+    # [CONFIG TO SKIP CI JOB IN THIS FORK]
+    # if: github.repository == ...
     if: false
     needs: generate
     permissions:

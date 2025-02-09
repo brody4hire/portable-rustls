@@ -210,7 +210,9 @@ impl Options {
 #[derive(Clone, Copy, Debug, PartialEq)]
 enum SelectedProvider {
     AwsLcRs,
-    #[cfg_attr(not(feature = "fips"), allow(dead_code))]
+    // [FIPS REMOVED FROM THIS FORK]
+    // #[cfg_attr(not(... "fips"), allow(...))]
+    #[allow(dead_code)]
     AwsLcRsFips,
     #[cfg_attr(not(feature = "post-quantum"), allow(dead_code))]
     PostQuantum,
@@ -224,8 +226,9 @@ impl SelectedProvider {
             .as_deref()
         {
             None | Some("aws-lc-rs") => Self::AwsLcRs,
-            #[cfg(feature = "fips")]
-            Some("aws-lc-rs-fips") => Self::AwsLcRsFips,
+            // [FIPS REMOVED FROM THIS FORK]
+            // #[cfg(... "fips")]
+            // Some("aws-lc-rs-fips") => ...
             #[cfg(feature = "post-quantum")]
             Some("post-quantum") => Self::PostQuantum,
             Some("ring") => Self::Ring,
@@ -1557,10 +1560,9 @@ pub fn main() {
             "-install-one-cert-compression-alg" => {
                 opts.install_cert_compression_algs = CompressionAlgs::One(args.remove(0).parse::<u16>().unwrap());
             }
-            #[cfg(feature = "fips")]
-            "-fips-202205" if opts.selected_provider == SelectedProvider::AwsLcRsFips => {
-                opts.provider = rustls::crypto::default_fips_provider();
-            }
+            // [FIPS REMOVED FROM THIS FORK]
+            // #[cfg(... "fips")]
+            // "-fips-202205" ...
             "-fips-202205" => {
                 println!("Not a FIPS build");
                 process::exit(BOGO_NACK);
