@@ -86,6 +86,7 @@ jobs:
           RUST_BACKTRACE: 1
 
       - name: cargo test (debug; aws-lc-rs)
+        # XXX XXX NEED updated aws-lc-rs feature name - XXX XXX WHY DOES THIS NOT FAIL IN CI ???
         run: cargo test --no-default-features --features aws_lc_rs,tls12,read_buf,logging,std --all-targets
         env:
           RUST_BACKTRACE: 1
@@ -177,7 +178,7 @@ jobs:
         working-directory: rustls
 
       - name: cargo test (debug; no default features; aws-lc-rs,tls12)
-        run: cargo test --no-default-features --features aws_lc_rs,tls12,std
+        run: cargo test --no-default-features --features aws-lc-rs,tls12,std
         working-directory: rustls
 
       # [FIPS REMOVED FROM THIS FORK]
