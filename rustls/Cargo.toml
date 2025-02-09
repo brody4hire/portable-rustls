@@ -16,15 +16,15 @@ exclude = ["src/testdata", "tests/**"]
 build = "build.rs"
 
 [features]
-default = ["aws_lc_rs", "logging", "std", "tls12"]
+default = []
 
-aws-lc-rs = ["aws_lc_rs"] # Alias because Cargo features commonly use `-`
+aws-lc-rs = ["aws_lc_rs"] # ALIAS - FAVORED OVER `aws_lc_rs` FEATURE NAME IN THIS FORK
 aws_lc_rs = ["dep:aws-lc-rs", "webpki/aws_lc_rs"]
 brotli = ["dep:brotli", "dep:brotli-decompressor", "std"]
 custom-provider = []
 # [FIPS REMOVED FROM THIS FORK] fips = ...
 logging = ["log"]
-prefer-post-quantum = ["aws_lc_rs"]
+prefer-post-quantum = ["aws-lc-rs"]
 read_buf = ["rustversion", "std"]
 ring = ["dep:ring", "webpki/ring"]
 std = ["webpki/std", "pki-types/std", "once_cell/std"]

@@ -907,11 +907,15 @@ impl State<ServerConnectionData> for ExpectFinished {
 
             let value = get_server_connection_value_tls12(&self.secrets, self.using_ems, cx, now);
 
-            let worked = self
+            // UPDATED VARIABLE NAME WITH UNDERSCORE TO AVOID CI CLIPPY ISSUE IN THIS FORK
+            let _is_saved = self
                 .config
                 .session_storage
                 .put(self.session_id.as_ref().to_vec(), value.get_encoding());
-            if worked {
+
+            // WITH FEATURE CONDITION TO AVOID CI CLIPPY ISSUE IN THIS FORK
+            #[cfg(feature = "logging")]
+            if _is_saved {
                 debug!("Session saved");
             } else {
                 debug!("Session not saved");

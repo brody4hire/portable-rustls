@@ -148,6 +148,7 @@ jobs:
         with:
           target: x86_64-unknown-none
 
+      # NOTE: no features are enabled by default on main crate in this fork
       - name: cargo build (debug; default features)
         run: cargo build --locked
         working-directory: rustls
@@ -155,13 +156,16 @@ jobs:
         # this target does _not_ include the libstd crate in its sysroot
         # it will catch unwanted usage of libstd in _dependencies_
       - name: cargo build (debug; no default features; no-std)
+        # (KEEPING --no-default-features which has no effect on main crate in this fork)
         run: cargo build --locked --no-default-features --target x86_64-unknown-none
         working-directory: rustls
 
       - name: cargo build (debug; no default features; no-std, hashbrown)
+        # (KEEPING --no-default-features which has no effect on main crate in this fork)
         run: cargo build --locked --no-default-features --features hashbrown --target x86_64-unknown-none
         working-directory: rustls
 
+      # NOTE: no features are enabled by default on main crate in this fork
       - name: cargo test (debug; default features)
         run: cargo test --locked
         working-directory: rustls
@@ -169,14 +173,17 @@ jobs:
           RUST_BACKTRACE: 1
 
       - name: cargo test (debug; no default features)
+        # (KEEPING --no-default-features which has no effect on main crate in this fork)
         run: cargo test --locked --no-default-features
         working-directory: rustls
 
       - name: cargo test (debug; no default features; tls12)
+        # (KEEPING --no-default-features which has no effect on main crate in this fork)
         run: cargo test --locked --no-default-features --features tls12,std
         working-directory: rustls
 
       - name: cargo test (debug; no default features; aws-lc-rs,tls12)
+        # (KEEPING --no-default-features which has no effect on main crate in this fork)
         run: cargo test --no-default-features --features aws_lc_rs,tls12,std
         working-directory: rustls
 
@@ -184,6 +191,7 @@ jobs:
       # - name: cargo test (debug; no default features; fips,tls12)
       #   ...
 
+      # NOTE: no features are enabled by default on main crate in this fork
       - name: cargo test (release; no run)
         run: cargo test --locked --release --no-run
         working-directory: rustls
