@@ -5,10 +5,9 @@ edition = "2021"
 rust-version = "1.71"
 license = "Apache-2.0 OR ISC OR MIT"
 readme = "../README.md"
-description = "portable-rustls fork of rustls: a modern TLS library written in Rust."
-# TODO(portable-rustls) UNCOMMENT WITH UPDATED LINKS
-# homepage = "https://github.com/rustls/rustls"
-# repository = "https://github.com/rustls/rustls"
+description = "portable-rustls - a fork of rustls: a modern TLS library written in Rust."
+homepage = "https://github.com/brody4hire/portable-rustls"
+repository = "https://github.com/brody4hire/portable-rustls"
 categories = ["network-programming", "cryptography"]
 autobenches = false
 autotests = false
