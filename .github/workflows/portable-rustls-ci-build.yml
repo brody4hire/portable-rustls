@@ -26,7 +26,7 @@ jobs:
       matrix:
         rust:
           - nightly
-          # RUST NIGHTLY version(s) for MSRV - 1.81:
+          # Rust nightly version(s) for MSRV - 1.81:
           - nightly-2024-07-01
         os:
           - ubuntu-latest
@@ -76,7 +76,7 @@ jobs:
       matrix:
         rust:
           - nightly
-          # RUST NIGHTLY version(s) for MSRV - 1.81:
+          # Rust nightly version(s) for MSRV - 1.81:
           - nightly-2024-07-01
         os:
           - ubuntu-latest
@@ -109,7 +109,7 @@ jobs:
       matrix:
         rust:
           - nightly
-          # RUST NIGHTLY version(s) for MSRV - 1.81:
+          # Rust nightly version(s) for MSRV - 1.81:
           - nightly-2024-07-01
         os:
           - ubuntu-latest
@@ -157,7 +157,7 @@ jobs:
       matrix:
         rust:
           - nightly
-          # RUST NIGHTLY version(s) for MSRV - 1.81:
+          # Rust nightly version(s) for MSRV - 1.81:
           - nightly-2024-07-01
         target:
           # 32-bit Android (Linux) targets:
