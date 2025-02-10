@@ -23,28 +23,11 @@ jobs:
     name: build with unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     strategy:
-      # XXX
-      fail-fast: false
       matrix:
         rust:
           - nightly
-          # XXX TBD NIGHTLY MSRV - ??? ???
-          # - nightly-2023-05-01
-          - nightly-2024-09-05
-          # XXX TBD ??? ???
-          - nightly-2024-09-01
-          - nightly-2024-08-01
+          # RUST NIGHTLY version(s) for MSRV - 1.81:
           - nightly-2024-07-01
-          - nightly-2024-06-01
-          - nightly-2024-05-01
-          - nightly-2024-04-01
-          - nightly-2024-03-01
-          - nightly-2024-02-01
-          - nightly-2024-01-01
-          # RUST NIGHTLY version(s) for MSRV - 1.71:
-          # - nightly-2023-06-01
-          # FAILS AT: cargo add once_cell
-          # - nightly-2023-05-01
         os:
           - ubuntu-latest
           # FOR FUTURE CONSIDERATION:
@@ -90,19 +73,11 @@ jobs:
     name: test with unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     strategy:
-      # XXX
-      fail-fast: false
       matrix:
         rust:
           - nightly
-          # XXX TBD NIGHTLY MSRV - ??? ???
-          - nightly-2024-09-05
-          - nightly-2024-08-01
+          # RUST NIGHTLY version(s) for MSRV - 1.81:
           - nightly-2024-07-01
-          - nightly-2024-06-01
-          # - nightly-2024-05-01
-          # FAILS cargo test: use of unstable library feature in proc-macro2
-          # - nightly-2024-04-01
         os:
           - ubuntu-latest
           - macos-latest
@@ -131,17 +106,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
-      # XXX
-      fail-fast: false
       matrix:
         rust:
           - nightly
-          # XXX TBD ???
-          - nightly-2024-09-01
-          - nightly-2024-08-01
-          # - nightly-2024-07-01
-          # FAILS to install cross (cross-rs) from GitHub
-          # - nightly-2024-06-01
+          # RUST NIGHTLY version(s) for MSRV - 1.81:
+          - nightly-2024-07-01
         os:
           - ubuntu-latest
           # FOR FUTURE CONSIDERATION:
@@ -188,10 +157,8 @@ jobs:
       matrix:
         rust:
           - nightly
-          # XXX TBD ???
+          # RUST NIGHTLY version(s) for MSRV - 1.81:
           - nightly-2024-07-01
-          # FAILS to install cross (cross-rs) from GitHub
-          # - nightly-2024-06-01
         target:
           # 32-bit Android (Linux) targets:
           - armv7-linux-androideabi
