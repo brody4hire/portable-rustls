@@ -2170,7 +2170,7 @@ dependencies = [
 
 [[package]]
 name = "portable-rustls"
-version = "0.0.1-dev"
+version = "0.0.1"
 dependencies = [
  "aws-lc-rs",
  "base64",
