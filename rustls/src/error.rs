@@ -621,9 +621,9 @@ impl From<rand::GetRandomFailed> for Error {
 }
 
 mod other_error {
-    use core::fmt;
     #[cfg(feature = "std")]
     use core::error::Error as StdError;
+    use core::fmt;
 
     use super::Error;
     #[cfg(feature = "std")]

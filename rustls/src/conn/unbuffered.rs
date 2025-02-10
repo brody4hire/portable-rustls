@@ -1,10 +1,10 @@
 //! Unbuffered connection API
 
 use alloc::vec::Vec;
-use core::num::NonZeroUsize;
-use core::{fmt, mem};
 #[cfg(feature = "std")]
 use core::error::Error as StdError;
+use core::num::NonZeroUsize;
+use core::{fmt, mem};
 
 use super::UnbufferedConnectionCommon;
 use crate::client::ClientConnectionData;
