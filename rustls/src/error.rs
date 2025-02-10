@@ -612,7 +612,7 @@ impl From<SystemTimeError> for Error {
 }
 
 #[cfg(feature = "std")]
-impl std::error::Error for Error {}
+impl core::error::Error for Error {}
 
 impl From<rand::GetRandomFailed> for Error {
     fn from(_: rand::GetRandomFailed) -> Self {
@@ -623,7 +623,7 @@ impl From<rand::GetRandomFailed> for Error {
 mod other_error {
     use core::fmt;
     #[cfg(feature = "std")]
-    use std::error::Error as StdError;
+    use core::error::Error as StdError;
 
     use super::Error;
     #[cfg(feature = "std")]

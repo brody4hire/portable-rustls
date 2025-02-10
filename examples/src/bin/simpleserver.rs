@@ -8,7 +8,7 @@
 //! that is sensible outside of example code.
 
 use std::env;
-use std::error::Error as StdError;
+use core::error::Error as StdError;
 use std::io::{Read, Write};
 use std::net::TcpListener;
 use std::sync::Arc;

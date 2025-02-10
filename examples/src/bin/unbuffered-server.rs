@@ -2,7 +2,7 @@
 //! handle the buffers required to receive, process and send TLS data.
 
 use std::env;
-use std::error::Error;
+use core::error::Error;
 use std::io::{self, Read, Write};
 use std::net::{TcpListener, TcpStream};
 use std::path::Path;

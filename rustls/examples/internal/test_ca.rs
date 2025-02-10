@@ -17,7 +17,7 @@ use rcgen::{
 };
 use time::OffsetDateTime;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<(), Box<dyn core::error::Error>> {
     let mut certified_keys = HashMap::with_capacity(ROLES.len() * SIG_ALGS.len());
     for role in ROLES {
         for alg in SIG_ALGS {
