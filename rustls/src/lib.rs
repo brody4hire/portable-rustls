@@ -9,6 +9,19 @@
 //! * NEED TO EXPLICITLY ENABLE ANY FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
 //! * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 //!
+//! THIS FORK SUPPORTS using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
+//! * USE Rust nightly toolchain
+//! * USE `--cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
+//! * USE `--cfg unstable_portable_atomic_arc` in RUSTFLAGS FOR `cargo build` (etc.)
+//! <!-- TODO: ADD CARGO FEATURE TO AUTOMATE THIS STEP: -->
+//! * WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
+//!   - `once_cell`
+//!   - `portable-atomic`
+//!
+//! <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
+//! <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->
+//! ALSO NEED TO BUILD WITH A CRYPTO PROVIDER FOR THIS CRATE TO BE USEFUL IN GENERAL.
+//!
 //! ADDITIONAL NOTE: FIPS SUPPORT IS REMOVED FROM THIS FORK. THERE MAY BE SOME VESTIGES IN THE API,
 //! IMPLEMENTATION OR DOCUMENTATION BUT THIS DOES NOT IMPLY EXISTENCE OF FIPS SUPPORT IN ANY FORM.
 //!
@@ -394,6 +407,8 @@
     clippy::single_component_path_imports,
     clippy::new_without_default
 )]
+// QUICK CLIPPY WORKAROUND for `unstable_portable_atomic_arc` IN THIS FORK
+#![allow(unexpected_cfgs)]
 // Enable documentation for all features on docs.rs
 #![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
 // XXX: Because of https://github.com/rust-lang/rust/issues/54726, we cannot
@@ -447,6 +462,10 @@ mod test_macros;
 /// of rustls targetting architectures without atomic pointers to replace the implementation
 /// with another implementation such as `portable_atomic_util::Arc` in one central location.
 mod sync {
+    #[cfg(unstable_portable_atomic_arc)]
+    #[allow(clippy::disallowed_types)]
+    pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;
+    #[cfg(not(unstable_portable_atomic_arc))]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = alloc::sync::Arc<T>;
 }
