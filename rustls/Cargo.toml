@@ -2,7 +2,8 @@
 name = "portable-rustls"
 version = "0.0.2-dev"
 edition = "2021"
-rust-version = "1.71"
+# XXX TBD ???
+rust-version = "1.81"
 license = "Apache-2.0 OR ISC OR MIT"
 readme = "../README.md"
 description = "portable-rustls - a fork of rustls: a modern TLS library written in Rust."

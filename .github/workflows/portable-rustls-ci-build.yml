@@ -26,6 +26,18 @@ jobs:
       matrix:
         rust:
           - nightly
+          # XXX TBD NIGHTLY MSRV - ??? ???
+          # - nightly-2023-05-01
+          - nightly-2024-09-05
+          # XXX TBD ??? ???
+          - nightly-2024-09-01
+          - nightly-2024-08-01
+          - nightly-2024-07-01
+          - nightly-2024-06-01
+          - nightly-2024-05-01
+          - nightly-2024-04-01
+          - nightly-2024-03-01
+          - nightly-2024-02-01
           - nightly-2024-01-01
           # RUST NIGHTLY version(s) for MSRV - 1.71:
           - nightly-2023-06-01
@@ -79,6 +91,8 @@ jobs:
       matrix:
         rust:
           - nightly
+          # XXX TBD NIGHTLY MSRV - ??? ???
+          - nightly-2024-09-05
           - nightly-2024-05-01
           # FAILS cargo test: use of unstable library feature in proc-macro2
           # - nightly-2024-04-01
@@ -113,6 +127,7 @@ jobs:
       matrix:
         rust:
           - nightly
+          # XXX TBD ???
           - nightly-2024-07-01
           # FAILS to install cross (cross-rs) from GitHub
           # - nightly-2024-06-01
@@ -162,6 +177,7 @@ jobs:
       matrix:
         rust:
           - nightly
+          # XXX TBD ???
           - nightly-2024-07-01
           # FAILS to install cross (cross-rs) from GitHub
           # - nightly-2024-06-01
