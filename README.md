@@ -16,6 +16,10 @@ Rustls is a modern TLS library written in Rust.
 
 <p align="center">☆ ☆ ☆ (a modern TLS library IMPLEMENTED IN RUST) ☆ ☆ ☆</p>
 
+[![Crates.io Version](https://img.shields.io/crates/v/portable-rustls?style=flat-square)](https://crates.io/crates/portable-rustls)
+[![docs.rs](https://img.shields.io/docsrs/portable-rustls?style=flat-square&label=docs.rs)](https://docs.rs/portable-rustls/)
+![Crates.io MSRV](https://img.shields.io/crates/msrv/portable-rustls?style=flat-square)
+
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK (AS STATED FURTHER BELOW)
 
@@ -43,7 +47,7 @@ prevent performance regressions and to let you evaluate rustls on your target ha
 
 If you'd like to help out, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK:
+<!-- TODO(portable-rustls) INCLUDE MORE OF THIS INFO IN BADGES FURTHER ABOVE FOR THIS FORK (if possible):)
 [![Build Status](https://github.com/rustls/rustls/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/rustls/rustls/actions/workflows/build.yml?query=branch%3Amain)
 [![Coverage Status (codecov.io)](https://codecov.io/gh/rustls/rustls/branch/main/graph/badge.svg)](https://codecov.io/gh/rustls/rustls/)
 [![Documentation](https://docs.rs/rustls/badge.svg)](https://docs.rs/rustls/)
@@ -53,22 +57,11 @@ If you'd like to help out, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Changelog
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
-TODO
-
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK:
-The detailed list of changes in each release can be found at
-https://github.com/rustls/rustls/releases.
--- -->
+The detailed list of changes in each release can be found in: https://github.com/brody4hire/portable-rustls/releases
 
 # Documentation
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
-TODO
-
-<!-- TODO(portable-rustls) UPDATE FOR THIS FORK:
-https://docs.rs/rustls/
--- -->
+https://docs.rs/portable-rustls/
 
 # Approach
 
