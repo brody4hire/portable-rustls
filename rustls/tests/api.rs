@@ -128,7 +128,7 @@ mod test_raw_keys {
                     assert_eq!(
                         err,
                         ErrorFromPeer::Server(Error::PeerIncompatible(
-                            PeerIncompatible::UnsolicitedCertificateTypeExtension
+                            PeerIncompatible::IncorrectCertificateTypeExtension
                         ))
                     )
                 }
@@ -165,50 +165,49 @@ mod test_raw_keys {
     }
 
     #[test]
-    fn incorrectly_alter_client_hello() {
+    fn alter_client_hello() {
+        connect_with_altered_certificate_type_extension(
+            true,
+            Some(&vec![CertificateType::X509]),
+            None,
+            Err(ErrorFromPeer::Server(Error::PeerIncompatible(
+                PeerIncompatible::IncorrectCertificateTypeExtension,
+            ))),
+        );
+        connect_with_altered_certificate_type_extension(
+            true,
+            None,
+            Some(&vec![CertificateType::X509]),
+            Err(ErrorFromPeer::Server(Error::PeerIncompatible(
+                PeerIncompatible::IncorrectCertificateTypeExtension,
+            ))),
+        );
+    }
+
+    fn connect_with_altered_certificate_type_extension(
+        server_requires_raw_keys: bool,
+        server_cert_types: Option<&Vec<CertificateType>>,
+        client_cert_types: Option<&Vec<CertificateType>>,
+        expected_result: Result<(), ErrorFromPeer>,
+    ) {
         for kt in ALL_KEY_TYPES {
             let client_config = Arc::new(make_client_config(*kt));
-            let server_config_rpk = Arc::new(make_server_config_with_raw_key_support(*kt));
+            let server_config_rpk = match server_requires_raw_keys {
+                true => Arc::new(make_server_config_with_raw_key_support(*kt)),
+                false => Arc::new(make_server_config(*kt)),
+            };
 
             // Alter Client Hello client certificate extension
             let (client, server) = make_pair_for_arc_configs(&client_config, &server_config_rpk);
-            let server_cert_altered = do_handshake_altered(
+            let cert_altered = do_handshake_altered(
                 client,
                 |_: &mut Message| -> Altered { Altered::InPlace },
                 |msg: &mut Message| {
-                    alter_client_hello_message(msg, Some(&vec![CertificateType::X509]), None)
+                    alter_client_hello_message(msg, server_cert_types, client_cert_types)
                 },
                 server,
             );
-            match server_cert_altered {
-                Ok(_) => unreachable!("Expected error because server cert is altered"),
-                Err(err) => assert_eq!(
-                    err,
-                    ErrorFromPeer::Server(Error::PeerIncompatible(
-                        PeerIncompatible::IncorrectCertificateTypeExtension
-                    ))
-                ),
-            }
-
-            // Alter Server Hello server certificate extension
-            let (client, server) = make_pair_for_arc_configs(&client_config, &server_config_rpk);
-            let client_cert_altered = do_handshake_altered(
-                client,
-                |_: &mut Message| -> Altered { Altered::InPlace },
-                |msg: &mut Message| {
-                    alter_client_hello_message(msg, None, Some(&vec![CertificateType::X509]))
-                },
-                server,
-            );
-            match client_cert_altered {
-                Ok(_) => unreachable!("Expected error because server cert is altered"),
-                Err(err) => assert_eq!(
-                    err,
-                    ErrorFromPeer::Server(Error::PeerIncompatible(
-                        PeerIncompatible::IncorrectCertificateTypeExtension
-                    ))
-                ),
-            }
+            assert_eq!(cert_altered, expected_result)
         }
     }
 
