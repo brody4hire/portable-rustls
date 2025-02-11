@@ -722,7 +722,7 @@ pub mod pki_types {
 
 /// Message signing interfaces.
 pub mod sign {
-    pub use crate::crypto::signer::{CertifiedKey, Signer, SigningKey};
+    pub use crate::crypto::signer::{CertifiedKey, Signer, SigningKey, SingleCertAndKey};
 }
 
 /// APIs for implementing QUIC TLS
