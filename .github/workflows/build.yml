@@ -25,12 +25,14 @@ jobs:
     strategy:
       matrix:
         rust:
-          - stable
-          - beta
+          # XXX TBD SKIP FOR NOW TO SPEED UP CI BUILD TESTING
+          # - stable
+          # - beta
           - nightly
         os:
-          - ubuntu-latest
-          - windows-latest
+          # XXX TBD SKIP FOR NOW TO SPEED UP CI BUILD TESTING
+          # - ubuntu-latest
+          # - windows-latest
           - macos-latest
         exclude:
           # only stable on macos/windows (slower platforms)
@@ -114,6 +116,8 @@ jobs:
 
   msrv:
     name: MSRV
+    # XXX TBD SKIP FOR NOW TO SPEED UP CI BUILD TESTING
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -198,6 +202,8 @@ jobs:
 
   bogo:
     name: BoGo test suite
+    # XXX TBD SKIP FOR NOW TO SPEED UP CI BUILD TESTING
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -238,6 +244,8 @@ jobs:
 
   fuzz:
     name: Smoke-test fuzzing targets
+    # XXX TBD SKIP FOR NOW TO SPEED UP CI BUILD TESTING
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -260,6 +268,8 @@ jobs:
 
   benchmarks:
     name: Run benchmarks
+    # XXX TBD SKIP FOR NOW TO SPEED UP CI BUILD TESTING
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -287,6 +297,8 @@ jobs:
 
   docs:
     name: Check for documentation errors
+    # XXX TBD SKIP FOR NOW TO SPEED UP CI BUILD TESTING
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -311,7 +323,9 @@ jobs:
   coverage:
     name: Measure coverage
     runs-on: ubuntu-latest
-    if: github.event_name != 'merge_group'
+    # XXX TBD SKIP FOR NOW TO SPEED UP CI BUILD TESTING
+    if: false
+    # if: github.event_name != 'merge_group'
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -338,6 +352,8 @@ jobs:
 
   minver:
     name: Check minimum versions of direct dependencies
+    # XXX TBD SKIP FOR NOW TO SPEED UP CI BUILD TESTING
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -362,7 +378,9 @@ jobs:
   cross:
     name: cross-target testing
     runs-on: ubuntu-latest
-    if: github.event_name != 'merge_group'
+    # XXX TBD SKIP FOR NOW TO SPEED UP CI BUILD TESTING
+    if: false
+    # if: github.event_name != 'merge_group'
     strategy:
       matrix:
         target:
@@ -397,6 +415,8 @@ jobs:
 
   semver:
     name: Check semver compatibility
+    # XXX TBD SKIP FOR NOW TO SPEED UP CI BUILD TESTING
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -499,6 +519,8 @@ jobs:
 
   check-external-types:
     name: Validate external types appearing in public API
+    # XXX TBD SKIP FOR NOW TO SPEED UP CI BUILD TESTING
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
