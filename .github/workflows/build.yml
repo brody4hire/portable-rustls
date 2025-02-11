@@ -531,26 +531,46 @@ jobs:
 
   openssl-tests:
     name: Run openssl-tests
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     env:
       VERSION: openssl-3.4.0
+    strategy:
+      matrix:
+        rust:
+          # XXX TBD ??? ???
+          - stable
+          - beta
+          - nightly
+        os:
+          - ubuntu-latest
+          - macos-latest
+          # FOR FUTURE CONSIDERATION:
+          # - windows-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install ${{ matrix.rust }} toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+          # NOT NEEDED:
+          # target: ...
 
-      - name: Cache ${{ env.VERSION }}
+      # XXX TODO: CHECK PROPER CACHE CONFIG & USAGE REF:
+      # - https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/caching-dependencies-to-speed-up-workflows
+      # - https://stackoverflow.com/questions/70304782/to-use-github-action-cache-what-do-i-set-as-the-value-for-the-key-in-the-workf/74730470#74730470
+      # XXX TBD DEFINE CACHE PATH & KEY PATTERN IN ONE PLACE - ??? ??? ??? - NEEDS INVESTIGATION
+      - name: Cache OpenSSL - ${{ matrix.os }}-build-${{ env.VERSION }}
         uses: actions/cache@v4
         id: cache-openssl
         with:
-          path: ${{ env.VERSION }}
-          key: ${{ env.VERSION }}
+          path: ${{ matrix.os }}-build-${{ env.VERSION }}
+          key: ${{ matrix.os }}-build-${{ env.VERSION }}
 
-      - name: Fetch and build ${{ env.VERSION }}
+      - name: Fetch & build OpenSSL - ${{ matrix.os }}-build-${{ env.VERSION }}
         if: steps.cache-openssl.outputs.cache-hit != 'true'
         run: |
           wget https://github.com/openssl/openssl/releases/download/$VERSION/$VERSION.tar.gz
@@ -560,7 +580,7 @@ jobs:
           make -j$(nproc)
           make install
 
-      - name: Use ${{ env.VERSION }}
+      - name: Use OpenSSL build - ${{ matrix.os }}-build-${{ env.VERSION }}
         run: |
          path=$(pwd)/$VERSION/built/
          echo "$path/bin" >> $GITHUB_PATH
