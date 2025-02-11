@@ -537,9 +537,9 @@ jobs:
     strategy:
       matrix:
         rust:
-          # XXX TBD ??? ???
-          - stable
-          - beta
+          # XXX TBD ??? ??? - SKIP RUST NON-NIGHTLY FOR NOW TO SPEED UP CI BUILD TESTING
+          # - stable
+          # - beta
           - nightly
         os:
           - ubuntu-latest
