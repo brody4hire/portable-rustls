@@ -611,7 +611,6 @@ impl From<SystemTimeError> for Error {
     }
 }
 
-#[cfg(feature = "std")]
 impl core::error::Error for Error {}
 
 impl From<rand::GetRandomFailed> for Error {
@@ -663,6 +662,7 @@ mod other_error {
         }
     }
 
+    // XXX TODO impl for no-std as well
     #[cfg(feature = "std")]
     impl StdError for OtherError {
         fn source(&self) -> Option<&(dyn StdError + 'static)> {

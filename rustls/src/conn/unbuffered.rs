@@ -1,7 +1,6 @@
 //! Unbuffered connection API
 
 use alloc::vec::Vec;
-#[cfg(feature = "std")]
 use core::error::Error as StdError;
 use core::num::NonZeroUsize;
 use core::{fmt, mem};
@@ -571,7 +570,6 @@ impl fmt::Display for EncryptError {
     }
 }
 
-#[cfg(feature = "std")]
 impl StdError for EncryptError {}
 
 /// Provided buffer was too small

@@ -51,7 +51,6 @@ impl fmt::Display for VerifierBuilderError {
     }
 }
 
-#[cfg(feature = "std")]
 impl core::error::Error for VerifierBuilderError {}
 
 fn pki_error(error: webpki::Error) -> Error {
