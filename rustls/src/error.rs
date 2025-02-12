@@ -620,7 +620,6 @@ impl From<rand::GetRandomFailed> for Error {
 }
 
 mod other_error {
-    #[cfg(feature = "std")]
     use core::error::Error as StdError;
     use core::fmt;
 
@@ -662,9 +661,9 @@ mod other_error {
         }
     }
 
-    // XXX TODO impl for no-std as well
-    #[cfg(feature = "std")]
     impl StdError for OtherError {
+        // XXX TBD ??? ???:
+        #[cfg(feature = "std")]
         fn source(&self) -> Option<&(dyn StdError + 'static)> {
             Some(self.0.as_ref())
         }
