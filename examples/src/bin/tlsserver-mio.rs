@@ -22,8 +22,10 @@
 use std::collections::HashMap;
 use std::io::{self, Read, Write};
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
 use std::{fs, net};
+
+// TODO: MORE STABLE ARC ALIAS API
+use rustls::internal::sync::Arc;
 
 use clap::{Parser, Subcommand};
 use log::{debug, error};

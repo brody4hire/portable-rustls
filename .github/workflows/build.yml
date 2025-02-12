@@ -75,15 +75,23 @@ jobs:
       # nb. "--all-targets" does not include doctests
       - name: cargo test (release; all features)
         run: cargo test --release --locked --all-features --all-targets
+        # RUST NIGHTLY REQUIRED for critical-section feature in this fork (as implied by --all-features)
+        if: ${{ matrix.rust == 'nightly' }}
         env:
           RUST_BACKTRACE: 1
+          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
       # nb. this is separate since `--doc` option cannot be combined with other target option(s) ref:
       # - https://doc.rust-lang.org/cargo/commands/cargo-test.html
       - name: cargo test --doc (release; all-features)
         run: cargo test --release --locked --all-features --doc
+        # RUST NIGHTLY REQUIRED for critical-section feature in this fork (as implied by --all-features)
+        if: ${{ matrix.rust == 'nightly' }}
         env:
           RUST_BACKTRACE: 1
+          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
       - name: cargo test (debug; aws-lc-rs)
         run: cargo test --no-default-features --features aws_lc_rs,tls12,read_buf,logging,std --all-targets
@@ -111,6 +119,11 @@ jobs:
 
       - name: cargo package --all-features -p portable-rustls
         run: cargo package --all-features -p portable-rustls
+        # RUST NIGHTLY REQUIRED for critical-section feature in this fork (as implied by --all-features)
+        if: ${{ matrix.rust == 'nightly' }}
+        env:
+          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
   msrv:
     # NOTE: MSRV - Rust nightly is covered by multiple jobs in portable-rustls-ci-build.yml
@@ -126,14 +139,16 @@ jobs:
         with:
           toolchain: "1.71"
 
+      # critical-section requires Rust nightly in this fork;
       # zlib-rs is optional and requires a later MSRV
-      - run: cargo check --locked --lib $(admin/all-features-except zlib rustls) -p portable-rustls
+      - run: cargo check --locked --lib $(admin/all-features-except critical-section,zlib rustls) -p portable-rustls
 
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: "1.75"
 
-      - run: cargo check --locked --lib --all-features -p portable-rustls
+      # (critical-section requires Rust nightly in this fork)
+      - run: cargo check --locked --lib $(admin/all-features-except critical-section rustls) -p portable-rustls
 
   features:
     name: Features
@@ -309,8 +324,9 @@ jobs:
 
       - name: Run micro-benchmarks
         run: cargo bench --locked --all-features
+        # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
         env:
-          RUSTFLAGS: --cfg=bench
+          RUSTFLAGS: --cfg bench --cfg portable_atomic_unstable_coerce_unsized
 
   docs:
     name: Check for documentation errors
@@ -334,6 +350,9 @@ jobs:
           cargo build --locked --all-features
           ./admin/pull-readme
           git diff --exit-code
+        env:
+          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
   coverage:
     name: Measure coverage
@@ -359,6 +378,9 @@ jobs:
 
       - name: Measure coverage
         run: ./admin/coverage --lcov --output-path final.info
+        env:
+          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
       # TODO: CONFIGURE & ENABLE CODECOV FOR THIS FORK
       - name: Report to codecov.io
@@ -500,12 +522,13 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
-      # We want to be free of any warnings, so deny them.
-      # - Allow `clippy::disallowed_types` as a workaround since `disallowed_types` configured in `.clippy.toml`
-      #   is only intended for the main `rustls` crate.
-      - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
-      # - Keep the main crate free of all warnings... FOR ALL FEATURES IN MAIN CRATE
-      - run: cargo clippy -p portable-rustls --all-features -- --deny warnings
+      # FOR FUTURE CONSIDERATION: FIX & RE-ENABLE CLIPPY WITH RUST STABLE FOR ALL CRATES
+      # (THIS IS ALSO DONE WITH RUST NIGHTLY SO THIS SHOULD NOT BE SO URGENT)
+      # MUST SKIP USING ./admin/clippy FOR NOW - IT USES `--all-features`
+      # WHILE `critical-section` FEATURE WILL NOT WORK WITH RUST STABLE
+      # - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
+      # KEEP the main crate free of all warnings... FOR ALL FEATURES EXCEPT critical-section IN MAIN CRATE with RUST STABLE
+      - run: cargo clippy -p portable-rustls $(admin/all-features-except critical-section rustls) -- --deny warnings
 
   clippy-nightly:
     name: Clippy - Rust nightly
@@ -528,8 +551,14 @@ jobs:
       # - Ignore `clippy::disallowed_types` as a workaround since `disallowed_types` configured in `.clippy.toml`
       #   is only intended for main `rustls` crate.
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
+        env:
+          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
       # DENY ALL WARNINGS FROM RUST NIGHTLY CLIPPY FOR ALL FEATURES IN MAIN CRATE in this fork
       - run: cargo clippy -p portable-rustls --all-features -- --deny warnings
+        env:
+          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
   check-external-types:
     name: Validate external types appearing in public API

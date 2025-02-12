@@ -74,14 +74,11 @@ RECOMMENDED USAGE OF THIS FORK:
 * NEED TO EXPLICITLY ENABLE ANY FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
 * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE DOCUMENTATION OF THIS FEATURE -->
 THIS FORK SUPPORTS using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
 * USE Rust nightly toolchain
 * USE `--cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
-* USE `--cfg unstable_portable_atomic_arc` in RUSTFLAGS FOR `cargo build` (etc.)
-<!-- TODO: ADD CARGO FEATURE TO AUTOMATE THIS STEP: -->
-* WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
-- `once_cell`
-- `portable-atomic`
+* ENABLE `critical-section` feature of this crate
 
 <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
 <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->

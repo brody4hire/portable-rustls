@@ -3,7 +3,9 @@
 //! using asynchronous I/O using either async-std or tokio.
 
 use std::error::Error;
-use std::sync::Arc;
+
+// TODO: MORE STABLE ARC ALIAS API
+use rustls::internal::sync::Arc;
 
 #[cfg(feature = "async-std")]
 use async_std::io::{ReadExt, WriteExt};

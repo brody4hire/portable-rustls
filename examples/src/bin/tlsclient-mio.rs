@@ -21,8 +21,10 @@
 
 use std::io::{self, Read, Write};
 use std::net::ToSocketAddrs;
-use std::sync::Arc;
 use std::{process, str};
+
+// TODO: MORE STABLE ARC ALIAS API
+use rustls::internal::sync::Arc;
 
 use clap::Parser;
 use mio::net::TcpStream;

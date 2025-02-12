@@ -20,6 +20,13 @@ default = []
 aws-lc-rs = ["aws_lc_rs"] # ALIAS - FAVORED OVER `aws_lc_rs` FEATURE NAME IN THIS FORK
 aws_lc_rs = ["dep:aws-lc-rs", "webpki/aws_lc_rs"]
 brotli = ["dep:brotli", "dep:brotli-decompressor", "std"]
+# ENABLES using Arc from `portable-atomic-util`; configures multiple dependencies to use `critical-section`
+# (as needed to support targets with no atomic ptr)
+critical-section = [
+  "dep:portable-atomic-util",
+  "once_cell/critical-section",
+  "portable-atomic/critical-section",
+]
 custom-provider = []
 # [FIPS REMOVED FROM THIS FORK] fips = ...
 logging = ["log"]
@@ -42,8 +49,8 @@ log = { workspace = true, optional = true }
 # only required for no-std - RECENT VERSION NEEDED IN THIS FORK TO AVOID ANY
 # POTENTIAL ISSUES WITH `critical-section` feature for no atomic ptr support
 once_cell = { version = "1.20.3", default-features = false, features = ["alloc", "race"] }
-# TODO SHOULD BE OPTIONAL WITH FEATURE CONFIG IN THIS FORK
-portable-atomic-util = { version = "0.2.4", features = ["alloc"] }
+portable-atomic = { version = "1.10.0", default-features = false, optional = true }
+portable-atomic-util = { version = "0.2.4", features = ["alloc"], optional = true }
 ring = { workspace = true, optional = true }
 subtle = { workspace = true }
 webpki = { workspace = true }

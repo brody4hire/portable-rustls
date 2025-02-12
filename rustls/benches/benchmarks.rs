@@ -6,7 +6,9 @@ use rustls::crypto::ring as provider;
 #[path = "../tests/common/mod.rs"]
 mod test_utils;
 use std::io;
-use std::sync::Arc;
+
+// TODO: MORE STABLE ARC ALIAS API
+use rustls::internal::sync::Arc;
 
 use portable_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
 

@@ -4,7 +4,9 @@
 use std::error::Error;
 use std::io::{Read, Write};
 use std::net::TcpStream;
-use std::sync::Arc;
+
+// TODO: MORE STABLE ARC ALIAS API
+use rustls::internal::sync::Arc;
 
 use rustls::client::{ClientConnectionData, EarlyDataError, UnbufferedClientConnection};
 use rustls::unbuffered::{
