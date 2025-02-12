@@ -624,7 +624,7 @@ mod other_error {
     use core::fmt;
 
     use super::Error;
-    #[cfg(feature = "std")]
+    // XXX TBD CLIPPY WARNING EXPECTED FOR no-std build
     use crate::sync::Arc;
 
     /// Any other error that cannot be expressed by a more specific [`Error`] variant.
@@ -634,7 +634,11 @@ mod other_error {
     ///
     /// Enums holding this type will never compare equal to each other.
     #[derive(Debug, Clone)]
-    pub struct OtherError(#[cfg(feature = "std")] pub Arc<dyn StdError + Send + Sync>);
+    pub struct OtherError(
+        // XXX XXX REMOVING THIS FEATURE CONDITION LEADS TO BUILD ERRORS IN rustls/src/webpki/mod.rs - XXX TBD HOW TO RESOLVE THESE ???
+        #[cfg(feature = "std")]
+        pub Arc<dyn StdError + Send + Sync>
+    );
 
     impl PartialEq<Self> for OtherError {
         fn eq(&self, _other: &Self) -> bool {
@@ -662,7 +666,7 @@ mod other_error {
     }
 
     impl StdError for OtherError {
-        // XXX TBD ??? ???:
+        // XXX XXX CANNOT REMOVE THIS FEATURE CONDITION WITHOUT REMOVING SAME FEATURE CONDITION FROM ABOVE
         #[cfg(feature = "std")]
         fn source(&self) -> Option<&(dyn StdError + 'static)> {
             Some(self.0.as_ref())

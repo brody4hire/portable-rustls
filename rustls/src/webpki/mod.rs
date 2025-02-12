@@ -5,7 +5,6 @@ use pki_types::CertificateRevocationListDer;
 use webpki::{CertRevocationList, OwnedCertRevocationList};
 
 use crate::error::{CertRevocationListError, CertificateError, Error, OtherError};
-#[cfg(feature = "std")]
 use crate::sync::Arc;
 
 mod anchors;
@@ -77,6 +76,7 @@ fn pki_error(error: webpki::Error) -> Error {
         }
 
         _ => CertificateError::Other(OtherError(
+            // XXX XXX REMOVING THIS FEATURE CONDITION LEADS TO BUILD ERROR - NEED TO REMOVE SIMILAR CONDITION IN rustls-webpki CRATE
             #[cfg(feature = "std")]
             Arc::new(error),
         ))
@@ -101,6 +101,7 @@ fn crl_error(e: webpki::Error) -> CertRevocationListError {
         UnsupportedRevocationReason => CertRevocationListError::UnsupportedRevocationReason,
 
         _ => CertRevocationListError::Other(OtherError(
+            // XXX XXX REMOVING THIS FEATURE CONDITION LEADS TO BUILD ERROR - NEED TO REMOVE SIMILAR CONDITION IN rustls-webpki CRATE
             #[cfg(feature = "std")]
             Arc::new(e),
         )),
