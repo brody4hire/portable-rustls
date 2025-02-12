@@ -33,18 +33,18 @@ jobs:
           - windows-latest
           - macos-latest
         exclude:
-          # only stable on macos/windows (slower platforms)
+          # ONLY Rust nightly on Ubuntu in this fork - help save CI testing resources
+          - os: ubuntu-latest
+            rust: stable
+          - os: ubuntu-latest
+            rust: beta
+          # ONLY Rust nightly on Windows - slower platform
+          - os: windows-latest
+            rust: stable
           - os: windows-latest
             rust: beta
-          - os: windows-latest
-            rust: nightly
-          - os: macos-latest
-            rust: beta
-          - os: macos-latest
-            rust: nightly
-          # and never use macos/windows for merge checks
+          # and never use Windows for merge checks
           - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
-          - os: ${{ github.event_name == 'merge_group' && 'macos-latest' }}
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -113,7 +113,8 @@ jobs:
         run: cargo package --all-features -p portable-rustls
 
   msrv:
-    name: MSRV
+    # NOTE: MSRV - Rust nightly is covered by multiple jobs in portable-rustls-ci-build.yml
+    name: MSRV - Rust stable
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -129,33 +130,59 @@ jobs:
 
   features:
     name: Features
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    env:
+      # This target does _not_ include the libstd crate in its sysroot;
+      # it will catch unwanted usage of libstd in _dependencies_.
+      # (may use another target with no std lib - x86_64-unknown-none for example)
+      NO_STD_BUILD_TARGET: aarch64-unknown-none
+    strategy:
+      matrix:
+        rust:
+          - stable
+          - beta
+          - nightly
+        os:
+          - ubuntu-latest
+          - macos-latest
+          # FOR FUTURE CONSIDERATION:
+          # - windows-latest
+        exclude:
+          # ONLY Rust nightly on Ubuntu in this fork - help save CI testing resources
+          - os: ubuntu-latest
+            rust: stable
+          - os: ubuntu-latest
+            rust: beta
+          # RECOMMENDED UPDATES in case this job is enabled on Windows:
+          # ONLY Rust nightly on Windows - slower platform
+          # ...
+          # and never use Windows for merge checks
+          # ...
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install ${{ matrix.rust }} toolchain
+        uses: dtolnay/rust-toolchain@master
         with:
-          target: x86_64-unknown-none
+          toolchain: ${{ matrix.rust }}
+          target: ${{ env.NO_STD_BUILD_TARGET }}
 
       # NOTE: no features are enabled by default on main crate in this fork
       - name: cargo build (debug; default features)
         run: cargo build --locked
         working-directory: rustls
 
-        # this target does _not_ include the libstd crate in its sysroot
-        # it will catch unwanted usage of libstd in _dependencies_
-      - name: cargo build (debug; no default features; no-std)
+      - name: cargo build (debug; no default features; no-std) with no-std target - ${{ env.NO_STD_BUILD_TARGET }}
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
-        run: cargo build --locked --no-default-features --target x86_64-unknown-none
+        run: cargo build --locked --no-default-features --target ${{ env.NO_STD_BUILD_TARGET }}
         working-directory: rustls
 
-      - name: cargo build (debug; no default features; no-std, hashbrown)
+      - name: cargo build (debug; no default features; no-std, hashbrown) with no-std target - ${{ env.NO_STD_BUILD_TARGET }}
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
-        run: cargo build --locked --no-default-features --features hashbrown --target x86_64-unknown-none
+        run: cargo build --locked --no-default-features --features hashbrown --target ${{ env.NO_STD_BUILD_TARGET }}
         working-directory: rustls
 
       # NOTE: no features are enabled by default on main crate in this fork
@@ -305,15 +332,19 @@ jobs:
     name: Measure coverage
     runs-on: ubuntu-latest
     if: github.event_name != 'merge_group'
+    env:
+      # Favor CI testing on Rust nightly in this fork
+      RUST_VERSION: nightly
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Install rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install ${{ env.RUST_VERSION }} toolchain
+        uses: dtolnay/rust-toolchain@master
         with:
+          toolchain: ${{ env.RUST_VERSION }}
           components: llvm-tools
 
       - name: Install cargo-llvm-cov
@@ -322,7 +353,10 @@ jobs:
       - name: Measure coverage
         run: ./admin/coverage --lcov --output-path final.info
 
+      # TODO: CONFIGURE & ENABLE CODECOV FOR THIS FORK
       - name: Report to codecov.io
+        # SKIP FOR NOW IN THIS FORK
+        if: false
         uses: codecov/codecov-action@v5
         with:
           files: final.info
@@ -443,7 +477,7 @@ jobs:
         continue-on-error: true
 
   clippy:
-    name: Clippy
+    name: Clippy - Rust stable
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -463,11 +497,11 @@ jobs:
       # - Allow `clippy::disallowed_types` as a workaround since `disallowed_types` configured in `.clippy.toml`
       #   is only intended for the main `rustls` crate.
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
-      # - Keep the main crate free of all warnings.
-      - run: cargo clippy -p portable-rustls -- --deny warnings
+      # - Keep the main crate free of all warnings... FOR ALL FEATURES IN MAIN CRATE
+      - run: cargo clippy -p portable-rustls --all-features -- --deny warnings
 
   clippy-nightly:
-    name: Clippy (Nightly)
+    name: Clippy - Rust nightly
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -483,12 +517,12 @@ jobs:
         uses: dtolnay/rust-toolchain@nightly
         with:
           components: clippy
-      # Do not deny warnings, as nightly clippy sometimes has false negatives.
+      # Deny warnings from Clippy - Rust nightly in this fork
       # - Ignore `clippy::disallowed_types` as a workaround since `disallowed_types` configured in `.clippy.toml`
       #   is only intended for main `rustls` crate.
-      - run: ./admin/clippy -- --allow clippy::disallowed_types
-      # Check the main crate for any Clippy nightly warnings, but do not deny them.
-      - run: cargo clippy -p portable-rustls
+      - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
+      # DENY ALL WARNINGS FROM RUST NIGHTLY CLIPPY FOR ALL FEATURES IN MAIN CRATE in this fork
+      - run: cargo clippy -p portable-rustls --all-features -- --deny warnings
 
   check-external-types:
     name: Validate external types appearing in public API

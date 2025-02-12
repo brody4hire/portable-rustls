@@ -57,14 +57,14 @@ jobs:
           cargo add once_cell -F critical-section -p portable-rustls
           cargo add portable-atomic -F critical-section -p portable-rustls
 
-      - name: cargo build (debug; no default features; no-std) # (with no built-in provider)
+      - name: cargo build (debug; no-std) # (with no built-in provider)
         run: cargo build --target ${{ matrix.target }}
         working-directory: rustls
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       # NOTE: BUILD with hashbrown FAILS with no atomic ptr - MISSING SUPPORT in default hasher
-      # - name: cargo build (debug; no default features; no-std; hashbrown) # (with no built-in provider)
+      # - name: cargo build (debug; no-std; hashbrown) # (with no built-in provider)
       #   ...
 
   test:
