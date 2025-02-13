@@ -23,8 +23,11 @@ brotli = ["dep:brotli", "dep:brotli-decompressor", "std"]
 # ENABLES using Arc from `portable-atomic-util`; configures multiple dependencies to use `critical-section`
 # (as needed to support targets with no atomic ptr)
 critical-section = [
+  # XXX TODO REMOVE DEPENDENCY NOT NEEDED: portable-atomic-util
   "dep:portable-atomic-util",
+  "portable-arc/critical-section",
   "once_cell/critical-section", # (NEEDED by once_cell::race module for targets with no atomic ptr)
+  # XXX TODO REMOVE DEPENDENCY LIKELY NOT NEEDED: portable-atomic
   "portable-atomic/critical-section",
 ]
 custom-provider = []
@@ -49,7 +52,9 @@ log = { workspace = true, optional = true }
 # only required for no-std - RECENT VERSION NEEDED IN THIS FORK TO AVOID ANY
 # POTENTIAL ISSUES WITH `critical-section` feature for no atomic ptr support
 once_cell = { version = "1.20.3", default-features = false, features = ["alloc", "race"] }
+# XXX TODO REMOVE DEPENDENCY LIKELY NOT NEEDED: portable-atomic
 portable-atomic = { version = "1.10.0", default-features = false, optional = true }
+# XXX TODO REMOVE DEPENDENCY NOT NEEDED: portable-atomic-util
 portable-atomic-util = { version = "0.2.4", features = ["alloc"], optional = true }
 ring = { workspace = true, optional = true }
 subtle = { workspace = true }

@@ -2169,6 +2169,10 @@ dependencies = [
 [[package]]
 name = "portable-arc"
 version = "0.0.1-dev"
+dependencies = [
+ "portable-atomic",
+ "portable-atomic-util",
+]
 
 [[package]]
 name = "portable-atomic"
