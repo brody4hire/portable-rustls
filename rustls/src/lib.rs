@@ -460,12 +460,7 @@ mod test_macros;
 /// of rustls targetting architectures without atomic pointers to replace the implementation
 /// with another implementation such as `portable_atomic_util::Arc` in one central location.
 mod sync {
-    #[cfg(feature = "critical-section")]
-    #[allow(clippy::disallowed_types)]
-    pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;
-    #[cfg(not(feature = "critical-section"))]
-    #[allow(clippy::disallowed_types)]
-    pub(crate) type Arc<T> = alloc::sync::Arc<T>;
+    pub(crate) use portable_arc::Arc;
 }
 
 #[macro_use]
