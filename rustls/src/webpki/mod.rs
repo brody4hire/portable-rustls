@@ -1,3 +1,5 @@
+#[cfg(not(feature = "std"))]
+use alloc::format;
 use alloc::vec::Vec;
 use core::fmt;
 
@@ -76,9 +78,11 @@ fn pki_error(error: webpki::Error) -> Error {
         }
 
         _ => CertificateError::Other(OtherError(
-            // XXX XXX REMOVING THIS FEATURE CONDITION LEADS TO BUILD ERROR - NEED TO REMOVE SIMILAR CONDITION IN rustls-webpki CRATE
+            // XXX TBD ??? ???
             #[cfg(feature = "std")]
             Arc::new(error),
+            #[cfg(not(feature = "std"))]
+            Arc::new(Error::General(format!("{:?}", error))),
         ))
         .into(),
     }
@@ -101,9 +105,11 @@ fn crl_error(e: webpki::Error) -> CertRevocationListError {
         UnsupportedRevocationReason => CertRevocationListError::UnsupportedRevocationReason,
 
         _ => CertRevocationListError::Other(OtherError(
-            // XXX XXX REMOVING THIS FEATURE CONDITION LEADS TO BUILD ERROR - NEED TO REMOVE SIMILAR CONDITION IN rustls-webpki CRATE
+            // XXX TBD ??? ???
             #[cfg(feature = "std")]
             Arc::new(e),
+            #[cfg(not(feature = "std"))]
+            Arc::new(Error::General(format!("{:?}", e))),
         )),
     }
 }

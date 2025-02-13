@@ -635,8 +635,7 @@ mod other_error {
     /// Enums holding this type will never compare equal to each other.
     #[derive(Debug, Clone)]
     pub struct OtherError(
-        // XXX XXX REMOVING THIS FEATURE CONDITION LEADS TO BUILD ERRORS IN rustls/src/webpki/mod.rs - XXX TBD HOW TO RESOLVE THESE ???
-        #[cfg(feature = "std")]
+        // #[cfg(feature = "std")]
         pub Arc<dyn StdError + Send + Sync>
     );
 
@@ -654,20 +653,19 @@ mod other_error {
 
     impl fmt::Display for OtherError {
         fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-            #[cfg(feature = "std")]
+            // #[cfg(feature = "std")]
             {
                 write!(f, "{}", self.0)
             }
-            #[cfg(not(feature = "std"))]
-            {
-                f.write_str("no further information available")
-            }
+            // #[cfg(not(feature = "std"))]
+            // {
+            //     f.write_str("no further information available")
+            // }
         }
     }
 
     impl StdError for OtherError {
-        // XXX XXX CANNOT REMOVE THIS FEATURE CONDITION WITHOUT REMOVING SAME FEATURE CONDITION FROM ABOVE
-        #[cfg(feature = "std")]
+        // #[cfg(feature = "std")]
         fn source(&self) -> Option<&(dyn StdError + 'static)> {
             Some(self.0.as_ref())
         }
@@ -702,6 +700,7 @@ mod tests {
             ApplicationVerificationFailure
         );
         let other = Other(OtherError(
+            // XXX XXX
             #[cfg(feature = "std")]
             Arc::from(Box::from("")),
         ));
@@ -726,7 +725,8 @@ mod tests {
         assert_eq!(UnsupportedIndirectCrl, UnsupportedIndirectCrl);
         assert_eq!(UnsupportedRevocationReason, UnsupportedRevocationReason);
         let other = Other(OtherError(
-            #[cfg(feature = "std")]
+            // XXX XXX
+            // #[cfg(feature = "std")]
             Arc::from(Box::from("")),
         ));
         assert_ne!(other, other);
@@ -734,7 +734,7 @@ mod tests {
     }
 
     #[test]
-    #[cfg(feature = "std")]
+    // #[cfg(feature = "std")]
     fn other_error_equality() {
         let other_error = OtherError(Arc::from(Box::from("")));
         assert_ne!(other_error, other_error);
@@ -773,6 +773,7 @@ mod tests {
             Error::InconsistentKeys(InconsistentKeys::Unknown),
             Error::InvalidCertRevocationList(CertRevocationListError::BadSignature),
             Error::Other(OtherError(
+                // XXX XXX
                 #[cfg(feature = "std")]
                 Arc::from(Box::from("")),
             )),
@@ -791,7 +792,7 @@ mod tests {
         assert_eq!(err, Error::FailedToGetRandomBytes);
     }
 
-    #[cfg(feature = "std")]
+    // #[cfg(feature = "std")]
     #[test]
     fn time_error_mapping() {
         use std::time::SystemTime;
