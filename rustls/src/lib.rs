@@ -456,10 +456,12 @@ mod log {
 #[macro_use]
 mod test_macros;
 
+// XXX XXX TODO UPDATE OR REMOVE THE FOLLOWING COMMENTS FOR THIS FORK
 /// This internal `sync` module aliases the `Arc` implementation to allow downstream forks
 /// of rustls targetting architectures without atomic pointers to replace the implementation
 /// with another implementation such as `portable_atomic_util::Arc` in one central location.
 mod sync {
+    // XXX XXX TBD IMPORT (use) STATEMENT VS TYPE ALIAS - ??? ??? ??? - XXX TODO EXPLAIN DECISION ONCE READY
     pub(crate) use portable_arc::Arc;
 }
 
