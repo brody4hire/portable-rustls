@@ -551,12 +551,7 @@ pub mod internal {
     }
     // EXPORTED for tests & examples; TODO: REPLACE WITH A MORE STABLE ARC ALIAS API
     pub mod sync {
-        #[cfg(feature = "critical-section")]
-        #[allow(clippy::disallowed_types)]
-        pub type Arc<T> = portable_atomic_util::Arc<T>;
-        #[cfg(not(feature = "critical-section"))]
-        #[allow(clippy::disallowed_types)]
-        pub type Arc<T> = alloc::sync::Arc<T>;
+        pub type Arc<T> = crate::sync::Arc<T>;
     }
 }
 
