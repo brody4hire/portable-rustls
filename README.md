@@ -78,13 +78,14 @@ RECOMMENDED USAGE OF THIS FORK:
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE DOCUMENTATION OF THIS FEATURE -->
 THIS FORK SUPPORTS using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
 * USE Rust nightly toolchain
-* USE `--cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
+* USE `--cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
 * ENABLE `critical-section` feature of this crate
 
 <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
 <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->
 ALSO NEED TO BUILD WITH A CRYPTO PROVIDER FOR THIS CRATE TO BE USEFUL IN GENERAL.
 
+<!-- XXX TODO: ADD NOTE THAT THIS FORK NOW USES ARC FROM `portable-arc` crate - ALWAYS - `portable-arc` CRATE OFFERS XXX XXX OPTIONS FOR XXX XXX -->
 ADDITIONAL NOTE: FIPS SUPPORT IS REMOVED FROM THIS FORK. THERE MAY BE SOME VESTIGES IN THE API,
 IMPLEMENTATION OR DOCUMENTATION BUT THIS DOES NOT IMPLY EXISTENCE OF FIPS SUPPORT IN ANY FORM.
 
