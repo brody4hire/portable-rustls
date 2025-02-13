@@ -57,6 +57,7 @@ webpki = { workspace = true }
 pki-types = { workspace = true }
 zeroize = { workspace = true }
 zlib-rs = { workspace = true, optional = true }
+portable-arc = { version = "0.0.1-dev", path = "../../portable-arc" }
 
 [dev-dependencies]
 base64 = { workspace = true }
