@@ -2169,7 +2169,7 @@ dependencies = [
 [[package]]
 name = "portable-arc"
 version = "0.0.1-dev"
-source = "git+https://github.com/brody4hire/portable-arc#aed966bda40b5b468b7e4d15e243882445456f43"
+source = "git+https://github.com/brody4hire/portable-arc#cc7abd073e027208222d8a6906310ba0c2882ea1"
 dependencies = [
  "portable-atomic",
  "portable-atomic-util",
