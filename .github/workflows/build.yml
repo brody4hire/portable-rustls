@@ -79,8 +79,8 @@ jobs:
         if: ${{ matrix.rust == 'nightly' }}
         env:
           RUST_BACKTRACE: 1
-          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+          # CFG FLAGS REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
 
       # nb. this is separate since `--doc` option cannot be combined with other target option(s) ref:
       # - https://doc.rust-lang.org/cargo/commands/cargo-test.html
@@ -90,8 +90,8 @@ jobs:
         if: ${{ matrix.rust == 'nightly' }}
         env:
           RUST_BACKTRACE: 1
-          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+          # CFG FLAGS REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
 
       - name: cargo test (debug; aws-lc-rs)
         run: cargo test --no-default-features --features aws_lc_rs,tls12,read_buf,logging,std --all-targets
@@ -122,8 +122,8 @@ jobs:
         # RUST NIGHTLY REQUIRED for critical-section feature in this fork (as implied by --all-features)
         if: ${{ matrix.rust == 'nightly' }}
         env:
-          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+          # CFG FLAGS REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
 
   msrv:
     # NOTE: MSRV - Rust nightly is covered by multiple jobs in portable-rustls-ci-build.yml
@@ -324,7 +324,7 @@ jobs:
 
       - name: Run micro-benchmarks
         run: cargo bench --locked --all-features
-        # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
+        # CFG FLAGS REQUIRED for critical-section feature in this fork (as implied by --all-features)
         env:
           RUSTFLAGS: --cfg bench --cfg portable_atomic_unstable_coerce_unsized
 
@@ -351,8 +351,8 @@ jobs:
           ./admin/pull-readme
           git diff --exit-code
         env:
-          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+          # CFG FLAGS REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
 
   coverage:
     name: Measure coverage
@@ -379,8 +379,8 @@ jobs:
       - name: Measure coverage
         run: ./admin/coverage --lcov --output-path final.info
         env:
-          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+          # CFG FLAGS REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
 
       # TODO: CONFIGURE & ENABLE CODECOV FOR THIS FORK
       - name: Report to codecov.io
@@ -552,13 +552,13 @@ jobs:
       #   is only intended for main `rustls` crate.
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
         env:
-          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+          # CFG FLAGS REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
       # DENY ALL WARNINGS FROM RUST NIGHTLY CLIPPY FOR ALL FEATURES IN MAIN CRATE in this fork
       - run: cargo clippy -p portable-rustls --all-features -- --deny warnings
         env:
-          # UNSTABLE CFG FLAG REQUIRED for critical-section feature in this fork (as implied by --all-features)
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+          # CFG FLAGS REQUIRED for critical-section feature in this fork (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
 
   check-external-types:
     name: Validate external types appearing in public API

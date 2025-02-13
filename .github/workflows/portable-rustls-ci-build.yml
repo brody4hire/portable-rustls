@@ -58,8 +58,8 @@ jobs:
         run: cargo build --features critical-section --target ${{ matrix.target }}
         working-directory: rustls
         env:
-          # (unstable cfg flag required for critical-section feature)
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+          # CFG FLAGS REQUIRED for critical-section feature
+          RUSTFLAGS: --cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
 
       # NOTE: BUILD with hashbrown FAILS with no atomic ptr - MISSING SUPPORT in default hasher
       # - name: cargo build (debug; no-std; hashbrown) # (with no built-in provider)
@@ -100,8 +100,8 @@ jobs:
         run: cargo test --features std,critical-section
         working-directory: rustls
         env:
-          # (unstable cfg flag required for critical-section feature)
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+          # CFG FLAGS REQUIRED for critical-section feature
+          RUSTFLAGS: --cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
 
   cross-build:
     name: cross build test - portable_atomic_util::Arc # (via critical-section feature)
@@ -143,8 +143,8 @@ jobs:
         run: cargo install cross --git https://github.com/cross-rs/cross
       - run: cross build --package portable-rustls --features critical-section --target ${{ matrix.target }}
         env:
-          # (unstable cfg flag required for critical-section feature)
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+          # CFG FLAGS REQUIRED for critical-section feature
+          RUSTFLAGS: --cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
 
   cross-test:
     # GENERAL NOTE: NO CI TESTING for no-std
@@ -189,9 +189,9 @@ jobs:
         run: cargo add --dev --features bindgen 'aws-lc-sys@>0.20' --package portable-rustls --verbose && cargo install bindgen-cli --verbose
       - run: cross test --features critical-section --package portable-rustls --target ${{ matrix.target }}
         env:
-          # (unstable cfg flag required for critical-section feature)
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+          # CFG FLAGS REQUIRED for critical-section feature
+          RUSTFLAGS: --cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
       - run: cross test --all-features --package portable-rustls --target ${{ matrix.target }}
         env:
-          # unstable cfg flag required for critical-section feature (as implied by --all-features)
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+          # CFG FLAGS REQUIRED for critical-section feature (as implied by --all-features)
+          RUSTFLAGS: --cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
