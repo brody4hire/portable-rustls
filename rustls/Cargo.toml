@@ -24,7 +24,7 @@ brotli = ["dep:brotli", "dep:brotli-decompressor", "std"]
 # (as needed to support targets with no atomic ptr)
 critical-section = [
   "dep:portable-atomic-util",
-  "once_cell/critical-section",
+  "once_cell/critical-section", # (NEEDED by once_cell::race module for targets with no atomic ptr)
   "portable-atomic/critical-section",
 ]
 custom-provider = []
