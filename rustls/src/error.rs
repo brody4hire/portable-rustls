@@ -636,7 +636,7 @@ mod other_error {
     #[derive(Debug, Clone)]
     pub struct OtherError(
         // #[cfg(feature = "std")]
-        pub Arc<dyn StdError + Send + Sync>
+        pub Arc<dyn StdError + Send + Sync>,
     );
 
     impl PartialEq<Self> for OtherError {
