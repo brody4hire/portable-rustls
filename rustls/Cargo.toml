@@ -57,6 +57,8 @@ webpki = { workspace = true }
 pki-types = { workspace = true }
 zeroize = { workspace = true }
 zlib-rs = { workspace = true, optional = true }
+# XXX TODO MOVE THIS
+# XXX TODO USE `portable-arc` FROM crates.io ONCE IT IS PUBLISHED
 portable-arc = { version = "0.0.1-dev", path = "../../portable-arc" }
 
 [dev-dependencies]
