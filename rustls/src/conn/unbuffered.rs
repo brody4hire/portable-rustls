@@ -539,7 +539,6 @@ impl fmt::Display for EncodeError {
     }
 }
 
-#[cfg(feature = "std")]
 impl StdError for EncodeError {}
 
 /// Errors that may arise when encrypting application data
