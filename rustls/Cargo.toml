@@ -63,8 +63,8 @@ pki-types = { workspace = true }
 zeroize = { workspace = true }
 zlib-rs = { workspace = true, optional = true }
 # XXX TODO MOVE THIS
-# XXX TODO USE `portable-arc` FROM crates.io ONCE IT IS PUBLISHED
-portable-arc = { version = "0.0.1-dev", git = "https://github.com/brody4hire/portable-arc" }
+# XXX TODO INSTALL FROM STABLE PUBLISHED LOCATION
+portable-arc = { version = "0.0.1-dev", git = "https://github.com/brody4hire/portable-arc-trial-archive-2025-01" }
 
 [dev-dependencies]
 base64 = { workspace = true }
