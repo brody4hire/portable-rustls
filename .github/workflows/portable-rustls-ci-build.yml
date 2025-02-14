@@ -92,9 +92,6 @@ jobs:
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust }}
-          # USELESS `target` INPUT NOT NEEDED HERE
-          # (WAS ADDED IN: COMMIT abbed4a / PR ref: https://github.com/brody4hire/portable-rustls/pull/17)
-          # target: ${{ matrix.target }}
 
       - name: cargo test (debug; std; critical-section) # (with no built-in provider)
         run: cargo test --features std,critical-section
