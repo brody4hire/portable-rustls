@@ -97,7 +97,6 @@ jobs:
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust }}
-          target: ${{ matrix.target }}
 
       - name: cargo test (debug; std) # no built-in provider
         run: cargo test --features std
