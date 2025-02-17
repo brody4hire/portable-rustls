@@ -109,8 +109,9 @@ jobs:
       - name: cargo test (debug; rustls-provider-test; all features)
         run: cargo test --all-features -p rustls-provider-test
 
-      - name: cargo package --all-features -p portable-rustls
-        run: cargo package --all-features -p portable-rustls
+      # XXX TBD IMPROVE LABEL - ???
+      - name: cargo package $(admin/all-features-except unsafe-assume-single-core rustls) -p portable-rustls
+        run: cargo package $(admin/all-features-except unsafe-assume-single-core rustls) -p portable-rustls
 
   msrv:
     # NOTE: MSRV - Rust nightly is covered by multiple jobs in portable-rustls-ci-build.yml
