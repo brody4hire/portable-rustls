@@ -9,19 +9,17 @@
 //! * NEED TO EXPLICITLY ENABLE ANY FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
 //! * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 //!
+//! <!-- TODO(portable-rustls) CLEANUP & IMPROVE DOCUMENTATION OF THIS FEATURE -->
 //! THIS FORK SUPPORTS using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
 //! * USE Rust nightly toolchain
-//! * USE `--cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
-//! * USE `--cfg unstable_portable_atomic_arc` in RUSTFLAGS FOR `cargo build` (etc.)
-//! <!-- TODO: ADD CARGO FEATURE TO AUTOMATE THIS STEP: -->
-//! * WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
-//!   - `once_cell`
-//!   - `portable-atomic`
+//! * USE `--cfg portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
+//! * ENABLE `critical-section` feature of this crate
 //!
 //! <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
 //! <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->
 //! ALSO NEED TO BUILD WITH A CRYPTO PROVIDER FOR THIS CRATE TO BE USEFUL IN GENERAL.
 //!
+//! <!-- XXX TODO: ADD NOTE THAT THIS FORK NOW USES ARC FROM `portable-arc` crate - ALWAYS - `portable-arc` CRATE OFFERS XXX XXX OPTIONS FOR XXX XXX -->
 //! ADDITIONAL NOTE: FIPS SUPPORT IS REMOVED FROM THIS FORK. THERE MAY BE SOME VESTIGES IN THE API,
 //! IMPLEMENTATION OR DOCUMENTATION BUT THIS DOES NOT IMPLY EXISTENCE OF FIPS SUPPORT IN ANY FORM.
 //!
@@ -215,7 +213,7 @@
 //! # #[cfg(feature = "aws_lc_rs")] {
 //! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # use webpki;
-//! # use std::sync::Arc;
+//! # use rustls::internal::sync::Arc;
 //! # rustls::crypto::aws_lc_rs::default_provider().install_default();
 //! # let root_store = rustls::RootCertStore::from_iter(
 //! #  webpki_roots::TLS_SERVER_ROOTS
@@ -317,6 +315,9 @@
 //! - `std`: enable the high-level (buffered) Connection API and other functionality
 //!   which relies on the `std` library.
 //!
+//! - `critical-section`: makes this crate use `portable_atomic_util::Arc` instead of `std::sync::Arc`, and
+//!   configure multiple dependencies to use `critical-section`, as needed for targets with no atomic ptr
+//!
 //! - `aws-lc-rs`: makes the rustls crate depend on the [`aws-lc-rs`] crate.
 //!   Use `rustls::crypto::aws_lc_rs::default_provider().install_default()` to
 //!   use it as the default `CryptoProvider`, or provide it explicitly
@@ -407,8 +408,6 @@
     clippy::single_component_path_imports,
     clippy::new_without_default
 )]
-// QUICK CLIPPY WORKAROUND for `unstable_portable_atomic_arc` IN THIS FORK
-#![allow(unexpected_cfgs)]
 // Enable documentation for all features on docs.rs
 #![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
 // XXX: Because of https://github.com/rust-lang/rust/issues/54726, we cannot
@@ -458,16 +457,13 @@ mod log {
 #[macro_use]
 mod test_macros;
 
+// XXX XXX TODO UPDATE OR REMOVE THE FOLLOWING COMMENTS FOR THIS FORK
 /// This internal `sync` module aliases the `Arc` implementation to allow downstream forks
 /// of rustls targetting architectures without atomic pointers to replace the implementation
 /// with another implementation such as `portable_atomic_util::Arc` in one central location.
 mod sync {
-    #[cfg(unstable_portable_atomic_arc)]
-    #[allow(clippy::disallowed_types)]
-    pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;
-    #[cfg(not(unstable_portable_atomic_arc))]
-    #[allow(clippy::disallowed_types)]
-    pub(crate) type Arc<T> = alloc::sync::Arc<T>;
+    // XXX XXX TBD IMPORT (use) STATEMENT VS TYPE ALIAS - ??? ??? ??? - XXX TODO EXPLAIN DECISION ONCE READY
+    pub(crate) use portable_arc::Arc;
 }
 
 #[macro_use]
@@ -550,6 +546,10 @@ pub mod internal {
 
     pub mod fuzzing {
         pub use crate::msgs::deframer::fuzz_deframer;
+    }
+    // EXPORTED for tests & examples; TODO: REPLACE WITH A MORE STABLE ARC ALIAS API
+    pub mod sync {
+        pub type Arc<T> = crate::sync::Arc<T>;
     }
 }
 

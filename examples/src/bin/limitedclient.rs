@@ -4,7 +4,9 @@
 
 use std::io::{stdout, Read, Write};
 use std::net::TcpStream;
-use std::sync::Arc;
+
+// TODO: MORE STABLE ARC ALIAS API
+use rustls::internal::sync::Arc;
 
 use rustls::crypto::{aws_lc_rs as provider, CryptoProvider};
 

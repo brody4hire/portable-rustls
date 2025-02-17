@@ -8,9 +8,11 @@ use std::fs::File;
 use std::io::{Read, Write};
 use std::ops::Add;
 use std::path::PathBuf;
-use std::sync::Arc;
 use std::time::Duration;
 use std::{fs, thread};
+
+// TODO: MORE STABLE ARC ALIAS API
+use rustls::internal::sync::Arc;
 
 use clap::Parser;
 use rcgen::KeyPair;

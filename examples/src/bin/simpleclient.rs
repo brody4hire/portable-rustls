@@ -10,7 +10,9 @@
 
 use std::io::{stdout, Read, Write};
 use std::net::TcpStream;
-use std::sync::Arc;
+
+// TODO: MORE STABLE ARC ALIAS API
+use rustls::internal::sync::Arc;
 
 use rustls::RootCertStore;
 

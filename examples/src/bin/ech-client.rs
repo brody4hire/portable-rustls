@@ -32,7 +32,9 @@ use std::error::Error;
 use std::fs;
 use std::io::{stdout, BufReader, Read, Write};
 use std::net::{TcpStream, ToSocketAddrs};
-use std::sync::Arc;
+
+// TODO: MORE STABLE ARC ALIAS API
+use rustls::internal::sync::Arc;
 
 use clap::Parser;
 use hickory_resolver::config::{ResolverConfig, ResolverOpts};
