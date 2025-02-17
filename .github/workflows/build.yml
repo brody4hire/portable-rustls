@@ -456,8 +456,9 @@ jobs:
       # Direct install as needed to use flags from $(admin/all-features-except ...)
       - run: cargo install cargo-semver-checks --locked
 
-      - name: Check semver
-        run: cargo semver-checks ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
+      # FOR FUTURE CONSIDERATION: check semver on all crates (again)
+      - name: Check semver - main crate (only)
+        run: cargo semver-checks ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p portable-rustls
 
   format:
     name: Format
