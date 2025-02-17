@@ -702,7 +702,7 @@ mod tests {
         );
         let other = Other(OtherError(
             // XXX XXX
-            #[cfg(feature = "std")]
+            // #[cfg(feature = "std")]
             Arc::from(Box::from("")),
         ));
         assert_ne!(other, other);
@@ -775,7 +775,7 @@ mod tests {
             Error::InvalidCertRevocationList(CertRevocationListError::BadSignature),
             Error::Other(OtherError(
                 // XXX XXX
-                #[cfg(feature = "std")]
+                // #[cfg(feature = "std")]
                 Arc::from(Box::from("")),
             )),
         ];
