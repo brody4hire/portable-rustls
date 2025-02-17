@@ -24,7 +24,8 @@ run_clippy --package portable-rustls --no-default-features --all-targets
 for p in $(admin/all-workspace-members) ; do
   case "$p" in
     *)
-      ALL_FEATURES=$(admin/all-features-except unsafe-assume-single-core rustls)
+      # XXX TBD DEFINE MAIN CRATE NAME & RESULT OF admin/all-features-except BEFORE THIS LOOP - ???
+      ALL_FEATURES=$(admin/all-features-except unsafe-assume-single-core portable-rustls)
       ;;
   esac
 
@@ -32,6 +33,7 @@ for p in $(admin/all-workspace-members) ; do
 done
 
 # not part of the workspace
+# XXX TODO FIX MAIN PACKAGE NAME HERE
 run_clippy --manifest-path=fuzz/Cargo.toml $(admin/all-features-except unsafe-assume-single-core rustls) --all-targets
 
 exit $rc

@@ -14,6 +14,11 @@ on:
   schedule:
     - cron: '0 18 * * *'
 
+env:
+  # XXX TODO IN SEPARATE UPDATE:
+  # MAIN_CRATE_NAME: portable-rustls
+  ALL_FEATURES_EXCEPT_UNSAFE: $(admin/all-features-except unsafe-assume-single-core portable-rustls)
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -74,14 +79,14 @@ jobs:
       # N/A [FIPS REMOVED FROM THIS FORK]: nb. feature sets that include "fips" ...
       # nb. "--all-targets" does not include doctests
       - name: cargo test (release; all features except unsafe-assume-single-core)
-        run: cargo test --release --locked $(admin/all-features-except unsafe-assume-single-core rustls) --all-targets
+        run: cargo test --release --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --all-targets
         env:
           RUST_BACKTRACE: 1
 
       # nb. this is separate since `--doc` option cannot be combined with other target option(s) ref:
       # - https://doc.rust-lang.org/cargo/commands/cargo-test.html
       - name: cargo test --doc (release; all features except unsafe-assume-single-core)
-        run: cargo test --release --locked $(admin/all-features-except unsafe-assume-single-core rustls) --doc
+        run: cargo test --release --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --doc
         env:
           RUST_BACKTRACE: 1
 
@@ -110,8 +115,8 @@ jobs:
         run: cargo test --all-features -p rustls-provider-test
 
       # XXX TBD IMPROVE LABEL - ???
-      - name: cargo package $(admin/all-features-except unsafe-assume-single-core rustls) -p portable-rustls
-        run: cargo package $(admin/all-features-except unsafe-assume-single-core rustls) -p portable-rustls
+      - name: cargo package ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p portable-rustls
+        run: cargo package ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p portable-rustls
 
   msrv:
     # NOTE: MSRV - Rust nightly is covered by multiple jobs in portable-rustls-ci-build.yml
@@ -128,13 +133,13 @@ jobs:
           toolchain: "1.71"
 
       # zlib-rs is optional and requires a later MSRV
-      - run: cargo check --locked --lib $(admin/all-features-except unsafe-assume-single-core,zlib rustls) -p portable-rustls
+      - run: cargo check --locked --lib $(admin/all-features-except unsafe-assume-single-core,zlib portable-rustls) -p portable-rustls
 
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: "1.75"
 
-      - run: cargo check --locked --lib $(admin/all-features-except unsafe-assume-single-core rustls) -p portable-rustls
+      - run: cargo check --locked --lib ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p portable-rustls
 
   features:
     name: Features
@@ -309,7 +314,7 @@ jobs:
       #   ...
 
       - name: Run micro-benchmarks
-        run: cargo bench --locked $(admin/all-features-except unsafe-assume-single-core rustls)
+        run: cargo bench --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
         env:
           RUSTFLAGS: --cfg=bench
 
@@ -326,13 +331,13 @@ jobs:
         uses: dtolnay/rust-toolchain@nightly
 
       - name: cargo doc (rustls; all features except unsafe-assume-single-core)
-        run: cargo doc --locked $(admin/all-features-except unsafe-assume-single-core rustls) --no-deps --document-private-items --package portable-rustls
+        run: cargo doc --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --no-deps --document-private-items --package portable-rustls
         env:
           RUSTDOCFLAGS: -Dwarnings
 
       - name: Check README.md
         run: |
-          cargo build --locked $(admin/all-features-except unsafe-assume-single-core rustls)
+          cargo build --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
           ./admin/pull-readme
           git diff --exit-code
 
@@ -443,10 +448,7 @@ jobs:
       - run: cargo install cargo-semver-checks --locked
 
       - name: Check semver
-        # XXX TODO REMOVE echo part
-        run: echo "CHECK SEMVER WITH FLAGS ${{ env.FEATURES }}" && cargo semver-checks ${{ env.FEATURES }}
-        env:
-          FEATURES: $(admin/all-features-except unsafe-assume-single-core rustls)
+        run: cargo semver-checks ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
 
   format:
     name: Format
@@ -512,7 +514,7 @@ jobs:
       #   is only intended for the main `rustls` crate.
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
       # - Keep the main crate free of all warnings... FOR ALL FEATURES - EXCEPT unsafe-assume-single-core IN MAIN CRATE in this fork
-      - run: cargo clippy -p portable-rustls $(admin/all-features-except unsafe-assume-single-core rustls) -- --deny warnings
+      - run: cargo clippy -p portable-rustls ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -- --deny warnings
 
   clippy-nightly:
     name: Clippy - Rust nightly
@@ -536,7 +538,7 @@ jobs:
       #   is only intended for main `rustls` crate.
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
       # DENY ALL WARNINGS FROM RUST NIGHTLY CLIPPY FOR ALL FEATURES - EXCEPT unsafe-assume-single-core IN MAIN CRATE in this fork
-      - run: cargo clippy -p portable-rustls $(admin/all-features-except unsafe-assume-single-core rustls) -- --deny warnings
+      - run: cargo clippy -p portable-rustls ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -- --deny warnings
 
   check-external-types:
     name: Validate external types appearing in public API

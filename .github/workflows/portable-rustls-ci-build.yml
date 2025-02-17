@@ -14,6 +14,11 @@ on:
   schedule:
     - cron: '0 18 * * *'
 
+env:
+  # XXX TODO IN SEPARATE UPDATE:
+  # MAIN_CRATE_NAME: portable-rustls
+  ALL_FEATURES_EXCEPT_UNSAFE: $(admin/all-features-except unsafe-assume-single-core portable-rustls)
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -204,6 +209,6 @@ jobs:
       - run: cross test --package portable-rustls --target ${{ matrix.target }}
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
-      - run: cross test $(admin/all-features-except unsafe-assume-single-core rustls) --package portable-rustls --target ${{ matrix.target }}
+      - run: cross test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --package portable-rustls --target ${{ matrix.target }}
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
