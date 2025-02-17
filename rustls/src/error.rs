@@ -637,10 +637,8 @@ mod other_error {
     /// Enums holding this type will never compare equal to each other.
     #[derive(Debug, Clone)]
     pub struct OtherError(
-        // XXX TBD ERROR HANDLING WITH RC ALIAS - ??? ???
-        // #[cfg(not(use_rc_alias))]
-        #[cfg(feature = "std")]
-        pub Arc<dyn StdError + Send + Sync>,
+        #[cfg(feature = "std")] // XXX XXX TODO ADD COMMENT TO KEEP SEPARATE LINES HERE
+        pub  Arc<dyn StdError + Send + Sync>,
     );
 
     impl PartialEq<Self> for OtherError {
