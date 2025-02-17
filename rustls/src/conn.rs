@@ -670,7 +670,7 @@ impl<Data> ConnectionCommon<Data> {
                     #[cfg(not(use_rc_alias))]
                     return Err(io::Error::new(io::ErrorKind::InvalidData, e));
                     #[cfg(use_rc_alias)]
-                    return e;
+                    return Err(io::Error::from(io::ErrorKind::InvalidData));
                 }
             };
 
