@@ -926,16 +926,10 @@ impl<const KDF_LEN: usize> Drop for KemSharedSecret<KDF_LEN> {
 }
 
 fn key_rejected_err(_e: aws_lc_rs::error::KeyRejected) -> Error {
-    // XXX TBD ERROR HANDLING WITH RC ALIAS - ??? ???
-    // XXX TODO IMPROVE CONSISTENCY WITH OTHER CONDITIONAL CODE - XXX TODO IMPROVE CONSISTENCY IN
-    // MULTIPLE PLACES
-    // #[cfg(not(use_rc_alias))]
     #[cfg(feature = "std")]
     {
         Error::Other(OtherError(Arc::new(_e)))
     }
-    // XXX TBD ERROR HANDLING WITH RC ALIAS - ??? ???
-    // #[cfg(any(use_rc_alias, not(feature = "std")))]
     #[cfg(not(feature = "std"))]
     {
         Error::Other(OtherError())
