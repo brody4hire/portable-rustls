@@ -443,7 +443,10 @@ jobs:
       - run: cargo install cargo-semver-checks --locked
 
       - name: Check semver
-        run: cargo semver-checks $(admin/all-features-except unsafe-assume-single-core rustls)
+        # XXX TODO REMOVE echo part
+        run: echo "CHECK SEMVER WITH FLAGS ${{ env.FEATURES }}" && cargo semver-checks ${{ env.FEATURES }}
+        env:
+          FEATURES: $(admin/all-features-except unsafe-assume-single-core rustls)
 
   format:
     name: Format
