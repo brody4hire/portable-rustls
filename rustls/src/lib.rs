@@ -1,9 +1,9 @@
 //! # Rustls - a modern TLS library - portable-rustls fork
 //!
-//! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+//! <!-- TODO(portable-rustls/...) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 //! IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK AS STATED FURTHER BELOW
 //!
-//! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+//! <!-- TODO(portable-rustls/...) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 //! RECOMMENDED USAGE OF THIS FORK:
 //! * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
 //! * NEED TO EXPLICITLY ENABLE ANY FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
@@ -25,12 +25,12 @@
 //! ADDITIONAL NOTE: FIPS SUPPORT IS REMOVED FROM THIS FORK. THERE MAY BE SOME VESTIGES IN THE API,
 //! IMPLEMENTATION OR DOCUMENTATION BUT THIS DOES NOT IMPLY EXISTENCE OF FIPS SUPPORT IN ANY FORM.
 //!
-//! <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
+//! <!-- TODO(portable-rustls/...) UPDATE INFO FOR THIS FORK -->
 //! Rustls is a TLS library that aims to provide a good level of cryptographic security,
 //! requires no configuration to achieve that security, and provides no unsafe features or
 //! obsolete cryptography by default.
 //!
-//! <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
+//! <!-- TODO(portable-rustls/...) UPDATE INFO FOR THIS FORK -->
 //! Rustls implements TLS1.2 and TLS1.3 for both clients and servers. See [the full
 //! list of protocol features](manual::_04_features).
 //!
@@ -85,7 +85,7 @@
 //!
 //! #### Third-party providers
 //!
-//! <!-- TODO(portable-rustls) CLEANUP THIS NOTICE & IMPROVE THE INFO HERE: -->
+//! <!-- TODO(portable-rustls/...) CLEANUP THIS NOTICE & IMPROVE THE INFO HERE: -->
 //! NOTICE: ANY THIRD-PARTY PROVIDER WOULD NEED TO BE ADAPTED TO WORK DIRECTLY WITH THIS FORK OF RUSTLS.
 //!
 //! The community has also started developing third-party providers for Rustls:
@@ -114,20 +114,20 @@
 //!
 //! #### Custom provider
 //!
-//! <!-- TODO(portable-rustls) UPDATE INFO BELOW AS MAY BE NEEDED FOR THIS FORK -->
+//! <!-- TODO(portable-rustls/...) UPDATE INFO BELOW AS MAY BE NEEDED FOR THIS FORK -->
 //!
 //! We also provide a simple example of writing your own provider in the [`custom-provider`]
 //! example. This example implements a minimal provider using parts of the [`RustCrypto`]
 //! ecosystem.
 //!
-//! <!-- TODO(portable-rustls) CLEANUP THIS NOTE & IMPROVE THE INFO HERE: -->
+//! <!-- TODO(portable-rustls/...) CLEANUP THIS NOTE & IMPROVE THE INFO HERE: -->
 //! HIGHLY RECOMMENDED TO LOOK INTO `provider-example` SUBDIRECTORY ([`provider-example`](provider-example/)) IN THIS FORK; SEE ESPECIALLY `provider-example/Cargo.toml`.
 //! AS DISCUSSED ABOVE, HIGHLY RECOMMENDED TO PUT DEPENDENCY LIKE THIS INTO `Cargo.toml`: `rustls = { package = "portable-rustls" ... }`
 //!
 //! See the [Making a custom CryptoProvider] section of the documentation for more information
 //! on this topic.
 //!
-//! <!-- TODO(portable-rustls) UPDATE WITH BETTER REFERENCES FOR THIS FORK: -->
+//! <!-- TODO(portable-rustls/...) UPDATE WITH BETTER REFERENCES FOR THIS FORK: -->
 //! [`custom-provider`]: https://github.com/rustls/rustls/tree/main/provider-example/
 //! [`RustCrypto`]: https://github.com/RustCrypto
 //! [Making a custom CryptoProvider]: https://docs.rs/rustls/latest/rustls/crypto/struct.CryptoProvider.html#making-a-custom-cryptoprovider

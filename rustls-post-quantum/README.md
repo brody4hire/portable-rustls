@@ -8,7 +8,7 @@ Rustls is a modern TLS library written in Rust.
 
 # rustls-post-quantum
 
-<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+<!-- TODO(portable-rustls/...) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 NOTE: THIS SEPARATE "`rustls-post-quantum`" CRATE WHICH ONLY CONTAINS ALIASES IS ONLY KEPT IN THIS FORK FOR CI TESTING PURPOSES. SEE INFO BELOW FOR HOW TO USE THIS "`rustls-post-quantum`" FUNCTIONALITY WITH THE CORE `portable-rustls` CRATE IN THIS FORK.
 
 The functionality of this crate became part of the core rustls

@@ -1,6 +1,6 @@
 # Contributing
 
-<!-- TODO(portable-rustls) UPDATE INFO BELOW FOR THIS FORK -->
+<!-- TODO(portable-rustls/...) UPDATE INFO BELOW FOR THIS FORK -->
 
 Thanks for considering helping this project.  There are many
 ways you can help: using the library and reporting bugs,
@@ -15,12 +15,12 @@ a pcap or reproduction steps.
 
 Feel free to file github issues to get help, or ask a question.
 
-<!-- TODO(portable-rustls) CLEANUP & UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->
+<!-- TODO(portable-rustls/...) CLEANUP & UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->
 If you believe you've found a security bug please
 - IF SPECIFIC TO THIS FORK: REPORT PRIVATELY TO A MAINTAINER OF THIS FORK, NOT VIA PUBLIC GITHUB ISSUE, DISCUSSION or PR.
 - FOR `rustls` IN GENERAL: [open a draft security advisory on `rustls` in GitHub](https://github.com/rustls/rustls/security/advisories/new) ... NOT AS A REGULAR REPOSITORY ISSUE
 
-<!-- TODO(portable-rustls) CLEANUP FOR THIS FORK -->
+<!-- TODO(portable-rustls/...) CLEANUP FOR THIS FORK -->
 SEE [SECURITY.md] FOR MORE INFORMATION.
 
 [SECURITY.md]: SECURITY.md
@@ -53,7 +53,7 @@ Our default workflow is to rebase clean commit history from a PR to `main`.
 
 ## Security bugs
 
-<!-- TODO(portable-rustls) CLEANUP & UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->
+<!-- TODO(portable-rustls/...) CLEANUP & UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->
 AS STATED ABOVE:
 - IF SPECIFIC TO THIS FORK: REPORT PRIVATELY TO A MAINTAINER OF THIS FORK, NOT VIA PUBLIC GITHUB ISSUE, DISCUSSION or PR.
 - FOR `rustls` IN GENERAL: [open a draft security advisory on `rustls` in GitHub](https://github.com/rustls/rustls/security/advisories/new) ... NOT AS A REGULAR REPOSITORY ISSUE
@@ -474,5 +474,5 @@ assist code reviewers of end-user code.
 
 ## Licensing
 
-<!-- TODO(portable-rustls) UPDATE INFO HERE & IN LICENSE FILES AS MAY BE NEEDED FOR THIS FORK: -->
+<!-- TODO(portable-rustls/...) UPDATE INFO HERE & IN LICENSE FILES AS MAY BE NEEDED FOR THIS FORK: -->
 Contributions are made under [rustls's licenses](LICENSE).

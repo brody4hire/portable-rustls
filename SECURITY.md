@@ -1,13 +1,13 @@
 # Security Policy
 
-<!-- TODO(portable-rustls) UPDATE INFO BELOW FOR THIS FORK -->
+<!-- TODO(portable-rustls/...) UPDATE INFO BELOW FOR THIS FORK -->
 
 ## Supported Versions
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
+<!-- TODO(portable-rustls/...) UPDATE INFO FOR THIS FORK -->
 TODO
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK:
+<!-- TODO(portable-rustls/...) UPDATE INFO FOR THIS FORK:
 Security fixes will be backported only to the rustls versions for which the
 original semver-compatible release was published less than 2 years ago.
 
@@ -30,10 +30,10 @@ will not be.
 
 ### Minimum Supported Rust Version
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
+<!-- TODO(portable-rustls/...) UPDATE INFO FOR THIS FORK -->
 TODO
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK:
+<!-- TODO(portable-rustls/...) UPDATE INFO FOR THIS FORK:
 From time to time we will update our minimum supported Rust version (MSRV)
 in the course of normal development, subject to these constraints:
 
@@ -71,18 +71,18 @@ MSRV than this policy.
 
 ## Reporting a Vulnerability
 
-<!-- TODO(portable-rustls) CLEANUP & UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->
+<!-- TODO(portable-rustls/...) CLEANUP & UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->
 PLEASE REPORT ANY SECURITY ISSUES SPECIFIC TO THIS FORK PRIVATELY TO A MAINTAINER OF THIS FORK, NOT VIA PUBLIC GITHUB ISSUE, DISCUSSION or PR.
 
-<!-- TODO(portable-rustls) CLEANUP & UPDATE WITH MORE SPECIFIC INFO: -->
+<!-- TODO(portable-rustls/...) CLEANUP & UPDATE WITH MORE SPECIFIC INFO: -->
 FOR ANY SECURITY ISSUES WITH `rustls` IN GENERAL:
 Please report security bugs [via github](https://github.com/rustls/rustls/security/advisories/new).
 AS STATED ABOVE: NOT VIA PUBLIC GITHUB ISSUE, DISCUSSION or PR.
 
-<!-- TODO(portable-rustls) UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->
+<!-- TODO(portable-rustls/...) UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->
 We'll then:
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK: -->
+<!-- TODO(portable-rustls/...) UPDATE INFO FOR THIS FORK: -->
 - Prepare a fix and regression tests.
 - Backport the fix and make a patch release for most recent release.
 - Submit an advisory to [rustsec/advisory-db](https://github.com/RustSec/advisory-db).

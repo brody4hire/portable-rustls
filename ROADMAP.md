@@ -1,9 +1,9 @@
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK: -->
+<!-- TODO(portable-rustls/...) UPDATE INFO FOR THIS FORK: -->
 # Rustls development roadmap
 
 ## Future priorities
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK: -->
+<!-- TODO(portable-rustls/...) UPDATE INFO FOR THIS FORK: -->
 Specific features, in rough order of priority:
 
 * **Address asynchronous handshake interruption**.
@@ -28,7 +28,7 @@ General priorities:
 * **Rustls API Refinements**.
   Continue to improve the Rustls API. Aim for ease of use, clarity.
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK:
+<!-- TODO(portable-rustls/...) UPDATE INFO FOR THIS FORK:
 ## Past priorities
 
 Delivered in 0.23.11:
