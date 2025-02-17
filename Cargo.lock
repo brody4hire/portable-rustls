@@ -475,8 +475,8 @@ name = "bogo"
 version = "0.1.0"
 dependencies = [
  "base64",
+ "embedded-rustls",
  "env_logger",
- "portable-rustls",
  "rustls-post-quantum",
 ]
 
@@ -942,6 +942,38 @@ dependencies = [
  "sec1",
  "subtle",
  "zeroize",
+]
+
+[[package]]
+name = "embedded-rustls"
+version = "0.0.1-dev"
+dependencies = [
+ "aws-lc-rs",
+ "base64",
+ "bencher",
+ "brotli",
+ "brotli-decompressor",
+ "env_logger",
+ "hashbrown",
+ "hex",
+ "log",
+ "macro_rules_attribute",
+ "num-bigint",
+ "once_cell",
+ "portable-atomic-util",
+ "rcgen",
+ "ring",
+ "rustls-pki-types",
+ "rustls-webpki",
+ "rustversion",
+ "serde",
+ "serde_json",
+ "subtle",
+ "time",
+ "webpki-roots",
+ "x509-parser",
+ "zeroize",
+ "zlib-rs",
 ]
 
 [[package]]
@@ -2172,38 +2204,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "portable-rustls"
-version = "0.0.2-dev"
-dependencies = [
- "aws-lc-rs",
- "base64",
- "bencher",
- "brotli",
- "brotli-decompressor",
- "env_logger",
- "hashbrown",
- "hex",
- "log",
- "macro_rules_attribute",
- "num-bigint",
- "once_cell",
- "portable-atomic-util",
- "rcgen",
- "ring",
- "rustls-pki-types",
- "rustls-webpki",
- "rustversion",
- "serde",
- "serde_json",
- "subtle",
- "time",
- "webpki-roots",
- "x509-parser",
- "zeroize",
- "zlib-rs",
-]
-
-[[package]]
 name = "powerfmt"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2512,7 +2512,7 @@ name = "rustls-bench"
 version = "0.1.0"
 dependencies = [
  "clap",
- "portable-rustls",
+ "embedded-rustls",
  "rustls-post-quantum",
  "tikv-jemallocator",
 ]
@@ -2526,9 +2526,9 @@ dependencies = [
  "byteorder",
  "clap",
  "crabgrind",
+ "embedded-rustls",
  "fxhash",
  "itertools 0.14.0",
- "portable-rustls",
  "rayon",
  "tikv-jemallocator",
 ]
@@ -2537,8 +2537,8 @@ dependencies = [
 name = "rustls-connect-tests"
 version = "0.0.1"
 dependencies = [
+ "embedded-rustls",
  "hickory-resolver",
- "portable-rustls",
  "regex",
  "ring",
  "tokio",
@@ -2550,11 +2550,11 @@ version = "0.0.1"
 dependencies = [
  "async-std",
  "clap",
+ "embedded-rustls",
  "env_logger",
  "hickory-resolver",
  "log",
  "mio",
- "portable-rustls",
  "rcgen",
  "serde",
  "tokio",
@@ -2565,8 +2565,8 @@ dependencies = [
 name = "rustls-fuzzing-provider"
 version = "0.1.0"
 dependencies = [
+ "embedded-rustls",
  "env_logger",
- "portable-rustls",
  "rustls-webpki",
 ]
 
@@ -2576,10 +2576,10 @@ version = "0.0.1"
 dependencies = [
  "asn1",
  "base64",
+ "embedded-rustls",
  "num-bigint",
  "once_cell",
  "openssl",
- "portable-rustls",
 ]
 
 [[package]]
@@ -2593,8 +2593,8 @@ name = "rustls-post-quantum"
 version = "0.3.0-dev"
 dependencies = [
  "criterion",
+ "embedded-rustls",
  "env_logger",
- "portable-rustls",
  "webpki-roots",
 ]
 
@@ -2605,6 +2605,7 @@ dependencies = [
  "chacha20poly1305",
  "der",
  "ecdsa",
+ "embedded-rustls",
  "env_logger",
  "hmac",
  "hpke-rs",
@@ -2612,7 +2613,6 @@ dependencies = [
  "hpke-rs-rust-crypto",
  "p256",
  "pkcs8",
- "portable-rustls",
  "rand_core 0.6.4",
  "rcgen",
  "rsa",
@@ -2627,8 +2627,8 @@ dependencies = [
 name = "rustls-provider-test"
 version = "0.1.0"
 dependencies = [
+ "embedded-rustls",
  "hex",
- "portable-rustls",
  "rustls-provider-example",
  "serde",
  "serde_json",

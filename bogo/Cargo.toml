@@ -7,7 +7,7 @@ edition = "2021"
 base64 = { workspace = true }
 env_logger = { workspace = true }
 # WITH ADAPTED MAIN PACKAGE NAME for this fork
-rustls = { package = "portable-rustls", path = "../rustls", features = ["aws-lc-rs", "ring", "std", "tls12"] }
+rustls = { package = "embedded-rustls", path = "../rustls", features = ["aws-lc-rs", "ring", "std", "tls12"] }
 rustls-post-quantum = { path = "../rustls-post-quantum", optional = true }
 
 [features]

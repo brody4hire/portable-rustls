@@ -1,11 +1,11 @@
-//! # Rustls - a modern TLS library - portable-rustls fork
+//! # Rustls - a modern TLS library - embedded-rustls fork
 //!
 //! <!-- TODO(portable-rustls/...) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 //! IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK AS STATED FURTHER BELOW
 //!
 //! <!-- TODO(portable-rustls/...) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 //! RECOMMENDED USAGE OF THIS FORK:
-//! * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
+//! * USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "embedded-rustls", ... }`
 //! * NEED TO EXPLICITLY ENABLE ANY FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
 //! * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 //!
@@ -122,7 +122,7 @@
 //!
 //! <!-- TODO(portable-rustls/...) CLEANUP THIS NOTE & IMPROVE THE INFO HERE: -->
 //! HIGHLY RECOMMENDED TO LOOK INTO `provider-example` SUBDIRECTORY ([`provider-example`](provider-example/)) IN THIS FORK; SEE ESPECIALLY `provider-example/Cargo.toml`.
-//! AS DISCUSSED ABOVE, HIGHLY RECOMMENDED TO PUT DEPENDENCY LIKE THIS INTO `Cargo.toml`: `rustls = { package = "portable-rustls" ... }`
+//! AS DISCUSSED ABOVE, HIGHLY RECOMMENDED TO PUT DEPENDENCY LIKE THIS INTO `Cargo.toml`: `rustls = { package = "embedded-rustls" ... }`
 //!
 //! See the [Making a custom CryptoProvider] section of the documentation for more information
 //! on this topic.

@@ -1,37 +1,37 @@
 [workspace]
 members = [
   # Bogo test shim
-  # (ADAPTED to import from updated `portable-rustls` package name in this fork)
+  # (ADAPTED to import from updated `embedded-rustls` package name in this fork)
   "bogo",
   # CI benchmarks
-  # (ADAPTED to import from updated `portable-rustls` package name in this fork)
+  # (ADAPTED to import from updated `embedded-rustls` package name in this fork)
   "ci-bench",
   # Network-based tests
-  # (ADAPTED to import from updated `portable-rustls` package name in this fork)
+  # (ADAPTED to import from updated `embedded-rustls` package name in this fork)
   "connect-tests",
   # tests and example code
-  # (ADAPTED to import from updated `portable-rustls` package name in this fork)
+  # (ADAPTED to import from updated `embedded-rustls` package name in this fork)
   "examples",
   # Tests that require OpenSSL
-  # (ADAPTED to import from updated `portable-rustls` package name in this fork)
+  # (ADAPTED to import from updated `embedded-rustls` package name in this fork)
   "openssl-tests",
   # example of custom provider
-  # (ADAPTED to import from updated `portable-rustls` package name in this fork)
+  # (ADAPTED to import from updated `embedded-rustls` package name in this fork)
   "provider-example",
   # the main library and tests
   # (with updated package name, version, etc., updated tests & updated doc tests in this fork)
   "rustls",
   # benchmarking tool
-  # (ADAPTED to import from updated `portable-rustls` package name in this fork)
+  # (ADAPTED to import from updated `embedded-rustls` package name in this fork)
   "rustls-bench",
   # experimental post-quantum algorithm support
-  # (ADAPTED to import from updated `portable-rustls` package name in this fork, with documentation updates - kept unsupported to keep CI happy)
+  # (ADAPTED to import from updated `embedded-rustls` package name in this fork, with documentation updates - kept unsupported to keep CI happy)
   "rustls-post-quantum",
   # rustls cryptography provider integration tests
-  # (ADAPTED to import from updated `portable-rustls` package name in this fork)
+  # (ADAPTED to import from updated `embedded-rustls` package name in this fork)
   "rustls-provider-test",
   # rustls cryptography provider for fuzzing
-  # (ADAPTED to import from updated `portable-rustls` package name in this fork)
+  # (ADAPTED to import from updated `embedded-rustls` package name in this fork)
   "rustls-fuzzing-provider",
 ]
 

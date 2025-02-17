@@ -12,20 +12,20 @@ Rustls is a modern TLS library written in Rust.
 
 <!-- TODO(portable-rustls/...) UPDATE INFO & LINKS BELOW FOR THIS FORK -->
 
-# portable-rustls - a fork of upstream rustls
+# embedded-rustls - a fork of upstream rustls
 
 <p align="center">☆ ☆ ☆ (a modern TLS library IMPLEMENTED IN RUST) ☆ ☆ ☆</p>
 
-[![Crates.io Version](https://img.shields.io/crates/v/portable-rustls?style=flat-square)](https://crates.io/crates/portable-rustls)
-[![docs.rs](https://img.shields.io/docsrs/portable-rustls?style=flat-square&label=docs.rs)](https://docs.rs/portable-rustls/)
-![Crates.io MSRV](https://img.shields.io/crates/msrv/portable-rustls?style=flat-square)
+[![Crates.io Version](https://img.shields.io/crates/v/embedded-rustls?style=flat-square)](https://crates.io/crates/embedded-rustls)
+[![docs.rs](https://img.shields.io/docsrs/embedded-rustls?style=flat-square&label=docs.rs)](https://docs.rs/embedded-rustls/)
+![Crates.io MSRV](https://img.shields.io/crates/msrv/embedded-rustls?style=flat-square)
 
 <!-- TODO(portable-rustls/...) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK (AS STATED FURTHER BELOW)
 
 <!-- TODO(portable-rustls/...) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 RECOMMENDED USAGE OF THIS FORK (as stated further below):
-* USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
+* USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "embedded-rustls", ... }`
 * NEED TO EXPLICITLY ENABLE ANY FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
 * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 
@@ -57,11 +57,11 @@ If you'd like to help out, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Changelog
 
-The detailed list of changes in each release can be found in: https://github.com/brody4hire/portable-rustls/releases
+The detailed list of changes in each release can be found in: https://github.com/brody4hire/embedded-rustls/releases
 
 # Documentation
 
-https://docs.rs/portable-rustls/
+https://docs.rs/embedded-rustls/
 
 # Approach
 
@@ -70,7 +70,7 @@ IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTI
 
 <!-- TODO(portable-rustls/...) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 RECOMMENDED USAGE OF THIS FORK:
-* USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
+* USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "embedded-rustls", ... }`
 * NEED TO EXPLICITLY ENABLE ANY FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
 * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 
@@ -187,7 +187,7 @@ ecosystem.
 
 <!-- TODO(portable-rustls/...) CLEANUP THIS NOTE & IMPROVE THE INFO HERE: -->
 HIGHLY RECOMMENDED TO LOOK INTO `provider-example` SUBDIRECTORY ([`provider-example`](provider-example/)) IN THIS FORK; SEE ESPECIALLY `provider-example/Cargo.toml`.
-AS DISCUSSED ABOVE, HIGHLY RECOMMENDED TO PUT DEPENDENCY LIKE THIS INTO `Cargo.toml`: `rustls = { package = "portable-rustls" ... }`
+AS DISCUSSED ABOVE, HIGHLY RECOMMENDED TO PUT DEPENDENCY LIKE THIS INTO `Cargo.toml`: `rustls = { package = "embedded-rustls" ... }`
 
 See the [Making a custom CryptoProvider] section of the documentation for more information
 on this topic.
