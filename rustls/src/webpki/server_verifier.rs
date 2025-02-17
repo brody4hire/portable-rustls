@@ -310,11 +310,6 @@ mod tests {
     use pki_types::pem::PemObject;
     use pki_types::{CertificateDer, CertificateRevocationListDer};
 
-    // XXX XXX
-    // use super::{VerifierBuilderError, WebPkiServerVerifier};
-
-    use crate::internal::alias::Arc;
-
     use super::{provider, VerifierBuilderError, WebPkiServerVerifier};
     use crate::sync::Arc;
     use crate::RootCertStore;
