@@ -508,8 +508,8 @@ jobs:
       # - Allow `clippy::disallowed_types` as a workaround since `disallowed_types` configured in `.clippy.toml`
       #   is only intended for the main `rustls` crate.
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
-      # - Keep the main crate free of all warnings... FOR ALL FEATURES IN MAIN CRATE
-      - run: cargo clippy -p portable-rustls --all-features -- --deny warnings
+      # - Keep the main crate free of all warnings... FOR ALL FEATURES - EXCEPT unsafe-assume-single-core IN MAIN CRATE in this fork
+      - run: cargo clippy -p portable-rustls $(admin/all-features-except unsafe-assume-single-core rustls) -- --deny warnings
 
   clippy-nightly:
     name: Clippy - Rust nightly
@@ -532,8 +532,8 @@ jobs:
       # - Ignore `clippy::disallowed_types` as a workaround since `disallowed_types` configured in `.clippy.toml`
       #   is only intended for main `rustls` crate.
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
-      # DENY ALL WARNINGS FROM RUST NIGHTLY CLIPPY FOR ALL FEATURES IN MAIN CRATE in this fork
-      - run: cargo clippy -p portable-rustls --all-features -- --deny warnings
+      # DENY ALL WARNINGS FROM RUST NIGHTLY CLIPPY FOR ALL FEATURES - EXCEPT unsafe-assume-single-core IN MAIN CRATE in this fork
+      - run: cargo clippy -p portable-rustls $(admin/all-features-except unsafe-assume-single-core rustls) -- --deny warnings
 
   check-external-types:
     name: Validate external types appearing in public API
