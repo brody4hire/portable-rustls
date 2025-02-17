@@ -17,6 +17,12 @@ build = "build.rs"
 [features]
 default = []
 
+# XXX XXX ADDED TO HELP SIMPLIFY docs.rs config - NEED TO COVER ALL DOC FEATURES BUT CANNOT INCLUDE FEATURE: unsafe-assume-single-core
+# XXX TBD NAMING - ???
+# XXX TBD ADD THIS IN SEPARATE PR - ???
+# XXX TBD DOCUMENT THIS OR KEEP THIS UNDOCUMENTED FOR NOW - ???
+unstable-std-extra = ["std", "prefer-post-quantum", "ring", "logging", "brotli", "tls12", "zlib"]
+
 aws-lc-rs = ["aws_lc_rs"] # ALIAS - FAVORED OVER `aws_lc_rs` FEATURE NAME IN THIS FORK
 aws_lc_rs = ["dep:aws-lc-rs", "webpki/aws_lc_rs"]
 brotli = ["dep:brotli", "dep:brotli-decompressor", "std"]
@@ -121,8 +127,9 @@ name = "unbuffered"
 path = "tests/runners/unbuffered.rs"
 
 [package.metadata.docs.rs]
+# XXX XXX UPDATE COMMENT:
 # (CARGO DOC WITH ALL FEATURES IN THIS FORK)
-all-features = true
+features = ["unstable-std-extra"]
 rustdoc-args = ["--cfg", "docsrs"]
 
 [package.metadata.cargo_check_external_types]

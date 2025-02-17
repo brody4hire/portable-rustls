@@ -38,8 +38,9 @@ jobs:
             "</script>"
 
       - name: cargo doc
+        # XXX XXX TODO UPDATE COMMENT:
         # (CARGO DOC WITH ALL FEATURES IN THIS FORK)
-        run: cargo doc --locked --all-features --no-deps --package portable-rustls
+        run: cargo doc --locked --features unstable-std-extra --no-deps --package portable-rustls
         env:
           RUSTDOCFLAGS: -Dwarnings --cfg=docsrs --html-after-content tag.html
 
