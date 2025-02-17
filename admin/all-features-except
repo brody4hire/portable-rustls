@@ -55,4 +55,5 @@ if __name__ == "__main__":
     # drop default, as it may re-enable other features
     features.discard("default")
 
-    print("--no-default-features", "--features", ",".join(sorted(features)))
+    # XXX XXX ...
+    print("--features", ",".join(sorted(features)))
