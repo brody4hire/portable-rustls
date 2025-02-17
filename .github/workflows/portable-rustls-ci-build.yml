@@ -26,11 +26,8 @@ jobs:
       matrix:
         rust:
           - nightly
-          - nightly-2024-01-01
-          # RUST NIGHTLY version(s) for MSRV - 1.71:
-          - nightly-2023-06-01
-          # FAILS AT: cargo add once_cell
-          # - nightly-2023-05-01
+          # Rust nightly version(s) for MSRV - 1.81:
+          - nightly-2024-07-01
         os:
           - ubuntu-latest
           # FOR FUTURE CONSIDERATION:
@@ -80,9 +77,8 @@ jobs:
       matrix:
         rust:
           - nightly
-          - nightly-2024-05-01
-          # FAILS cargo test: use of unstable library feature in proc-macro2
-          # - nightly-2024-04-01
+          # Rust nightly version(s) for MSRV - 1.81:
+          - nightly-2024-07-01
         os:
           - ubuntu-latest
           - macos-latest
@@ -113,9 +109,8 @@ jobs:
       matrix:
         rust:
           - nightly
+          # Rust nightly version(s) for MSRV - 1.81:
           - nightly-2024-07-01
-          # FAILS to install cross (cross-rs) from GitHub
-          # - nightly-2024-06-01
         os:
           - ubuntu-latest
           # FOR FUTURE CONSIDERATION:
@@ -162,9 +157,8 @@ jobs:
       matrix:
         rust:
           - nightly
+          # Rust nightly version(s) for MSRV - 1.81:
           - nightly-2024-07-01
-          # FAILS to install cross (cross-rs) from GitHub
-          # - nightly-2024-06-01
         target:
           # 32-bit Android (Linux) targets:
           - armv7-linux-androideabi

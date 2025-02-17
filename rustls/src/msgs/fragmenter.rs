@@ -97,6 +97,7 @@ impl<'a> Iterator for Chunker<'a> {
 }
 
 impl ExactSizeIterator for Chunker<'_> {
+    #[allow(clippy::manual_div_ceil)]
     fn len(&self) -> usize {
         (self.payload.len() + self.limit - 1) / self.limit
     }

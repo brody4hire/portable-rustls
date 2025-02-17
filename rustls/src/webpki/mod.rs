@@ -1,3 +1,5 @@
+#[cfg(not(feature = "std"))]
+use alloc::format;
 use alloc::vec::Vec;
 use core::fmt;
 
@@ -5,7 +7,6 @@ use pki_types::CertificateRevocationListDer;
 use webpki::{CertRevocationList, OwnedCertRevocationList};
 
 use crate::error::{CertRevocationListError, CertificateError, Error, OtherError};
-#[cfg(feature = "std")]
 use crate::sync::Arc;
 
 mod anchors;
@@ -51,8 +52,7 @@ impl fmt::Display for VerifierBuilderError {
     }
 }
 
-#[cfg(feature = "std")]
-impl std::error::Error for VerifierBuilderError {}
+impl core::error::Error for VerifierBuilderError {}
 
 fn pki_error(error: webpki::Error) -> Error {
     use webpki::Error::*;
@@ -78,8 +78,11 @@ fn pki_error(error: webpki::Error) -> Error {
         }
 
         _ => CertificateError::Other(OtherError(
+            // XXX TBD ??? ???
             #[cfg(feature = "std")]
             Arc::new(error),
+            #[cfg(not(feature = "std"))]
+            Arc::new(Error::General(format!("{:?}", error))),
         ))
         .into(),
     }
@@ -102,8 +105,11 @@ fn crl_error(e: webpki::Error) -> CertRevocationListError {
         UnsupportedRevocationReason => CertRevocationListError::UnsupportedRevocationReason,
 
         _ => CertRevocationListError::Other(OtherError(
+            // XXX TBD ??? ???
             #[cfg(feature = "std")]
             Arc::new(e),
+            #[cfg(not(feature = "std"))]
+            Arc::new(Error::General(format!("{:?}", e))),
         )),
     }
 }
