@@ -184,7 +184,7 @@
 //!
 //! ```rust,no_run
 //! # #[cfg(feature = "aws-lc-rs")] {
-//! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+//! # use embedded_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! let root_store = rustls::RootCertStore::from_iter(
 //!     webpki_roots::TLS_SERVER_ROOTS
 //!         .iter()
@@ -200,7 +200,7 @@
 //!
 //! ```rust,no_run
 //! # #[cfg(feature = "aws_lc_rs")] {
-//! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+//! # use embedded_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # let root_store: rustls::RootCertStore = panic!();
 //! let config = rustls::ClientConfig::builder()
 //!     .with_root_certificates(root_store)
@@ -213,7 +213,7 @@
 //!
 //! ```rust
 //! # #[cfg(feature = "aws_lc_rs")] {
-//! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+//! # use embedded_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # use webpki;
 //! # use std::sync::Arc;
 //! # rustls::crypto::aws_lc_rs::default_provider().install_default();
@@ -256,7 +256,7 @@
 //!
 //! ```rust,no_run
 //! # #[cfg(feature = "aws_lc_rs")] {
-//! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+//! # use embedded_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # let mut client = rustls::ClientConnection::new(panic!(), panic!()).unwrap();
 //! # struct Socket { }
 //! # impl Socket {

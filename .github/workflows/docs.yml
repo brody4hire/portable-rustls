@@ -39,7 +39,7 @@ jobs:
 
       - name: cargo doc
         # (CARGO DOC WITH ALL FEATURES IN THIS FORK)
-        run: cargo doc --locked --all-features --no-deps --package portable-rustls
+        run: cargo doc --locked --all-features --no-deps --package embedded-rustls
         env:
           RUSTDOCFLAGS: -Dwarnings --cfg=docsrs --html-after-content tag.html
 

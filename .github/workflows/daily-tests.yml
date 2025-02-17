@@ -175,7 +175,7 @@ jobs:
         # REMOVED cargo hack check --...features OPTIONS FOR `fips` [FIPS REMOVED FROM THIS FORK]
         run: >
             cargo hack check
-            --package portable-rustls
+            --package embedded-rustls
             --feature-powerset
             --no-dev-deps
             --group-features aws_lc_rs,aws-lc-rs

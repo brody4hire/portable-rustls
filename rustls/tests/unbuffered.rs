@@ -2,7 +2,7 @@
 
 use std::num::NonZeroUsize;
 
-use portable_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
+use embedded_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
 use rustls::client::{ClientConnectionData, EarlyDataError, UnbufferedClientConnection};
 use rustls::server::{ServerConnectionData, UnbufferedServerConnection};
 use rustls::unbuffered::{

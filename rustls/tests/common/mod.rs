@@ -13,7 +13,7 @@ use pki_types::{
     SubjectPublicKeyInfoDer, UnixTime,
 };
 
-use portable_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
+use embedded_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
 use rustls::client::danger::{HandshakeSignatureValid, ServerCertVerified, ServerCertVerifier};
 use rustls::client::{
     AlwaysResolvesClientRawPublicKeys, ServerCertVerifierBuilder, WebPkiServerVerifier,

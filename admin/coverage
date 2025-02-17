@@ -8,8 +8,8 @@ cargo llvm-cov clean --workspace
 cargo build --locked --all-targets --all-features
 cargo test --locked --all-features
 # TEST WITHOUT `fips` [FIPS REMOVED FROM THIS FORK]
-cargo test -p portable-rustls --locked --no-default-features --features tls12,logging,aws_lc_rs,std
-cargo test -p portable-rustls --locked --no-default-features --features tls12,logging,ring,std
+cargo test -p embedded-rustls --locked --no-default-features --features tls12,logging,aws_lc_rs,std
+cargo test -p embedded-rustls --locked --no-default-features --features tls12,logging,ring,std
 
 # ensure both zlib and brotli are tested, irrespective of their order
 cargo test --locked $(admin/all-features-except zlib rustls)

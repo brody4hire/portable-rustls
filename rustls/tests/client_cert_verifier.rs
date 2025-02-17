@@ -12,7 +12,7 @@ use common::{
     server_name, Arc, ErrorFromPeer, KeyType, MockClientVerifier, ALL_KEY_TYPES,
 };
 
-use portable_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
+use embedded_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
 use rustls::server::danger::ClientCertVerified;
 use rustls::{
     AlertDescription, ClientConnection, Error, InvalidMessage, ServerConfig, ServerConnection,

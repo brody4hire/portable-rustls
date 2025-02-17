@@ -11,7 +11,7 @@ use std::{fmt, mem};
 
 use pki_types::{CertificateDer, IpAddr, ServerName, UnixTime};
 
-use portable_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
+use embedded_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
 use rustls::client::{verify_server_cert_signed_by_trust_anchor, ResolvesClientCert, Resumption};
 use rustls::crypto::{ActiveKeyExchange, CryptoProvider, SharedSecret, SupportedKxGroup};
 use rustls::internal::msgs::base::Payload;
