@@ -204,6 +204,6 @@ jobs:
       - run: cross test --package portable-rustls --target ${{ matrix.target }}
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
-      - run: cross test --all-features --package portable-rustls --target ${{ matrix.target }}
+      - run: cross test $(admin/all-features-except unsafe-assume-single-core rustls) --package portable-rustls --target ${{ matrix.target }}
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
