@@ -309,7 +309,7 @@ jobs:
       #   ...
 
       - name: Run micro-benchmarks
-        run: cargo bench --locked --all-features
+        run: cargo bench --locked $(admin/all-features-except unsafe-assume-single-core rustls)
         env:
           RUSTFLAGS: --cfg=bench
 
