@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   build:
-    name: build with unstable_portable_atomic_arc
+    name: build with use_rc_alias
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -64,7 +64,7 @@ jobs:
         run: cargo build --target ${{ matrix.target }}
         working-directory: rustls
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg use_rc_alias
 
       # NOTE: BUILD with hashbrown FAILS with no atomic ptr - MISSING SUPPORT in default hasher
       # - name: cargo build (debug; no-std; hashbrown) # (with no built-in provider)
@@ -73,7 +73,7 @@ jobs:
   test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: test with unstable_portable_atomic_arc
+    name: test with use_rc_alias
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -102,10 +102,10 @@ jobs:
         run: cargo test --features std
         working-directory: rustls
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg use_rc_alias
 
   cross-build:
-    name: cross build test with unstable_portable_atomic_arc
+    name: cross build test with use_rc_alias
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
@@ -149,12 +149,12 @@ jobs:
           cargo add portable-atomic -F critical-section -p portable-rustls
       - run: cross build --package portable-rustls --target ${{ matrix.target }}
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg use_rc_alias
 
   cross-test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: cross-target testing with unstable_portable_atomic_arc
+    name: cross-target testing with use_rc_alias
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
@@ -194,7 +194,7 @@ jobs:
         run: cargo add --dev --features bindgen 'aws-lc-sys@>0.20' --package portable-rustls --verbose && cargo install bindgen-cli --verbose
       - run: cross test --package portable-rustls --target ${{ matrix.target }}
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg use_rc_alias
       - run: cross test --all-features --package portable-rustls --target ${{ matrix.target }}
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg use_rc_alias
