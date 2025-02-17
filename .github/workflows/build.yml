@@ -128,13 +128,13 @@ jobs:
           toolchain: "1.71"
 
       # zlib-rs is optional and requires a later MSRV
-      - run: cargo check --locked --lib $(admin/all-features-except zlib rustls) -p portable-rustls
+      - run: cargo check --locked --lib $(admin/all-features-except unsafe-assume-single-core,zlib rustls) -p portable-rustls
 
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: "1.75"
 
-      - run: cargo check --locked --lib --all-features -p portable-rustls
+      - run: cargo check --locked --lib $(admin/all-features-except unsafe-assume-single-core rustls) -p portable-rustls
 
   features:
     name: Features
