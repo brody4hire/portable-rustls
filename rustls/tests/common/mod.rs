@@ -38,9 +38,11 @@ use webpki::anchor_from_trusted_cert;
 use super::provider;
 
 // UPDATED IN THIS FORK (THIS IMPORT ONLY SEEMS TO BE NEEDED FOR `aws_lc_rs` & `ring` features)
+#[cfg(use_rc_alias)]
+pub use std::rc::Rc as Arc;
 #[cfg(unstable_portable_atomic_arc)]
 pub use portable_atomic_util::Arc;
-#[cfg(not(unstable_portable_atomic_arc))]
+#[cfg(not(any(unstable_portable_atomic_arc, use_rc_alias)))]
 pub use std::sync::Arc;
 
 macro_rules! embed_files {
