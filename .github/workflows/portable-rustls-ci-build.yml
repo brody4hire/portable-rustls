@@ -39,7 +39,6 @@ jobs:
         target:
           # 32-BIT TARGET(S) WITH NO ATOMIC PTR:
           - riscv32imc-unknown-none-elf
-          # XXX TODO ADD THIS TARGET IN SEPARATE COMMIT:
           - thumbv6m-none-eabi
           # 64-bit target(s) with no std crate - for comparison:
           - aarch64-unknown-none
