@@ -11,6 +11,9 @@ on:
     # CI, or because they rely on external 3rd party services that can be flaky.
     - cron: '15 18 * * *'
 
+env:
+  MAIN_CRATE: portable-rustls
+
 jobs:
   connect-tests:
     name: Connect Tests
@@ -175,7 +178,7 @@ jobs:
         # REMOVED cargo hack check --...features OPTIONS FOR `fips` [FIPS REMOVED FROM THIS FORK]
         run: >
             cargo hack check
-            --package portable-rustls
+            --package ${{ env.MAIN_CRATE }}
             --feature-powerset
             --no-dev-deps
             --group-features aws_lc_rs,aws-lc-rs

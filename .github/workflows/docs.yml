@@ -12,6 +12,9 @@ on:
   schedule:
     - cron: '0 18 * * *'
 
+env:
+  MAIN_CRATE: portable-rustls
+
 jobs:
   generate:
     name: Generate pre-release documentation
@@ -39,7 +42,7 @@ jobs:
 
       - name: cargo doc
         # (CARGO DOC WITH ALL FEATURES IN THIS FORK)
-        run: cargo doc --locked --all-features --no-deps --package portable-rustls
+        run: cargo doc --locked --all-features --no-deps --package ${{ env.MAIN_CRATE }}
         env:
           RUSTDOCFLAGS: -Dwarnings --cfg=docsrs --html-after-content tag.html
 
