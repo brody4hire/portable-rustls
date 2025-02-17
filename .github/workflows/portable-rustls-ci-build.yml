@@ -165,10 +165,10 @@ jobs:
       # - https://github.com/rustls/rustls/pull/2343
       - name: Install cross (cross-rs) from GitHub
         run: cargo install cross --git https://github.com/cross-rs/cross
-      - run: cross build --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+      - run: cross build --package ${{ env.MAIN_CRATE }} -F critical-section --target ${{ matrix.target }}
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
-      - run: cross build --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+      - run: cross build --package ${{ env.MAIN_CRATE }} -F unsafe-assume-single-core --target ${{ matrix.target }}
         # XXX TBD TRY WITH SOME OTHER OLDER ARM TARGETS - ??? ???
         if: startsWith(matrix.target, 'thumbv6')
         env:
