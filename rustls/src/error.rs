@@ -680,7 +680,8 @@ mod tests {
     use std::{println, vec};
 
     use super::{CertRevocationListError, Error, InconsistentKeys, InvalidMessage, OtherError};
-    #[cfg(feature = "std")]
+    // XXX XXX
+    // #[cfg(feature = "std")]
     use crate::sync::Arc;
 
     #[test]
