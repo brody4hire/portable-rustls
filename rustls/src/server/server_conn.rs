@@ -406,7 +406,6 @@ impl ServerConfig {
     /// and safe protocol version defaults.
     ///
     /// For more information, see the [`ConfigBuilder`] documentation.
-    #[cfg(keep_static_default_provider)] // XXX XXX XXX
     #[cfg(feature = "std")]
     pub fn builder() -> ConfigBuilder<Self, WantsVerifier> {
         Self::builder_with_protocol_versions(versions::DEFAULT_VERSIONS)
@@ -424,7 +423,6 @@ impl ServerConfig {
     ///   the crate features and process default.
     ///
     /// For more information, see the [`ConfigBuilder`] documentation.
-    #[cfg(keep_static_default_provider)] // XXX XXX XXX
     #[cfg(feature = "std")]
     pub fn builder_with_protocol_versions(
         versions: &[&'static versions::SupportedProtocolVersion],
@@ -432,9 +430,9 @@ impl ServerConfig {
         // Safety assumptions:
         // 1. that the provider has been installed (explicitly or implicitly)
         // 2. that the process-level default provider is usable with the supplied protocol versions.
-        // XXX TBD ??? ???
-        Self::builder_with_provider(Arc::clone(
-            CryptoProvider::get_default_or_install_from_crate_features(),
+        Self::builder_with_provider(Arc::from(
+            // XXX TODO ADD NOTE THAT THIS IS A HACK NEEDED FOR XXX XXX
+            CryptoProvider::get_default_or_install_from_crate_features().clone(),
         ))
         .with_protocol_versions(versions)
         .unwrap()

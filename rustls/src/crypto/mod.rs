@@ -217,6 +217,16 @@ pub struct CryptoProvider {
     pub key_provider: &'static dyn KeyProvider,
 }
 
+// XXX XXX
+mod aa {
+    // ---
+    // XXX TBD XXX XXX
+    #[cfg(not(use_rc_alias))]
+    pub(crate) type Arc<T> = crate::sync::Arc<T>;
+    #[cfg(use_rc_alias)]
+    pub(crate) type Arc<T> = alloc::boxed::Box<T>;
+}
+
 impl CryptoProvider {
     /// Sets this `CryptoProvider` as the default for this process.
     ///
@@ -225,16 +235,14 @@ impl CryptoProvider {
     /// Call this early in your process to configure which provider is used for
     /// the provider.  The configuration should happen before any use of
     /// [`ClientConfig::builder()`] or [`ServerConfig::builder()`].
-    #[cfg(keep_static_default_provider)] // XXX XXX XXX
-    pub fn install_default(self) -> Result<(), Arc<Self>> {
+    pub fn install_default(self) -> Result<(), aa::Arc<Self>> {
         static_default::install_default(self)
     }
 
     /// Returns the default `CryptoProvider` for this process.
     ///
     /// This will be `None` if no default has been set yet.
-    #[cfg(keep_static_default_provider)] // XXX XXX XXX
-    pub fn get_default() -> Option<&'static Arc<Self>> {
+    pub fn get_default() -> Option<&'static aa::Arc<Self>> {
         static_default::get_default()
     }
 
@@ -243,8 +251,7 @@ impl CryptoProvider {
     /// - gets the pre-installed default, or
     /// - installs one `from_crate_features()`, or else
     /// - panics about the need to call [`CryptoProvider::install_default()`]
-    #[cfg(keep_static_default_provider)] // XXX XXX XXX
-    pub(crate) fn get_default_or_install_from_crate_features() -> &'static Arc<Self> {
+    pub(crate) fn get_default_or_install_from_crate_features() -> &'static aa::Arc<Self> {
         if let Some(provider) = Self::get_default() {
             return provider;
         }
@@ -663,7 +670,6 @@ impl From<Vec<u8>> for SharedSecret {
 // ...
 // pub fn default_fips_provider() ...
 
-#[cfg(keep_static_default_provider)] // XXX XXX XXX
 mod static_default {
     #[cfg(not(feature = "std"))]
     use alloc::boxed::Box;
@@ -674,7 +680,12 @@ mod static_default {
     use once_cell::race::OnceBox;
 
     use super::CryptoProvider;
+
+    // XXX TBD XXX XXX
+    #[cfg(not(use_rc_alias))]
     use crate::sync::Arc;
+    #[cfg(use_rc_alias)]
+    use alloc::boxed::Box as Arc;
 
     #[cfg(feature = "std")]
     pub(crate) fn install_default(
