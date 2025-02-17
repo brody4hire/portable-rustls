@@ -73,15 +73,15 @@ jobs:
 
       # N/A [FIPS REMOVED FROM THIS FORK]: nb. feature sets that include "fips" ...
       # nb. "--all-targets" does not include doctests
-      - name: cargo test (release; all features)
-        run: cargo test --release --locked --all-features --all-targets
+      - name: cargo test (release; all features except unsafe-assume-single-core)
+        run: cargo test --release --locked $(admin/all-features-except unsafe-assume-single-core rustls) --all-targets
         env:
           RUST_BACKTRACE: 1
 
       # nb. this is separate since `--doc` option cannot be combined with other target option(s) ref:
       # - https://doc.rust-lang.org/cargo/commands/cargo-test.html
-      - name: cargo test --doc (release; all-features)
-        run: cargo test --release --locked --all-features --doc
+      - name: cargo test --doc (release; all features except unsafe-assume-single-core)
+        run: cargo test --release --locked $(admin/all-features-except unsafe-assume-single-core rustls) --doc
         env:
           RUST_BACKTRACE: 1
 
