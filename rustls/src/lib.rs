@@ -215,7 +215,7 @@
 //! # #[cfg(feature = "aws_lc_rs")] {
 //! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # use webpki;
-//! # use rustls::internal::alias::Arc;
+//! # use rustls::internal::sync::Arc;
 //! # rustls::crypto::aws_lc_rs::default_provider().install_default();
 //! # let root_store = rustls::RootCertStore::from_iter(
 //! #  webpki_roots::TLS_SERVER_ROOTS
@@ -559,6 +559,10 @@ pub mod internal {
 
     pub mod fuzzing {
         pub use crate::msgs::deframer::fuzz_deframer;
+    }
+    // EXPORTED for tests & examples; TODO: REPLACE WITH A MORE STABLE ARC ALIAS API
+    pub mod sync {
+        pub type Arc<T> = crate::sync::Arc<T>;
     }
 }
 

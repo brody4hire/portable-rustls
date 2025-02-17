@@ -734,7 +734,7 @@ mod connection {
     /// # #[cfg(feature = "aws_lc_rs")] {
     /// # // XXX XXX
     /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
-    /// # use rustls::internal::alias::Arc;
+    /// # use rustls::internal::sync::Arc;
     /// # fn choose_server_config(
     /// #     _: rustls::server::ClientHello,
     /// # ) -> Arc<rustls::ServerConfig> {
