@@ -439,8 +439,11 @@ jobs:
         with:
           persist-credentials: false
 
+      # Direct install as needed to use flags from $(admin/all-features-except ...)
+      - run: cargo install cargo-semver-checks --locked
+
       - name: Check semver
-        uses: obi1kenobi/cargo-semver-checks-action@v2
+        run: cargo semver-checks $(admin/all-features-except unsafe-assume-single-core rustls)
 
   format:
     name: Format
