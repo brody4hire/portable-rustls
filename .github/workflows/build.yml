@@ -114,9 +114,8 @@ jobs:
       - name: cargo test (debug; rustls-provider-test; all features)
         run: cargo test --all-features -p rustls-provider-test
 
-      # XXX TBD IMPROVE LABEL - ???
-      - name: cargo package ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p ${{ env.MAIN_CRATE }}
-        run: cargo package ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p ${{ env.MAIN_CRATE }}
+      # TODO ADD NICE name for this step
+      - run: cargo package ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p ${{ env.MAIN_CRATE }}
 
   msrv:
     # NOTE: MSRV - Rust nightly is covered by multiple jobs in portable-rustls-ci-build.yml
@@ -133,12 +132,9 @@ jobs:
           toolchain: "1.71"
 
       # zlib-rs is optional and requires a later MSRV
-      # XXX <<<<<<< HEAD
       - run: cargo check --locked --lib ${{ env.ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB }} -p ${{ env.MAIN_CRATE }}
         env:
-          # XXX ... ...
-          # XXX TODO USE $MAIN_CRATE
-          ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB: $(admin/all-features-except unsafe-assume-single-core,unstable-std-extra,zlib portable-rustls)
+          ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB: $(admin/all-features-except unsafe-assume-single-core,unstable-std-extra,zlib ${{ env.MAIN_CRATE }})
 
       - uses: dtolnay/rust-toolchain@master
         with:

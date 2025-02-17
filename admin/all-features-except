@@ -55,5 +55,7 @@ if __name__ == "__main__":
     # drop default, as it may re-enable other features
     features.discard("default")
 
-    # XXX XXX ...
+    # NOTE: REMOVED `--no-default-features` as QUICK WORKAROUND for
+    # cargo-semver-checks which does not recognize this flag.
+    # (This happens to be OK in this fork which has no default features.)
     print("--features", ",".join(sorted(features)))

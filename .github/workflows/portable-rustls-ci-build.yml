@@ -68,9 +68,8 @@ jobs:
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
-      # XXX TBD ??? - MAY NOT BE OK TO ASSUME single core on any / all of the target CPUs in this CI JOB
       - name: cargo build (debug; no-std; unsafe-assume-single-core) # (with no built-in provider)
-        # XXX TBD TRY WITH riscv64... - ??? ??? ???
+        # TODO: UPDATE to match in case of any more target(s) are added with no atomic ptr
         if: startsWith(matrix.target, 'riscv') || startsWith(matrix.target, 'thumbv6')
         run: cargo build -F unsafe-assume-single-core --target ${{ matrix.target }}
         working-directory: rustls
@@ -169,7 +168,7 @@ jobs:
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
       - run: cross build --package ${{ env.MAIN_CRATE }} -F unsafe-assume-single-core --target ${{ matrix.target }}
-        # XXX TBD TRY WITH SOME OTHER OLDER ARM TARGETS - ??? ???
+        # TODO: UPDATE to match in case of any more target(s) are added with no atomic ptr
         if: startsWith(matrix.target, 'thumbv6')
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
