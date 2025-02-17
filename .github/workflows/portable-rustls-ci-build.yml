@@ -39,6 +39,8 @@ jobs:
         target:
           # 32-BIT TARGET(S) WITH NO ATOMIC PTR:
           - riscv32imc-unknown-none-elf
+          - riscv32imc-esp-espidf
+          - thumbv6m-none-eabi
           # 64-bit target(s) with no std crate - for comparison:
           - aarch64-unknown-none
           - x86_64-unknown-none
@@ -124,6 +126,8 @@ jobs:
           # 32-bit Android (Linux) target(s) - for comparison:
           - armv7-linux-androideabi
           # 32-BIT TARGET(S) WITH NO ATOMIC PTR:
+          - riscv32imc-unknown-none-elf
+          - riscv32imc-esp-espidf
           - thumbv6m-none-eabi
           # additional target(s) - for comparison:
           # NOTE: This could have some overlap with 64-bit ARM-style CPU on macOS CI host;
