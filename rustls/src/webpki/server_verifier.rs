@@ -150,6 +150,7 @@ impl WebPkiServerVerifier {
     /// Use [`Self::builder_with_provider`] if you wish to specify an explicit provider.
     ///
     /// For more information, see the [`ServerCertVerifierBuilder`] documentation.
+    #[cfg(keep_static_default_provider)] // XXX XXX XXX
     pub fn builder(roots: Arc<RootCertStore>) -> ServerCertVerifierBuilder {
         Self::builder_with_provider(
             roots,
@@ -308,6 +309,11 @@ mod tests {
 
     use pki_types::pem::PemObject;
     use pki_types::{CertificateDer, CertificateRevocationListDer};
+
+    // XXX XXX
+    // use super::{VerifierBuilderError, WebPkiServerVerifier};
+
+    use crate::internal::alias::Arc;
 
     use super::{provider, VerifierBuilderError, WebPkiServerVerifier};
     use crate::sync::Arc;

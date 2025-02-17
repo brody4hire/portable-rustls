@@ -78,6 +78,8 @@ fn pki_error(error: webpki::Error) -> Error {
         }
 
         _ => CertificateError::Other(OtherError(
+            // XXX TBD ERROR HANDLING WITH RC ALIAS - ??? ???
+            // #[cfg(not(use_rc_alias))]
             #[cfg(feature = "std")]
             Arc::new(error),
         ))
@@ -102,6 +104,8 @@ fn crl_error(e: webpki::Error) -> CertRevocationListError {
         UnsupportedRevocationReason => CertRevocationListError::UnsupportedRevocationReason,
 
         _ => CertRevocationListError::Other(OtherError(
+            // XXX TBD ERROR HANDLING WITH RC ALIAS - ??? ???
+            // #[cfg(not(use_rc_alias))]
             #[cfg(feature = "std")]
             Arc::new(e),
         )),

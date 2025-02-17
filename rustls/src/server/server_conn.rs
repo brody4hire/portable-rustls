@@ -56,7 +56,7 @@ use crate::{compress, sign, verify, versions, DistinguishedName, KeyLog, WantsVe
 /// in the type system to allow implementations freedom in
 /// how to achieve interior mutability.  `Mutex` is a common
 /// choice.
-pub trait StoresServerSessions: Debug + Send + Sync {
+pub_api_trait!(StoresServerSessions, {
     /// Store session secrets encoded in `value` against `key`,
     /// overwrites any existing value against `key`.  Returns `true`
     /// if the value was stored.
@@ -74,7 +74,7 @@ pub trait StoresServerSessions: Debug + Send + Sync {
     /// whether their session can be resumed; the implementation is not required to remember
     /// a session even if it returns `true` here.
     fn can_cache(&self) -> bool;
-}
+});
 
 /// A trait for the ability to encrypt and decrypt tickets.
 pub trait ProducesTickets: Debug + Send + Sync {
@@ -109,6 +109,7 @@ pub trait ProducesTickets: Debug + Send + Sync {
     fn decrypt(&self, cipher: &[u8]) -> Option<Vec<u8>>;
 }
 
+////// XXX TODO DOC XXX
 /// How to choose a certificate chain and signing key for use
 /// in server authentication.
 ///
@@ -118,7 +119,8 @@ pub trait ProducesTickets: Debug + Send + Sync {
 /// For applications that use async I/O and need to do I/O to choose
 /// a certificate (for instance, fetching a certificate from a data store),
 /// the [`Acceptor`] interface is more suitable.
-pub trait ResolvesServerCert: Debug + Send + Sync {
+////// XXX TODO DOC XXX
+pub_api_trait!(ResolvesServerCert, {
     /// Choose a certificate chain and matching key given simplified
     /// ClientHello information.
     ///
@@ -129,7 +131,7 @@ pub trait ResolvesServerCert: Debug + Send + Sync {
     fn only_raw_public_keys(&self) -> bool {
         false
     }
-}
+});
 
 /// A struct representing the received Client Hello
 #[derive(Debug)]
@@ -404,6 +406,7 @@ impl ServerConfig {
     /// and safe protocol version defaults.
     ///
     /// For more information, see the [`ConfigBuilder`] documentation.
+    #[cfg(keep_static_default_provider)] // XXX XXX XXX
     #[cfg(feature = "std")]
     pub fn builder() -> ConfigBuilder<Self, WantsVerifier> {
         Self::builder_with_protocol_versions(versions::DEFAULT_VERSIONS)
@@ -421,6 +424,7 @@ impl ServerConfig {
     ///   the crate features and process default.
     ///
     /// For more information, see the [`ConfigBuilder`] documentation.
+    #[cfg(keep_static_default_provider)] // XXX XXX XXX
     #[cfg(feature = "std")]
     pub fn builder_with_protocol_versions(
         versions: &[&'static versions::SupportedProtocolVersion],
@@ -428,6 +432,7 @@ impl ServerConfig {
         // Safety assumptions:
         // 1. that the provider has been installed (explicitly or implicitly)
         // 2. that the process-level default provider is usable with the supplied protocol versions.
+        // XXX TBD ??? ???
         Self::builder_with_provider(Arc::clone(
             CryptoProvider::get_default_or_install_from_crate_features(),
         ))
@@ -729,10 +734,12 @@ mod connection {
     ///
     /// ```no_run
     /// # #[cfg(feature = "aws_lc_rs")] {
+    /// # // XXX XXX
     /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+    /// # use rustls::internal::alias::Arc;
     /// # fn choose_server_config(
     /// #     _: rustls::server::ClientHello,
-    /// # ) -> std::sync::Arc<rustls::ServerConfig> {
+    /// # ) -> Arc<rustls::ServerConfig> {
     /// #     unimplemented!();
     /// # }
     /// # #[allow(unused_variables)]
