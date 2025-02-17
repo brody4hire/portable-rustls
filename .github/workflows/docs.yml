@@ -41,8 +41,10 @@ jobs:
             "</script>"
 
       - name: cargo doc
-        # XXX XXX TODO UPDATE COMMENT:
-        # (CARGO DOC WITH ALL FEATURES IN THIS FORK)
+        # Generate docs like docs.rs
+        # IMPORTANT: MUST KEEP IN SYNC with `rustls/Cargo.toml` AS FOLLOWS:
+        # - [package.metadata.docs.rs] section
+        # - FEATURE NAME in sync with CORRESPONDING FEATURE NAME in main crate [features] section
         run: cargo doc --locked --features unstable-std-extra --no-deps --package ${{ env.MAIN_CRATE }}
         env:
           RUSTDOCFLAGS: -Dwarnings --cfg=docsrs --html-after-content tag.html
