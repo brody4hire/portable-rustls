@@ -63,11 +63,11 @@ impl ClientCertVerified {
     }
 }
 
-///// XXX TODO XXX XXX DOC XXX XXX
-/// Something that can verify a server certificate chain, and verify
-/// signatures made by certificates.
 #[allow(unreachable_pub)]
-pub_api_trait!(ServerCertVerifier, {
+pub_api_trait_with_doc!("\
+Something that can verify a server certificate chain, and verify
+signatures made by certificates.
+", ServerCertVerifier, {
     /// Verify the end-entity certificate `end_entity` is valid for the
     /// hostname `dns_name` and chains to at least one trust anchor.
     ///
@@ -155,10 +155,10 @@ pub_api_trait!(ServerCertVerifier, {
     }
 });
 
-///// XXX TODO XXX XXX DOC XXX XXX
-/// Something that can verify a client certificate chain
 #[allow(unreachable_pub)]
-pub_api_trait!(ClientCertVerifier, {
+pub_api_trait_with_doc!("\
+Something that can verify a client certificate chain
+", ClientCertVerifier, {
     /// Returns `true` to enable the server to request a client certificate and
     /// `false` to skip requesting a client certificate. Defaults to `true`.
     fn offer_client_auth(&self) -> bool {
