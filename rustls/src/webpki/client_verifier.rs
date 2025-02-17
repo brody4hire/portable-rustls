@@ -277,7 +277,6 @@ impl WebPkiClientVerifier {
     /// For more information, see the [`ClientCertVerifierBuilder`] documentation.
     #[cfg(keep_static_default_provider)] // XXX XXX XXX
     pub fn builder(roots: Arc<RootCertStore>) -> ClientCertVerifierBuilder {
-        #[cfg(keep_builder_with_provider)] // XXX TODO FIX BUILD - NOT WORKING
         Self::builder_with_provider(
             roots,
             Arc::clone(CryptoProvider::get_default_or_install_from_crate_features()),
