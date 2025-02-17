@@ -23,6 +23,8 @@ jobs:
     name: build with unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     strategy:
+      # XXX REMOVE BEFORE MERGING:
+      fail-fast: false
       matrix:
         rust:
           - nightly
@@ -111,6 +113,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
+      # XXX REMOVE BEFORE MERGING:
+      fail-fast: false
       matrix:
         rust:
           - nightly
