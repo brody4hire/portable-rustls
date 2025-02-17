@@ -10,6 +10,8 @@
 rc=0
 script_args="$@"
 
+MAIN_CRATE=portable-rustls
+
 function run_clippy() {
   if ! ( set -x ; cargo clippy --locked "$@" $script_args ) ; then
     rc=$PIPESTATUS
@@ -17,12 +19,13 @@ function run_clippy() {
 }
 
 # because examples enable rustls' features, `--workspace --no-default-features` is not
-# the same as `--package portable-rustls --no-default-features` so run it separately
-run_clippy --package portable-rustls --no-default-features --all-targets
+# the same as `--package $MAIN_CRATE --no-default-features` so run it separately
+run_clippy --package $MAIN_CRATE --no-default-features --all-targets
 
 # run all workspace members (individually, because we don't want feature unification)
 for p in $(admin/all-workspace-members) ; do
   case "$p" in
+    # XXX XXX USE $MAIN_CRATE HERE (IF POSSIBLE)
     portable-rustls)
       # XXX TBD DEFINE MAIN CRATE NAME & RESULT OF admin/all-features-except BEFORE THIS LOOP - ???
       ALL_FEATURES=$(admin/all-features-except unsafe-assume-single-core portable-rustls)

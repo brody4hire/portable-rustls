@@ -15,9 +15,9 @@ on:
     - cron: '0 18 * * *'
 
 env:
-  # XXX TODO IN SEPARATE UPDATE:
-  # MAIN_CRATE_NAME: portable-rustls # XXX TODO USE THIS ENV THROUGHOUT UPDATES
+  # NOTE: `portable-rustls` fork name is REPEATED here - TODO avoid repeating if possible
   ALL_FEATURES_EXCEPT_UNSAFE: $(admin/all-features-except unsafe-assume-single-core portable-rustls)
+  MAIN_CRATE: portable-rustls
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
@@ -115,8 +115,8 @@ jobs:
         run: cargo test --all-features -p rustls-provider-test
 
       # XXX TBD IMPROVE LABEL - ???
-      - name: cargo package ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p portable-rustls
-        run: cargo package ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p portable-rustls
+      - name: cargo package ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p ${{ env.MAIN_CRATE }}
+        run: cargo package ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p ${{ env.MAIN_CRATE }}
 
   msrv:
     # NOTE: MSRV - Rust nightly is covered by multiple jobs in portable-rustls-ci-build.yml
@@ -133,16 +133,18 @@ jobs:
           toolchain: "1.71"
 
       # zlib-rs is optional and requires a later MSRV
-      - run: cargo check --locked --lib ${{ env.ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB }} -p portable-rustls
+      # XXX <<<<<<< HEAD
+      - run: cargo check --locked --lib ${{ env.ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB }} -p ${{ env.MAIN_CRATE }}
         env:
           # XXX ... ...
+          # XXX TODO USE $MAIN_CRATE
           ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB: $(admin/all-features-except unsafe-assume-single-core,unstable-std-extra,zlib portable-rustls)
 
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: "1.75"
 
-      - run: cargo check --locked --lib ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p portable-rustls
+      - run: cargo check --locked --lib ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p ${{ env.MAIN_CRATE }}
 
   features:
     name: Features
@@ -334,7 +336,7 @@ jobs:
         uses: dtolnay/rust-toolchain@nightly
 
       - name: cargo doc (rustls; all features except unsafe-assume-single-core)
-        run: cargo doc --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --no-deps --document-private-items --package portable-rustls
+        run: cargo doc --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --no-deps --document-private-items --package ${{ env.MAIN_CRATE }}
         env:
           RUSTDOCFLAGS: -Dwarnings
 
@@ -435,8 +437,8 @@ jobs:
         run: cargo install cross --git https://github.com/cross-rs/cross
       - name: Install bindgen feature & CLI for aws-lc-sys (as needed for many cross targets)
         if: ${{ matrix.target != 'i686-unknown-linux-gnu' }}
-        run: cargo add --dev --features bindgen 'aws-lc-sys@>0.20' --package portable-rustls --verbose && cargo install bindgen-cli --verbose
-      - run: cross test --package portable-rustls --target ${{ matrix.target }}
+        run: cargo add --dev --features bindgen 'aws-lc-sys@>0.20' --package ${{ env.MAIN_CRATE }} --verbose && cargo install bindgen-cli --verbose
+      - run: cross test --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
 
   semver:
     name: Check semver compatibility
@@ -521,8 +523,8 @@ jobs:
       # - Allow `clippy::disallowed_types` as a workaround since `disallowed_types` configured in `.clippy.toml`
       #   is only intended for the main `rustls` crate.
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
-      # - Keep the main crate free of all warnings... FOR ALL FEATURES - EXCEPT unsafe-assume-single-core IN MAIN CRATE in this fork
-      - run: cargo clippy -p portable-rustls ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -- --deny warnings
+      # - Keep the main crate free of all warnings... FOR ALL FEATURES - EXCEPT unsafe-assume-single-core IN MAIN CRATE (in this fork)
+      - run: cargo clippy -p ${{ env.MAIN_CRATE }} ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -- --deny warnings
 
   clippy-nightly:
     name: Clippy - Rust nightly
@@ -545,8 +547,8 @@ jobs:
       # - Ignore `clippy::disallowed_types` as a workaround since `disallowed_types` configured in `.clippy.toml`
       #   is only intended for main `rustls` crate.
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
-      # DENY ALL WARNINGS FROM RUST NIGHTLY CLIPPY FOR ALL FEATURES - EXCEPT unsafe-assume-single-core IN MAIN CRATE in this fork
-      - run: cargo clippy -p portable-rustls ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -- --deny warnings
+      # DENY ALL WARNINGS FROM RUST NIGHTLY CLIPPY FOR ALL FEATURES - EXCEPT unsafe-assume-single-core IN MAIN CRATE (in this fork)
+      - run: cargo clippy -p ${{ env.MAIN_CRATE }} ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -- --deny warnings
 
   check-external-types:
     name: Validate external types appearing in public API
