@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   build:
-    name: build with use_rc_alias
+    name: build with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -73,7 +73,7 @@ jobs:
   test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: test with use_rc_alias
+    name: test with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -105,7 +105,7 @@ jobs:
           RUSTFLAGS: --cfg use_rc_alias
 
   cross-build:
-    name: cross build test with use_rc_alias
+    name: cross build test with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
@@ -154,7 +154,7 @@ jobs:
   cross-test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: cross-target testing with use_rc_alias
+    name: cross-target testing with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
