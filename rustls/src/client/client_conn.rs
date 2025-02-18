@@ -278,6 +278,7 @@ impl ClientConfig {
     /// and safe protocol version defaults.
     ///
     /// For more information, see the [`ConfigBuilder`] documentation.
+    #[cfg(keep_static_default_crypto_provider)] // XXX TBD XXX XXX XXX
     #[cfg(feature = "std")]
     pub fn builder() -> ConfigBuilder<Self, WantsVerifier> {
         Self::builder_with_protocol_versions(versions::DEFAULT_VERSIONS)
@@ -295,6 +296,7 @@ impl ClientConfig {
     ///   the crate features and process default.
     ///
     /// For more information, see the [`ConfigBuilder`] documentation.
+    #[cfg(keep_static_default_crypto_provider)] // XXX TBD XXX XXX XXX
     #[cfg(feature = "std")]
     pub fn builder_with_protocol_versions(
         versions: &[&'static versions::SupportedProtocolVersion],
