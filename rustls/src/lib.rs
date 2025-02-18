@@ -465,6 +465,7 @@
 #![cfg_attr(bench, feature(test))]
 #![no_std]
 
+// This constraint is also enforced by `portable-atomic` crate - enforcing here as well for extra clarity.
 #[cfg(all(feature = "critical-section", feature = "unsafe-assume-single-core"))]
 compile_error!("invalid combination of `critical-section` & `unsafe-assume-single-core` features");
 
