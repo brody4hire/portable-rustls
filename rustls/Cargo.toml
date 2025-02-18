@@ -39,9 +39,8 @@ ring = ["dep:ring", "webpki/ring"]
 std = ["webpki/std", "pki-types/std", "once_cell/std"]
 tls12 = []
 zlib = ["dep:zlib-rs"]
-# XXX TBD MOVE THESE - ???
-# XXX TODO DOCUMENT THESE FEATURES
-# XXX TODO UPDATE HOW-TO DOCUMENTATION FOR TARGETS WITH NO ATOMIC PTR
+
+# FEATURES FOR TARGETS WITH NO ATOMIC PTR - SEE DOCUMENTATION FOR MORE INFO
 critical-section = ["dep:portable-atomic", "once_cell/critical-section", "portable-atomic/critical-section"]
 unsafe-assume-single-core = ["once_cell/critical-section", "portable-atomic/unsafe-assume-single-core"]
 

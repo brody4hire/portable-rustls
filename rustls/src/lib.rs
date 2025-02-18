@@ -9,18 +9,28 @@
 //! * NEED TO EXPLICITLY ENABLE ANY FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
 //! * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 //!
+//! <!-- TODO CLEAN UP: -->
+//! ### TARGETS WITH NO ATOMIC PTR
+//!
 //! THIS FORK SUPPORTS using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
-//! * USE Rust nightly toolchain
-//! * USE `--cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
-//! * USE `--cfg unstable_portable_atomic_arc` in RUSTFLAGS FOR `cargo build` (etc.)
-//! <!-- TODO: ADD CARGO FEATURE TO AUTOMATE THIS STEP: -->
-//! * WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
-//!   - `once_cell`
-//!   - `portable-atomic`
+//!
+//! USE Rust nightly toolchain
+//!
+//! USE `--cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
+//!
+//! USE `--cfg unstable_portable_atomic_arc` in RUSTFLAGS FOR `cargo build` (etc.)
+//!
+//! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, ENABLE EXACTLY ONE OF THESE FEATURES
+//! (see further below for more info):
+//! - `critical-section` (with more requirements for no-std, as referenced below)
+//! - `unsafe-assume-single-core` (may be easiest to configure, with important limitations as referenced below)
 //!
 //! <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
 //! <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->
 //! ALSO NEED TO BUILD WITH A CRYPTO PROVIDER FOR THIS CRATE TO BE USEFUL IN GENERAL.
+//!
+//! <!-- TODO CLEAN UP: -->
+//! ### ADDITIONAL NOTES
 //!
 //! ADDITIONAL NOTE: FIPS SUPPORT IS REMOVED FROM THIS FORK. THERE MAY BE SOME VESTIGES IN THE API,
 //! IMPLEMENTATION OR DOCUMENTATION BUT THIS DOES NOT IMPLY EXISTENCE OF FIPS SUPPORT IN ANY FORM.
@@ -368,6 +378,16 @@
 //! - `brotli`: uses the `brotli` crate for RFC8879 certificate compression support.
 //!
 //! - `zlib`: uses the `zlib-rs` crate for RFC8879 certificate compression support.
+//!
+//! - `critical-section` - includes both `once_cell` and `portable-atomic` with `critical-section`
+//!   feature enabled; need to add a critical section implementation in case of no-std
+//!   as documented in:
+//!   - https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries
+//!
+//! - `unsafe-assume-single-core` - includes `portable-atomic` with `unsafe-assume-single-core` feature
+//!   enabled and includes `once_cell` with `critical-section` feature enabled; this feature may not
+//!   be used together with `critical-section`; please see the following for some more important info:
+//!   - https://docs.rs/portable-atomic#optional-features
 //!
 //! [x25519mlkem768-manual]: manual::_05_defaults#about-the-post-quantum-secure-key-exchange-x25519mlkem768
 
