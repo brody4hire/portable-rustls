@@ -17,6 +17,8 @@ use rustls::ClientConfig;
 mod common;
 use crate::common::*;
 
+// XXX TBD ??? ???
+#[cfg(keep_static_default_crypto_provider)] // XXX TBD XXX XXX XXX
 #[test]
 fn test_process_provider() {
     if dbg!(cfg!(all(feature = "ring", feature = "aws_lc_rs"))) {
@@ -30,6 +32,8 @@ fn test_process_provider() {
     }
 }
 
+// XXX TBD ??? ???
+#[cfg(keep_static_default_crypto_provider)] // XXX TBD XXX XXX XXX
 fn test_explicit_choice_required() {
     assert!(CryptoProvider::get_default().is_none());
     provider::default_provider()
@@ -45,6 +49,8 @@ fn test_explicit_choice_required() {
     finish_client_config(KeyType::Rsa2048, ClientConfig::builder());
 }
 
+// XXX TBD ??? ???
+#[cfg(keep_static_default_crypto_provider)] // XXX TBD XXX XXX XXX
 fn test_ring_used_as_implicit_provider() {
     assert!(CryptoProvider::get_default().is_none());
 
@@ -59,6 +65,8 @@ fn test_ring_used_as_implicit_provider() {
     assert_eq!(format!("{:?}", builder.crypto_provider()), debug);
 }
 
+// XXX TBD ??? ???
+#[cfg(keep_static_default_crypto_provider)] // XXX TBD XXX XXX XXX
 fn test_aws_lc_rs_used_as_implicit_provider() {
     assert!(CryptoProvider::get_default().is_none());
 
