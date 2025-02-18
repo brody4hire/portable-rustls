@@ -3172,8 +3172,7 @@ fn make_disjoint_suite_configs() -> (ClientConfig, ServerConfig) {
     (client_config, server_config)
 }
 
-// XXX TBD ??? ???
-#[cfg(not(use_rc_alias))]
+#[cfg(keep_invalid_data_tests)]
 #[test]
 fn client_stream_handshake_error() {
     let (client_config, server_config) = make_disjoint_suite_configs();
@@ -3197,8 +3196,7 @@ fn client_stream_handshake_error() {
     }
 }
 
-// XXX TBD ??? ???
-#[cfg(not(use_rc_alias))]
+#[cfg(keep_invalid_data_tests)]
 #[test]
 fn client_streamowned_handshake_error() {
     let (client_config, server_config) = make_disjoint_suite_configs();
@@ -3222,8 +3220,7 @@ fn client_streamowned_handshake_error() {
     let (_, _) = client_stream.into_parts();
 }
 
-// XXX TBD ??? ???
-#[cfg(not(use_rc_alias))]
+#[cfg(keep_invalid_data_tests)]
 #[test]
 fn server_stream_handshake_error() {
     let (client_config, server_config) = make_disjoint_suite_configs();
@@ -3247,8 +3244,7 @@ fn server_stream_handshake_error() {
     }
 }
 
-// XXX TBD ??? ???
-#[cfg(not(use_rc_alias))]
+#[cfg(keep_invalid_data_tests)]
 #[test]
 fn server_streamowned_handshake_error() {
     let (client_config, server_config) = make_disjoint_suite_configs();
