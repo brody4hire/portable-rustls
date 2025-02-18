@@ -445,7 +445,9 @@ pub fn server_config_builder() -> rustls::ConfigBuilder<ServerConfig, rustls::Wa
     // ensure `ServerConfig::builder()` is covered, even though it is
     // equivalent to `builder_with_provider(provider::provider().into())`.
     if exactly_one_provider() {
-        rustls::ServerConfig::builder()
+        // XXX XXX
+        // rustls::ServerConfig::builder()
+        panic!("XXX")
     } else {
         rustls::ServerConfig::builder_with_provider(provider::default_provider().into())
             .with_safe_default_protocol_versions()
@@ -457,7 +459,9 @@ pub fn server_config_builder_with_versions(
     versions: &[&'static rustls::SupportedProtocolVersion],
 ) -> rustls::ConfigBuilder<ServerConfig, rustls::WantsVerifier> {
     if exactly_one_provider() {
-        rustls::ServerConfig::builder_with_protocol_versions(versions)
+        // XXX XXX
+        // rustls::ServerConfig::builder_with_protocol_versions(versions)
+        panic!("XXX")
     } else {
         rustls::ServerConfig::builder_with_provider(provider::default_provider().into())
             .with_protocol_versions(versions)
@@ -469,7 +473,9 @@ pub fn client_config_builder() -> rustls::ConfigBuilder<ClientConfig, rustls::Wa
     // ensure `ClientConfig::builder()` is covered, even though it is
     // equivalent to `builder_with_provider(provider::provider().into())`.
     if exactly_one_provider() {
-        rustls::ClientConfig::builder()
+        // XXX XXX
+        // rustls::ClientConfig::builder()
+        panic!("XXX")
     } else {
         rustls::ClientConfig::builder_with_provider(provider::default_provider().into())
             .with_safe_default_protocol_versions()
@@ -481,7 +487,9 @@ pub fn client_config_builder_with_versions(
     versions: &[&'static rustls::SupportedProtocolVersion],
 ) -> rustls::ConfigBuilder<ClientConfig, rustls::WantsVerifier> {
     if exactly_one_provider() {
-        rustls::ClientConfig::builder_with_protocol_versions(versions)
+        // XXX XXX
+        // rustls::ClientConfig::builder_with_protocol_versions(versions)
+        panic!("XXX")
     } else {
         rustls::ClientConfig::builder_with_provider(provider::default_provider().into())
             .with_protocol_versions(versions)
@@ -706,7 +714,9 @@ pub fn make_client_config_with_verifier(
 
 pub fn webpki_client_verifier_builder(roots: Arc<RootCertStore>) -> ClientCertVerifierBuilder {
     if exactly_one_provider() {
-        WebPkiClientVerifier::builder(roots)
+        // XXX
+        // WebPkiClientVerifier::builder(roots)
+        panic!("XXX")
     } else {
         WebPkiClientVerifier::builder_with_provider(roots, provider::default_provider().into())
     }
@@ -714,7 +724,9 @@ pub fn webpki_client_verifier_builder(roots: Arc<RootCertStore>) -> ClientCertVe
 
 pub fn webpki_server_verifier_builder(roots: Arc<RootCertStore>) -> ServerCertVerifierBuilder {
     if exactly_one_provider() {
-        WebPkiServerVerifier::builder(roots)
+        // XXX XXX
+        // WebPkiServerVerifier::builder(roots)
+        panic!("XXX")
     } else {
         WebPkiServerVerifier::builder_with_provider(roots, provider::default_provider().into())
     }
