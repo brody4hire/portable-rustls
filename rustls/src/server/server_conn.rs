@@ -429,10 +429,11 @@ impl ServerConfig {
         // Safety assumptions:
         // 1. that the provider has been installed (explicitly or implicitly)
         // 2. that the process-level default provider is usable with the supplied protocol versions.
-        Self::builder_with_provider(Arc::from(
+        Self::builder_with_provider(// XXX XXX XXX Arc::from(
             // XXX TODO ADD NOTE THAT THIS IS A HACK NEEDED FOR XXX XXX
-            CryptoProvider::get_default_or_install_from_crate_features().clone(),
-        ))
+            // CryptoProvider::get_default_or_install_from_crate_features().clone(),
+            CryptoProvider::get_default_or_install_from_crate_features(),
+        )// XXX XXX XXX )
         .with_protocol_versions(versions)
         .unwrap()
     }
@@ -447,7 +448,8 @@ impl ServerConfig {
     /// For more information, see the [`ConfigBuilder`] documentation.
     #[cfg(feature = "std")]
     pub fn builder_with_provider(
-        provider: Arc<CryptoProvider>,
+        // provider: Arc<CryptoProvider>,
+        provider: &'static alloc::boxed::Box<CryptoProvider>,
     ) -> ConfigBuilder<Self, WantsVersions> {
         ConfigBuilder {
             state: WantsVersions {},
