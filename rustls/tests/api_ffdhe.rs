@@ -361,8 +361,8 @@ fn non_ffdhe_kx_does_not_have_ffdhe_group() {
 }
 
 mod ffdhe {
-    use num_bigint::BigUint;
     use embedded_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
+    use num_bigint::BigUint;
     use rustls::crypto::{
         ActiveKeyExchange, CipherSuiteCommon, CryptoProvider, KeyExchangeAlgorithm, SharedSecret,
         SupportedKxGroup,
