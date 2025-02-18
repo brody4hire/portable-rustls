@@ -68,18 +68,30 @@ https://docs.rs/portable-rustls/
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK AS STATED FURTHER BELOW
 
-<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
-RECOMMENDED USAGE OF THIS FORK:
-* USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
-* NEED TO EXPLICITLY ENABLE ANY FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
-* IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
+## RECOMMENDED USAGE
 
-THIS FORK SUPPORTS using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
-* USE Rust nightly toolchain
-* USE `--cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
-* USE `--cfg unstable_portable_atomic_arc` in RUSTFLAGS FOR `cargo build` (etc.)
+RECOMMENDED USAGE OF THIS FORK:
+
+Use dependency like this in `Cargo.toml`:
+
+```toml
+rustls = { package = "portable-rustls", features = [...] }
+```
+
+(Unlike the original `rustls`, no features are enabled by default in this fork.)
+
+### targets with no atomic ptr
+
+This fork supports using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
+
+Must use Rust nightly toolchain.
+
+Must use the following cfg flags in RUSTFLAGS FOR `cargo build`:
+- `--cfg portable_atomic_unstable_coerce_unsized`
+- `--cfg unstable_portable_atomic_arc`
+
 <!-- TODO: ADD CARGO FEATURE TO AUTOMATE THIS STEP: -->
-* WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
+WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
 - `once_cell`
 - `portable-atomic`
 
@@ -87,17 +99,21 @@ THIS FORK SUPPORTS using `Arc` from `portable-atomic-util` to support targets wi
 <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->
 ALSO NEED TO BUILD WITH A CRYPTO PROVIDER FOR THIS CRATE TO BE USEFUL IN GENERAL.
 
-ADDITIONAL NOTE: FIPS SUPPORT IS REMOVED FROM THIS FORK. THERE MAY BE SOME VESTIGES IN THE API,
-IMPLEMENTATION OR DOCUMENTATION BUT THIS DOES NOT IMPLY EXISTENCE OF FIPS SUPPORT IN ANY FORM.
+### Additional notes
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
+FIPS SUPPORT IS REMOVED FROM THIS FORK. THERE MAY BE SOME VESTIGES IN THE API, IMPLEMENTATION OR
+DOCUMENTATION BUT THIS DOES NOT IMPLY THE EXISTENCE OF FIPS SUPPORT IN ANY FORM.
+
+<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK:
 Rustls is a TLS library that aims to provide a good level of cryptographic security,
 requires no configuration to achieve that security, and provides no unsafe features or
 obsolete cryptography by default.
+- -->
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
+<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK - MAY BE PROVIDER DEPENDENT:
 Rustls implements TLS1.2 and TLS1.3 for both clients and servers. See [the full
 list of protocol features](https://docs.rs/rustls/latest/rustls/manual/_04_features/index.html).
+- -->
 
 ### Platform support
 
