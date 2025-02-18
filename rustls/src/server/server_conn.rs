@@ -77,8 +77,7 @@ pub trait StoresServerSessions: Debug /* XXX XXX SKIP IN THIS FORK: XXX + Send +
 }
 
 /// A trait for the ability to encrypt and decrypt tickets.
-// XXX TBD KEEP Send + Sync - ??? ??? ???
-pub trait ProducesTickets: Debug + Send + Sync {
+pub trait ProducesTickets: Debug /* XXX XXX SKIP IN THIS FORK: XXX + Send + Sync */ {
     /// Returns true if this implementation will encrypt/decrypt
     /// tickets.  Should return false if this is a dummy
     /// implementation: the server will not send the SessionTicket
