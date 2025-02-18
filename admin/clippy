@@ -12,6 +12,8 @@ script_args="$@"
 
 MAIN_CRATE=portable-rustls
 
+ALL_FEATURES_EXCEPT_UNSAFE=$(admin/all-features-except unsafe-assume-single-core $MAIN_CRATE)
+
 function run_clippy() {
   if ! ( set -x ; cargo clippy --locked "$@" $script_args ) ; then
     rc=$PIPESTATUS
@@ -25,10 +27,8 @@ run_clippy --package $MAIN_CRATE --no-default-features --all-targets
 # run all workspace members (individually, because we don't want feature unification)
 for p in $(admin/all-workspace-members) ; do
   case "$p" in
-    # XXX XXX USE $MAIN_CRATE HERE (IF POSSIBLE)
-    portable-rustls)
-      # XXX TBD DEFINE MAIN CRATE NAME & RESULT OF admin/all-features-except BEFORE THIS LOOP - ???
-      ALL_FEATURES=$(admin/all-features-except unsafe-assume-single-core portable-rustls)
+    $MAIN_CRATE)
+      ALL_FEATURES=$ALL_FEATURES_EXCEPT_UNSAFE
       ;;
     *)
       ALL_FEATURES="--all-features"
@@ -39,7 +39,6 @@ for p in $(admin/all-workspace-members) ; do
 done
 
 # not part of the workspace
-# XXX TODO FIX MAIN PACKAGE NAME HERE
-run_clippy --manifest-path=fuzz/Cargo.toml $(admin/all-features-except unsafe-assume-single-core rustls) --all-targets
+run_clippy --manifest-path=fuzz/Cargo.toml $ALL_FEATURES_EXCEPT_UNSAFE --all-targets
 
 exit $rc
