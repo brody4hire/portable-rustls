@@ -1,5 +1,5 @@
 use std::io::Write;
-use std::sync::Arc;
+use std::rc::Rc as Arc;
 
 use rustls::pki_types::{CertificateDer, PrivateKeyDer, PrivatePkcs8KeyDer};
 use rustls::server::Acceptor;

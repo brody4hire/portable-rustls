@@ -15,7 +15,7 @@
 use std::error::Error as StdError;
 use std::io::{Read, Write};
 use std::net::TcpListener;
-use std::sync::Arc;
+use std::rc::Rc as Arc;
 use std::{env, io};
 
 use rustls::pki_types::pem::PemObject;
@@ -77,7 +77,9 @@ fn main() -> Result<(), Box<dyn StdError>> {
                 let _ignored = conn.write_tls(&mut stream);
                 stream.flush()?;
 
-                return Err(io::Error::new(io::ErrorKind::InvalidData, e).into());
+                // XXX XXX
+                // return Err(io::Error::new(io::ErrorKind::InvalidData, e).into());
+                unimplemented!("XXX XXX")
             };
 
             if let Some(mut early_data) = conn.early_data() {

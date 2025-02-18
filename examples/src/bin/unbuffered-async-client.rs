@@ -3,7 +3,7 @@
 //! using asynchronous I/O using either async-std or tokio.
 
 use std::error::Error;
-use std::sync::Arc;
+use std::rc::Rc as Arc;
 
 #[cfg(feature = "async-std")]
 use async_std::io::{ReadExt, WriteExt};
