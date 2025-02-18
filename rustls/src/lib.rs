@@ -465,6 +465,9 @@
 #![cfg_attr(bench, feature(test))]
 #![no_std]
 
+#[cfg(all(feature = "critical-section", feature = "unsafe-assume-single-core"))]
+compile_error!("invalid combination of `critical-section` & `unsafe-assume-single-core` features");
+
 extern crate alloc;
 // This `extern crate` plus the `#![no_std]` attribute changes the default prelude from
 // `std::prelude` to `core::prelude`. That forces one to _explicitly_ import (`use`) everything that
