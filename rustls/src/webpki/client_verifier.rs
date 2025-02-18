@@ -275,6 +275,7 @@ impl WebPkiClientVerifier {
     /// Use [`Self::builder_with_provider`] if you wish to specify an explicit provider.
     ///
     /// For more information, see the [`ClientCertVerifierBuilder`] documentation.
+    #[cfg(keep_static_default_crypto_provider)] // XXX TBD XXX XXX XXX
     pub fn builder(roots: Arc<RootCertStore>) -> ClientCertVerifierBuilder {
         ClientCertVerifierBuilder::new(
             roots,
