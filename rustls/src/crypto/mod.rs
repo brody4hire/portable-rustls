@@ -218,6 +218,7 @@ pub struct CryptoProvider {
 }
 
 impl CryptoProvider {
+    // XXX XXX TBD RETURN TYPE NAME / ALIAS FOR alloc::boxed::Box<Self> - ??? ??? ???
     /// Sets this `CryptoProvider` as the default for this process.
     ///
     /// This can be called successfully at most once in any process execution.
@@ -229,6 +230,7 @@ impl CryptoProvider {
         static_default::install_default(self)
     }
 
+    // XXX XXX TBD RETURN TYPE NAME / ALIAS FOR alloc::boxed::Box<Self> - ??? ??? ???
     /// Returns the default `CryptoProvider` for this process.
     ///
     /// This will be `None` if no default has been set yet.
@@ -236,6 +238,7 @@ impl CryptoProvider {
         static_default::get_default()
     }
 
+    // XXX XXX TBD RETURN TYPE NAME / ALIAS FOR alloc::boxed::Box<Self> - ??? ??? ???
     /// An internal function that:
     ///
     /// - gets the pre-installed default, or
@@ -661,8 +664,9 @@ impl From<Vec<u8>> for SharedSecret {
 // pub fn default_fips_provider() ...
 
 mod static_default {
-    #[cfg(not(feature = "std"))]
-    use alloc::boxed::Box;
+    // XXX XXX TBD
+    // #[cfg(not(feature = "std"))]
+    // use alloc::boxed::Box;
     #[cfg(feature = "std")]
     use std::sync::OnceLock;
 
@@ -673,6 +677,10 @@ mod static_default {
 
     // XXX TODO UPDATE DOC
     // XXX TBD XXX XXX
+    // pub(crate) use alloc::boxed::Box as Arc;
+    // pub(crate) type Arc<T> = alloc::boxed::Box<T>;
+    // pub(crate) type Box<T> = alloc::boxed::Box<T>;
+    // pub(crate) type Arc<T> = alloc::boxed::Box<T>;
     pub(crate) use alloc::boxed::Box as Arc;
 
     #[cfg(feature = "std")]
@@ -687,7 +695,7 @@ mod static_default {
         default_provider: CryptoProvider,
     ) -> Result<(), Arc<CryptoProvider>> {
         PROCESS_DEFAULT_PROVIDER
-            .set(Box::new(Arc::new(default_provider)))
+            .set(alloc::boxed::Box::new(Arc::new(default_provider))) // XXX TBD XXX XXX
             .map_err(|e| *e)
     }
 

@@ -245,8 +245,9 @@ impl<'a> ClientHello<'a> {
 /// [`ServerSessionMemoryCache`]: crate::server::handy::ServerSessionMemoryCache
 #[derive(Clone, Debug)]
 pub struct ServerConfig {
+    // XXX XXX
     /// Source of randomness and other crypto.
-    pub(super) provider: Arc<CryptoProvider>,
+    pub(super) provider: &'static alloc::boxed::Box<CryptoProvider>,
 
     /// Ignore the client's ciphersuite order. Instead,
     /// choose the top ciphersuite in the server list
@@ -471,7 +472,7 @@ impl ServerConfig {
     ///
     /// For more information, see the [`ConfigBuilder`] documentation.
     pub fn builder_with_details(
-        provider: Arc<CryptoProvider>,
+        provider: &'static alloc::boxed::Box<CryptoProvider>,
         time_provider: Arc<dyn TimeProvider>,
     ) -> ConfigBuilder<Self, WantsVersions> {
         ConfigBuilder {
@@ -503,7 +504,7 @@ impl ServerConfig {
     }
 
     /// Return the crypto provider used to construct this client configuration.
-    pub fn crypto_provider(&self) -> &Arc<CryptoProvider> {
+    pub fn crypto_provider(&self) -> &'static alloc::boxed::Box<CryptoProvider> {
         &self.provider
     }
 

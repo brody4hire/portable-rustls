@@ -228,8 +228,10 @@ pub struct ClientConfig {
     /// Provides the current system time
     pub time_provider: Arc<dyn TimeProvider>,
 
+    // XXX TBD XXX XXX
     /// Source of randomness and other crypto.
-    pub(super) provider: Arc<CryptoProvider>,
+    // pub(super) client_provider_ref: &'static alloc::boxed::Box<CryptoProvider>,
+    pub(super) provider: &'static alloc::boxed::Box<CryptoProvider>,
 
     /// Supported versions, in no particular order.  The default
     /// is all supported versions.
@@ -344,7 +346,8 @@ impl ClientConfig {
     ///
     /// For more information, see the [`ConfigBuilder`] documentation.
     pub fn builder_with_details(
-        provider: Arc<CryptoProvider>,
+        // XXX TBD XXX XXX
+        provider: &'static alloc::boxed::Box<CryptoProvider>,
         time_provider: Arc<dyn TimeProvider>,
     ) -> ConfigBuilder<Self, WantsVersions> {
         ConfigBuilder {
@@ -379,7 +382,7 @@ impl ClientConfig {
     }
 
     /// Return the crypto provider used to construct this client configuration.
-    pub fn crypto_provider(&self) -> &Arc<CryptoProvider> {
+    pub fn crypto_provider(&self) -> &'static alloc::boxed::Box<CryptoProvider> {
         &self.provider
     }
 
