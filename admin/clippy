@@ -39,6 +39,6 @@ for p in $(admin/all-workspace-members) ; do
 done
 
 # not part of the workspace
-run_clippy --manifest-path=fuzz/Cargo.toml $ALL_FEATURES_EXCEPT_UNSAFE --all-targets
+run_clippy --manifest-path=fuzz/Cargo.toml --all-features --all-targets
 
 exit $rc
