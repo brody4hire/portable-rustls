@@ -30,6 +30,7 @@ use crate::{compress, sign, verify, versions, KeyLog, WantsVersions};
 #[cfg(doc)]
 use crate::{crypto, DistinguishedName};
 
+//// XXX TODO FIX API DOC HERE
 /// A trait for the ability to store client session data, so that sessions
 /// can be resumed in future connections.
 ///
@@ -40,7 +41,7 @@ use crate::{crypto, DistinguishedName};
 /// `set_`, `insert_`, `remove_` and `take_` operations are mutating; this isn't
 /// expressed in the type system to allow implementations freedom in
 /// how to achieve interior mutability.  `Mutex` is a common choice.
-pub trait ClientSessionStore: fmt::Debug + Send + Sync {
+pub_api_trait!(ClientSessionStore, {
     /// Remember what `NamedGroup` the given server chose.
     fn set_kx_hint(&self, server_name: ServerName<'static>, group: NamedGroup);
 
@@ -90,11 +91,12 @@ pub trait ClientSessionStore: fmt::Debug + Send + Sync {
         &self,
         server_name: &ServerName<'static>,
     ) -> Option<persist::Tls13ClientSessionValue>;
-}
+});
 
+//// XXX TODO FIX API DOC HERE
 /// A trait for the ability to choose a certificate chain and
 /// private key for the purposes of client authentication.
-pub trait ResolvesClientCert: fmt::Debug + Send + Sync {
+pub_api_trait!(ResolvesClientCert, {
     /// Resolve a client certificate chain/private key to use as the client's
     /// identity.
     ///
@@ -129,7 +131,7 @@ pub trait ResolvesClientCert: fmt::Debug + Send + Sync {
 
     /// Return true if any certificates at all are available.
     fn has_certs(&self) -> bool;
-}
+});
 
 /// Common configuration for (typically) all connections made by a program.
 ///
@@ -302,8 +304,9 @@ impl ClientConfig {
         // Safety assumptions:
         // 1. that the provider has been installed (explicitly or implicitly)
         // 2. that the process-level default provider is usable with the supplied protocol versions.
-        Self::builder_with_provider(Arc::clone(
-            CryptoProvider::get_default_or_install_from_crate_features(),
+        Self::builder_with_provider(Arc::from(
+            // XXX TODO ADD NOTE THAT THIS IS A HACK NEEDED FOR XXX XXX
+            CryptoProvider::get_default_or_install_from_crate_features().clone(),
         ))
         .with_protocol_versions(versions)
         .unwrap()

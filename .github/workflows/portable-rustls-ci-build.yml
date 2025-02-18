@@ -25,7 +25,7 @@ concurrency:
 
 jobs:
   build:
-    name: build with unstable_portable_atomic_arc
+    name: build with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     strategy:
       # XXX REMOVE BEFORE MERGING:
@@ -74,7 +74,7 @@ jobs:
         run: cargo build -F unsafe-assume-single-core --target ${{ matrix.target }}
         working-directory: rustls
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg use_rc_alias
 
       # NOTE: BUILD with hashbrown FAILS with no atomic ptr - MISSING SUPPORT in default hasher
       # - name: cargo build (debug; no-std; hashbrown) # (with no built-in provider)
@@ -83,7 +83,7 @@ jobs:
   test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: test with unstable_portable_atomic_arc
+    name: test with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -112,7 +112,7 @@ jobs:
         run: cargo test --features std
         working-directory: rustls
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg use_rc_alias
 
       - name: cargo test (debug; all features except unsafe-assume-single-core)
         # USING `--all-targets` to avoid doc tests
@@ -123,7 +123,7 @@ jobs:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
   cross-build:
-    name: cross build test with unstable_portable_atomic_arc
+    name: cross build test with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
@@ -171,12 +171,12 @@ jobs:
         # TODO: UPDATE to match in case of any more target(s) are added with no atomic ptr
         if: startsWith(matrix.target, 'thumbv6')
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg use_rc_alias
 
   cross-test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: cross-target testing with unstable_portable_atomic_arc
+    name: cross-target testing with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
@@ -220,7 +220,7 @@ jobs:
         run: cargo add --dev --features bindgen 'aws-lc-sys@>0.20' --package ${{ env.MAIN_CRATE }} --verbose && cargo install bindgen-cli --verbose
       - run: cross test --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg use_rc_alias
       - run: cross test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg use_rc_alias
