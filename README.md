@@ -92,10 +92,10 @@ Must use the following cfg flags in RUSTFLAGS FOR `cargo build`:
 - `--cfg portable_atomic_unstable_coerce_unsized`
 - `--cfg unstable_portable_atomic_arc`
 
-<!-- TODO: ADD CARGO FEATURE TO AUTOMATE THIS STEP: -->
-WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
-- `once_cell`
-- `portable-atomic`
+WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, ENABLE EXACTLY ONE OF THESE FEATURES
+(see further below for more info):
+- `critical-section` (with more requirements for no-std, as referenced below)
+- `unsafe-assume-single-core` (may be easiest to configure, with important limitations as referenced below)
 
 <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
 <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->

@@ -15,6 +15,8 @@ on:
     - cron: '0 18 * * *'
 
 env:
+  # NOTE: `portable-rustls` fork name is REPEATED here - TODO avoid repeating if possible
+  ALL_FEATURES_EXCEPT_UNSAFE: $(admin/all-features-except unsafe-assume-single-core portable-rustls)
   MAIN_CRATE: portable-rustls
 
 concurrency:
@@ -26,6 +28,8 @@ jobs:
     name: build with unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     strategy:
+      # XXX REMOVE BEFORE MERGING:
+      fail-fast: false
       matrix:
         rust:
           - nightly
@@ -58,14 +62,16 @@ jobs:
           toolchain: ${{ matrix.rust }}
           target: ${{ matrix.target }}
 
-      # TODO: CARGO FEATURE FOR THIS STEP
-      - name: additional dependencies as needed for target(s) with no atomic ptr
-        run: |
-          cargo add once_cell -F critical-section -p ${{ env.MAIN_CRATE }}
-          cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
+      - name: cargo build (debug; no-std; critical-section) # (with no built-in provider)
+        run: cargo build -F critical-section --target ${{ matrix.target }}
+        working-directory: rustls
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
-      - name: cargo build (debug; no-std) # (with no built-in provider)
-        run: cargo build --target ${{ matrix.target }}
+      - name: cargo build (debug; no-std; unsafe-assume-single-core) # (with no built-in provider)
+        # TODO: UPDATE to match in case of any more target(s) are added with no atomic ptr
+        if: startsWith(matrix.target, 'riscv') || startsWith(matrix.target, 'thumbv6')
+        run: cargo build -F unsafe-assume-single-core --target ${{ matrix.target }}
         working-directory: rustls
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
@@ -108,16 +114,21 @@ jobs:
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
-      # TODO test with all features
-      # - name: cargo test (debug; all features)
-      #   run: ...
-      #   ...
+      - name: cargo test (debug; all features except unsafe-assume-single-core)
+        # USING `--all-targets` to avoid doc tests
+        # TODO: FIX doc tests to work with --cfg unstable_portable_atomic_arc & enable doc tests here
+        run: cargo test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --all-targets
+        working-directory: rustls
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
   cross-build:
     name: cross build test with unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
+      # XXX REMOVE BEFORE MERGING:
+      fail-fast: false
       matrix:
         rust:
           - nightly
@@ -153,12 +164,12 @@ jobs:
       # - https://github.com/rustls/rustls/pull/2343
       - name: Install cross (cross-rs) from GitHub
         run: cargo install cross --git https://github.com/cross-rs/cross
-      # TODO: CARGO FEATURE FOR THIS STEP
-      - name: additional dependencies as needed for target(s) with no atomic ptr
-        run: |
-          cargo add once_cell -F critical-section -p ${{ env.MAIN_CRATE }}
-          cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
-      - run: cross build --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+      - run: cross build --package ${{ env.MAIN_CRATE }} -F critical-section --target ${{ matrix.target }}
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+      - run: cross build --package ${{ env.MAIN_CRATE }} -F unsafe-assume-single-core --target ${{ matrix.target }}
+        # TODO: UPDATE to match in case of any more target(s) are added with no atomic ptr
+        if: startsWith(matrix.target, 'thumbv6')
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
@@ -210,6 +221,6 @@ jobs:
       - run: cross test --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
-      - run: cross test --all-features --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+      - run: cross test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc

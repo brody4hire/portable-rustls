@@ -27,10 +27,10 @@
 //! - `--cfg portable_atomic_unstable_coerce_unsized`
 //! - `--cfg unstable_portable_atomic_arc`
 //!
-//! <!-- TODO: ADD CARGO FEATURE TO AUTOMATE THIS STEP: -->
-//! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
-//! - `once_cell`
-//! - `portable-atomic`
+//! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, ENABLE EXACTLY ONE OF THESE FEATURES
+//! (see further below for more info):
+//! - `critical-section` (with more requirements for no-std, as referenced below)
+//! - `unsafe-assume-single-core` (may be easiest to configure, with important limitations as referenced below)
 //!
 //! <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
 //! <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->
@@ -393,6 +393,16 @@
 //! - `brotli`: uses the `brotli` crate for RFC8879 certificate compression support.
 //!
 //! - `zlib`: uses the `zlib-rs` crate for RFC8879 certificate compression support.
+//!
+//! - `critical-section` - includes both `once_cell` and `portable-atomic` with `critical-section`
+//!   feature enabled; need to add a critical section implementation in case of no-std
+//!   as documented in:
+//!   - <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
+//!
+//! - `unsafe-assume-single-core` - includes `portable-atomic` with `unsafe-assume-single-core` feature
+//!   enabled and includes `once_cell` with `critical-section` feature enabled; this feature may not
+//!   be used together with `critical-section`; please see the following for some more important info:
+//!   - <https://docs.rs/portable-atomic#optional-features>
 //!
 //! ## Crate cfg options
 //!
