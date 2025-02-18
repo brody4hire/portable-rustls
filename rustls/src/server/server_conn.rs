@@ -56,7 +56,7 @@ use crate::{compress, sign, verify, versions, DistinguishedName, KeyLog, WantsVe
 /// in the type system to allow implementations freedom in
 /// how to achieve interior mutability.  `Mutex` is a common
 /// choice.
-pub_api_trait!(StoresServerSessions, {
+pub trait StoresServerSessions: Debug /* XXX XXX SKIP IN THIS FORK: XXX + Send + Sync */ {
     /// Store session secrets encoded in `value` against `key`,
     /// overwrites any existing value against `key`.  Returns `true`
     /// if the value was stored.
@@ -74,9 +74,10 @@ pub_api_trait!(StoresServerSessions, {
     /// whether their session can be resumed; the implementation is not required to remember
     /// a session even if it returns `true` here.
     fn can_cache(&self) -> bool;
-});
+}
 
 /// A trait for the ability to encrypt and decrypt tickets.
+// XXX TBD KEEP Send + Sync - ??? ??? ???
 pub trait ProducesTickets: Debug + Send + Sync {
     /// Returns true if this implementation will encrypt/decrypt
     /// tickets.  Should return false if this is a dummy
@@ -109,7 +110,6 @@ pub trait ProducesTickets: Debug + Send + Sync {
     fn decrypt(&self, cipher: &[u8]) -> Option<Vec<u8>>;
 }
 
-////// XXX TODO DOC XXX
 /// How to choose a certificate chain and signing key for use
 /// in server authentication.
 ///
@@ -119,8 +119,7 @@ pub trait ProducesTickets: Debug + Send + Sync {
 /// For applications that use async I/O and need to do I/O to choose
 /// a certificate (for instance, fetching a certificate from a data store),
 /// the [`Acceptor`] interface is more suitable.
-////// XXX TODO DOC XXX
-pub_api_trait!(ResolvesServerCert, {
+pub trait ResolvesServerCert: Debug /* XXX XXX SKIP IN THIS FORK: XXX + Send + Sync */ {
     /// Choose a certificate chain and matching key given simplified
     /// ClientHello information.
     ///
@@ -131,7 +130,7 @@ pub_api_trait!(ResolvesServerCert, {
     fn only_raw_public_keys(&self) -> bool {
         false
     }
-});
+}
 
 /// A struct representing the received Client Hello
 #[derive(Debug)]
