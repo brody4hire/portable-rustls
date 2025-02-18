@@ -63,11 +63,10 @@ impl ClientCertVerified {
     }
 }
 
+/// Something that can verify a server certificate chain, and verify
+/// signatures made by certificates.
 #[allow(unreachable_pub)]
-pub_api_trait_with_doc!("\
-Something that can verify a server certificate chain, and verify
-signatures made by certificates.
-", ServerCertVerifier, {
+pub trait ServerCertVerifier: Debug /* XXX XXX SKIP IN THIS FORK: XXX + Send + Sync */ {
     /// Verify the end-entity certificate `end_entity` is valid for the
     /// hostname `dns_name` and chains to at least one trust anchor.
     ///
@@ -153,12 +152,11 @@ signatures made by certificates.
     fn root_hint_subjects(&self) -> Option<&[DistinguishedName]> {
         None
     }
-});
+}
 
+/// Something that can verify a client certificate chain
 #[allow(unreachable_pub)]
-pub_api_trait_with_doc!("\
-Something that can verify a client certificate chain
-", ClientCertVerifier, {
+pub trait ClientCertVerifier: Debug /* XXX XXX SKIP IN THIS FORK: XXX + Send + Sync */ {
     /// Returns `true` to enable the server to request a client certificate and
     /// `false` to skip requesting a client certificate. Defaults to `true`.
     fn offer_client_auth(&self) -> bool {
@@ -273,7 +271,7 @@ Something that can verify a client certificate chain
     fn requires_raw_public_keys(&self) -> bool {
         false
     }
-});
+}
 
 /// Turns off client authentication.
 ///
