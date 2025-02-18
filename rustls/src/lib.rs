@@ -510,14 +510,9 @@ mod test_macros;
 // XXX TBD ALIAS MOD NAMING - ???
 mod sync {
     // XXX TBD DISALLOWED TYPES - ???
-    #[cfg(use_rc_alias)]
+    // XXX TODO UPDATE DOC
     pub use alloc::rc::Rc as Arc;
-    #[cfg(unstable_portable_atomic_arc)]
-    #[allow(clippy::disallowed_types)]
-    pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;
-    #[cfg(not(any(unstable_portable_atomic_arc, use_rc_alias)))]
-    #[allow(clippy::disallowed_types)]
-    pub(crate) type Arc<T> = alloc::sync::Arc<T>;
+    // XXX TODO COMPLETELY REMOVE USE OF: use_rc_alias
 }
 
 // XXX TBD NAMING - XXX TBD INLINE ???

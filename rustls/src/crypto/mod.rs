@@ -671,10 +671,8 @@ mod static_default {
 
     use super::CryptoProvider;
 
+    // XXX TODO UPDATE DOC
     // XXX TBD XXX XXX
-    #[cfg(not(use_rc_alias))]
-    pub(crate) use crate::sync::Arc;
-    #[cfg(use_rc_alias)]
     pub(crate) use alloc::boxed::Box as Arc;
 
     #[cfg(feature = "std")]
