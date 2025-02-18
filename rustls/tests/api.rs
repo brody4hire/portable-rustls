@@ -2280,8 +2280,7 @@ fn client_flush_does_nothing() {
     assert!(matches!(client.writer().flush(), Ok(())));
 }
 
-// XXX TBD ??? ???
-#[cfg(not(use_rc_alias))]
+#[cfg(keep_send_and_sync_tests)]
 #[allow(clippy::no_effect)]
 #[test]
 fn server_is_send_and_sync() {
@@ -2290,8 +2289,7 @@ fn server_is_send_and_sync() {
     &server as &dyn Sync;
 }
 
-// XXX TBD ??? ???
-#[cfg(not(use_rc_alias))]
+#[cfg(keep_send_and_sync_tests)]
 #[allow(clippy::no_effect)]
 #[test]
 fn client_is_send_and_sync() {
