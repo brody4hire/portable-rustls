@@ -382,12 +382,12 @@
 //! - `critical-section` - includes both `once_cell` and `portable-atomic` with `critical-section`
 //!   feature enabled; need to add a critical section implementation in case of no-std
 //!   as documented in:
-//!   - https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries
+//!   - <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
 //!
 //! - `unsafe-assume-single-core` - includes `portable-atomic` with `unsafe-assume-single-core` feature
 //!   enabled and includes `once_cell` with `critical-section` feature enabled; this feature may not
 //!   be used together with `critical-section`; please see the following for some more important info:
-//!   - https://docs.rs/portable-atomic#optional-features
+//!   - <https://docs.rs/portable-atomic#optional-features>
 //!
 //! [x25519mlkem768-manual]: manual::_05_defaults#about-the-post-quantum-secure-key-exchange-x25519mlkem768
 
