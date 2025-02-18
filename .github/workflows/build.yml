@@ -15,9 +15,9 @@ on:
     - cron: '0 18 * * *'
 
 env:
-  # NOTE: `portable-rustls` fork name is REPEATED here - TODO avoid repeating if possible
-  ALL_FEATURES_EXCEPT_UNSAFE: $(admin/all-features-except unsafe-assume-single-core portable-rustls)
-  MAIN_CRATE: portable-rustls
+  # NOTE: `embedded-rustls` fork name is REPEATED here - TODO avoid repeating if possible
+  ALL_FEATURES_EXCEPT_UNSAFE: $(admin/all-features-except unsafe-assume-single-core embedded-rustls)
+  MAIN_CRATE: embedded-rustls
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}

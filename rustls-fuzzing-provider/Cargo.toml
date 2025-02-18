@@ -5,7 +5,7 @@ edition = "2021"
 publish = false
 
 [dependencies]
-rustls = { package = "portable-rustls", path = "../rustls", default-features = false, features = [
+rustls = { package = "embedded-rustls", path = "../rustls", default-features = false, features = [
   "logging",
   "std",
   "tls12",

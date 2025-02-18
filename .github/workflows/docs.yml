@@ -13,7 +13,7 @@ on:
     - cron: '0 18 * * *'
 
 env:
-  MAIN_CRATE: portable-rustls
+  MAIN_CRATE: embedded-rustls
 
 jobs:
   generate:

@@ -15,7 +15,7 @@ log = { workspace = true }
 mio = { workspace = true }
 rcgen = { workspace = true }
 # WITH ADAPTED MAIN PACKAGE NAME for this fork
-rustls = { package = "portable-rustls", path = "../rustls", features = ["aws-lc-rs", "std", "tls12"] }
+rustls = { package = "embedded-rustls", path = "../rustls", features = ["aws-lc-rs", "std", "tls12"] }
 serde = { workspace = true }
 tokio = { workspace = true }
 webpki-roots = { workspace = true }

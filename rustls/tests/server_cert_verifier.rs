@@ -15,7 +15,7 @@ use common::{
 
 use pki_types::{CertificateDer, ServerName};
 
-use portable_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
+use embedded_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
 use rustls::client::danger::{HandshakeSignatureValid, ServerCertVerified, ServerCertVerifier};
 use rustls::client::WebPkiServerVerifier;
 use rustls::internal::msgs::handshake::{ClientExtension, HandshakePayload};

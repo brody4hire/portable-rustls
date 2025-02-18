@@ -8,7 +8,7 @@ publish = false
 
 [dependencies]
 # WITH ADAPTED MAIN PACKAGE NAME for this fork
-rustls = { package = "portable-rustls", path = "../rustls", features = ["logging"] }
+rustls = { package = "embedded-rustls", path = "../rustls", features = ["logging"] }
 
 [dev-dependencies]
 hickory-resolver = { workspace = true }

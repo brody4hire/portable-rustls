@@ -12,7 +12,7 @@ on:
     - cron: '15 18 * * *'
 
 env:
-  MAIN_CRATE: portable-rustls
+  MAIN_CRATE: embedded-rustls
 
 jobs:
   connect-tests:

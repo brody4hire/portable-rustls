@@ -18,7 +18,7 @@ p256 = { workspace = true }
 pkcs8 = { workspace = true }
 rand_core = { workspace = true }
 # WITH ADAPTED MAIN PACKAGE NAME for this fork
-rustls = { package = "portable-rustls", path = "../rustls", default-features = false, features = [
+rustls = { package = "embedded-rustls", path = "../rustls", default-features = false, features = [
   "logging",
   "tls12",
 ] }

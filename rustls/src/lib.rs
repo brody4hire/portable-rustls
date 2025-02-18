@@ -1,6 +1,6 @@
-//! # Rustls - a modern TLS library - portable-rustls fork
+//! # Rustls - a modern TLS library - embedded-rustls fork
 //!
-//! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+//! <!-- TODO(portable-rustls/...) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 //! IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK AS STATED FURTHER BELOW
 //!
 //! ## RECOMMENDED USAGE
@@ -10,7 +10,7 @@
 //! Use dependency like this in `Cargo.toml`:
 //!
 //! ```rust,ignore
-//! rustls = { package = "portable-rustls", features=[...], ... }
+//! rustls = { package = "embedded-rustls", features=[...], ... }
 //! ```
 //!
 //! Then import and use `rustls` as usual.
@@ -41,13 +41,13 @@
 //! FIPS SUPPORT IS REMOVED FROM THIS FORK. THERE MAY BE SOME VESTIGES IN THE API, IMPLEMENTATION OR
 //! DOCUMENTATION BUT THIS DOES NOT IMPLY THE EXISTENCE OF FIPS SUPPORT IN ANY FORM.
 //!
-//! <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK:
+//! <!-- TODO(portable-rustls/XXX) UPDATE INFO FOR THIS FORK:
 //! Rustls is a TLS library that aims to provide a good level of cryptographic security,
 //! requires no configuration to achieve that security, and provides no unsafe features or
 //! obsolete cryptography by default.
 //! - -->
 //!
-//! <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK - MAY BE PROVIDER DEPENDENT:
+//! <!-- TODO(portable-rustls/XXX) UPDATE INFO FOR THIS FORK - MAY BE PROVIDER DEPENDENT:
 //! Rustls implements TLS1.2 and TLS1.3 for both clients and servers. See [the full
 //! list of protocol features](manual::_04_features).
 //! - -->
@@ -103,7 +103,7 @@
 //!
 //! #### Third-party providers
 //!
-//! <!-- TODO(portable-rustls) CLEANUP THIS NOTICE & IMPROVE THE INFO HERE: -->
+//! <!-- TODO(portable-rustls/...) CLEANUP THIS NOTICE & IMPROVE THE INFO HERE: -->
 //! NOTICE: ANY THIRD-PARTY PROVIDER WOULD NEED TO BE ADAPTED TO WORK DIRECTLY WITH THIS FORK OF RUSTLS.
 //!
 //! The community has also started developing third-party providers for Rustls:
@@ -132,25 +132,25 @@
 //!
 //! #### Custom provider
 //!
-//! <!-- TODO(portable-rustls) UPDATE INFO BELOW AS MAY BE NEEDED FOR THIS FORK -->
+//! <!-- TODO(portable-rustls/...) UPDATE INFO BELOW AS MAY BE NEEDED FOR THIS FORK -->
 //!
 //! We also provide a simple example of writing your own provider in the [`custom-provider`]
 //! example. This example implements a minimal provider using parts of the [`RustCrypto`]
 //! ecosystem.
 //!
-//! <!-- TODO(portable-rustls) CLEANUP THIS NOTE & IMPROVE THE INFO HERE: -->
+//! <!-- TODO(portable-rustls/...) CLEANUP THIS NOTE & IMPROVE THE INFO HERE: -->
 //! HIGHLY RECOMMENDED TO LOOK INTO `provider-example` SUBDIRECTORY ([`provider-example`](provider-example/)) IN THIS FORK; SEE ESPECIALLY `provider-example/Cargo.toml`.
 //!
 //! AS DISCUSSED ABOVE, HIGHLY RECOMMENDED TO PUT DEPENDENCY LIKE THIS INTO `Cargo.toml`:
 //!
 //! ```rust,ignore
-//! rustls = { package = "portable-rustls", features=[...], ... }
+//! rustls = { package = "embedded-rustls", features=[...], ... }
 //! ``````
 //!
 //! See the [Making a custom CryptoProvider] section of the documentation for more information
 //! on this topic.
 //!
-//! <!-- TODO(portable-rustls) UPDATE WITH BETTER REFERENCES FOR THIS FORK: -->
+//! <!-- TODO(portable-rustls/...) UPDATE WITH BETTER REFERENCES FOR THIS FORK: -->
 //! [`custom-provider`]: https://github.com/rustls/rustls/tree/main/provider-example/
 //! [`RustCrypto`]: https://github.com/RustCrypto
 //! [Making a custom CryptoProvider]: https://docs.rs/rustls/latest/rustls/crypto/struct.CryptoProvider.html#making-a-custom-cryptoprovider
@@ -207,7 +207,7 @@
 //!
 //! ```rust,no_run
 //! # #[cfg(feature = "aws-lc-rs")] {
-//! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+//! # use embedded_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! let root_store = rustls::RootCertStore::from_iter(
 //!     webpki_roots::TLS_SERVER_ROOTS
 //!         .iter()
@@ -223,7 +223,7 @@
 //!
 //! ```rust,no_run
 //! # #[cfg(feature = "aws_lc_rs")] {
-//! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+//! # use embedded_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # let root_store: rustls::RootCertStore = panic!();
 //! let config = rustls::ClientConfig::builder()
 //!     .with_root_certificates(root_store)
@@ -236,7 +236,7 @@
 //!
 //! ```rust
 //! # #[cfg(feature = "aws_lc_rs")] {
-//! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+//! # use embedded_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # use webpki;
 //! # use std::sync::Arc;
 //! # rustls::crypto::aws_lc_rs::default_provider().install_default();
@@ -279,7 +279,7 @@
 //!
 //! ```rust,no_run
 //! # #[cfg(feature = "aws_lc_rs")] {
-//! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+//! # use embedded_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # let mut client = rustls::ClientConnection::new(panic!(), panic!()).unwrap();
 //! # struct Socket { }
 //! # impl Socket {

@@ -15,7 +15,7 @@ fxhash = { workspace = true }
 itertools = { workspace = true }
 rayon = { workspace = true }
 # WITH ADAPTED MAIN PACKAGE NAME for this fork
-rustls = { package = "portable-rustls", path = "../rustls", features = ["aws-lc-rs", "ring", "std", "tls12"] }
+rustls = { package = "embedded-rustls", path = "../rustls", features = ["aws-lc-rs", "ring", "std", "tls12"] }
 
 [target.'cfg(not(target_env = "msvc"))'.dependencies]
 tikv-jemallocator = { workspace = true }

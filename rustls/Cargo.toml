@@ -1,13 +1,13 @@
 [package]
-name = "portable-rustls"
-version = "0.0.2-update"
+name = "embedded-rustls"
+version = "0.0.1-xxx-dev"
 edition = "2021"
 rust-version = "1.71"
 license = "Apache-2.0 OR ISC OR MIT"
 readme = "../README.md"
-description = "portable-rustls - a fork of rustls: a modern TLS library written in Rust."
-homepage = "https://github.com/brody4hire/portable-rustls"
-repository = "https://github.com/brody4hire/portable-rustls"
+description = "embedded-rustls - a fork of rustls: a modern TLS library written in Rust."
+homepage = "https://github.com/brody4hire/embedded-rustls"
+repository = "https://github.com/brody4hire/embedded-rustls"
 categories = ["network-programming", "cryptography"]
 autobenches = false
 autotests = false

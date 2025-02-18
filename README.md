@@ -1,4 +1,4 @@
-<!-- TODO(portable-rustls) UPDATE FOR THIS FORK:
+<!-- TODO(portable-rustls/...) UPDATE FOR THIS FORK:
 <p align="center">
   <img width="460" height="300" src="https://raw.githubusercontent.com/rustls/rustls/main/admin/rustls-logo-web.png">
 </p>
@@ -10,22 +10,22 @@ Rustls is a modern TLS library written in Rust.
 </p>
 -->
 
-<!-- TODO(portable-rustls) UPDATE INFO & LINKS BELOW FOR THIS FORK -->
+<!-- TODO(portable-rustls/...) UPDATE INFO & LINKS BELOW FOR THIS FORK -->
 
-# portable-rustls - a fork of upstream rustls
+# embedded-rustls - a fork of upstream rustls
 
 <p align="center">☆ ☆ ☆ (a modern TLS library IMPLEMENTED IN RUST) ☆ ☆ ☆</p>
 
-[![Crates.io Version](https://img.shields.io/crates/v/portable-rustls?style=flat-square)](https://crates.io/crates/portable-rustls)
-[![docs.rs](https://img.shields.io/docsrs/portable-rustls?style=flat-square&label=docs.rs)](https://docs.rs/portable-rustls/)
-![Crates.io MSRV](https://img.shields.io/crates/msrv/portable-rustls?style=flat-square)
+[![Crates.io Version](https://img.shields.io/crates/v/embedded-rustls?style=flat-square)](https://crates.io/crates/embedded-rustls)
+[![docs.rs](https://img.shields.io/docsrs/embedded-rustls?style=flat-square&label=docs.rs)](https://docs.rs/embedded-rustls/)
+![Crates.io MSRV](https://img.shields.io/crates/msrv/embedded-rustls?style=flat-square)
 
-<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
+<!-- TODO(portable-rustls/...) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK (AS STATED FURTHER BELOW)
 
-<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
+<!-- TODO(portable-rustls/...) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 RECOMMENDED USAGE OF THIS FORK (as stated further below):
-* USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
+* USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "embedded-rustls", ... }`
 * NEED TO EXPLICITLY ENABLE ANY FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
 * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 
@@ -36,7 +36,7 @@ IMPLEMENTATION OR DOCUMENTATION BUT THIS DOES NOT IMPLY EXISTENCE OF FIPS SUPPOR
 
 # Status
 
-<!-- TODO(portable-rustls) UPDATE & CLEAN UP INFO FOR THIS FORK -->
+<!-- TODO(portable-rustls/...) UPDATE & CLEAN UP INFO FOR THIS FORK -->
 FROM UPSTREAM RUSTLS:
 Rustls is used in production at many organizations and projects. We aim to maintain
 reasonable API surface stability but the API may evolve as we make changes to accommodate
@@ -47,7 +47,7 @@ prevent performance regressions and to let you evaluate rustls on your target ha
 
 If you'd like to help out, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-<!-- TODO(portable-rustls) INCLUDE MORE OF THIS INFO IN BADGES FURTHER ABOVE FOR THIS FORK (if possible):)
+<!-- TODO(portable-rustls/...) INCLUDE MORE OF THIS INFO IN BADGES FURTHER ABOVE FOR THIS FORK (if possible):)
 [![Build Status](https://github.com/rustls/rustls/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/rustls/rustls/actions/workflows/build.yml?query=branch%3Amain)
 [![Coverage Status (codecov.io)](https://codecov.io/gh/rustls/rustls/branch/main/graph/badge.svg)](https://codecov.io/gh/rustls/rustls/)
 [![Documentation](https://docs.rs/rustls/badge.svg)](https://docs.rs/rustls/)
@@ -57,15 +57,15 @@ If you'd like to help out, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Changelog
 
-The detailed list of changes in each release can be found in: https://github.com/brody4hire/portable-rustls/releases
+The detailed list of changes in each release can be found in: https://github.com/brody4hire/embedded-rustls/releases
 
 # Documentation
 
-https://docs.rs/portable-rustls/
+https://docs.rs/embedded-rustls/
 
 # Approach
 
-<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+<!-- TODO(portable-rustls/...) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK AS STATED FURTHER BELOW
 
 ## RECOMMENDED USAGE
@@ -75,7 +75,7 @@ RECOMMENDED USAGE OF THIS FORK:
 Use dependency like this in `Cargo.toml`:
 
 ```rust,ignore
-rustls = { package = "portable-rustls", features=[...], ... }
+rustls = { package = "embedded-rustls", features=[...], ... }
 ```
 
 Then import and use `rustls` as usual.
@@ -106,13 +106,13 @@ ALSO NEED TO BUILD WITH A CRYPTO PROVIDER FOR THIS CRATE TO BE USEFUL IN GENERAL
 FIPS SUPPORT IS REMOVED FROM THIS FORK. THERE MAY BE SOME VESTIGES IN THE API, IMPLEMENTATION OR
 DOCUMENTATION BUT THIS DOES NOT IMPLY THE EXISTENCE OF FIPS SUPPORT IN ANY FORM.
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK:
+<!-- TODO(portable-rustls/XXX) UPDATE INFO FOR THIS FORK:
 Rustls is a TLS library that aims to provide a good level of cryptographic security,
 requires no configuration to achieve that security, and provides no unsafe features or
 obsolete cryptography by default.
 - -->
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK - MAY BE PROVIDER DEPENDENT:
+<!-- TODO(portable-rustls/XXX) UPDATE INFO FOR THIS FORK - MAY BE PROVIDER DEPENDENT:
 Rustls implements TLS1.2 and TLS1.3 for both clients and servers. See [the full
 list of protocol features](https://docs.rs/rustls/latest/rustls/manual/_04_features/index.html).
 - -->
@@ -168,7 +168,7 @@ selected.
 
 #### Third-party providers
 
-<!-- TODO(portable-rustls) CLEANUP THIS NOTICE & IMPROVE THE INFO HERE: -->
+<!-- TODO(portable-rustls/...) CLEANUP THIS NOTICE & IMPROVE THE INFO HERE: -->
 NOTICE: ANY THIRD-PARTY PROVIDER WOULD NEED TO BE ADAPTED TO WORK DIRECTLY WITH THIS FORK OF RUSTLS.
 
 The community has also started developing third-party providers for Rustls:
@@ -197,25 +197,25 @@ from [`RustCrypto`] for cryptography.
 
 #### Custom provider
 
-<!-- TODO(portable-rustls) UPDATE INFO BELOW AS MAY BE NEEDED FOR THIS FORK -->
+<!-- TODO(portable-rustls/...) UPDATE INFO BELOW AS MAY BE NEEDED FOR THIS FORK -->
 
 We also provide a simple example of writing your own provider in the [`custom-provider`]
 example. This example implements a minimal provider using parts of the [`RustCrypto`]
 ecosystem.
 
-<!-- TODO(portable-rustls) CLEANUP THIS NOTE & IMPROVE THE INFO HERE: -->
+<!-- TODO(portable-rustls/...) CLEANUP THIS NOTE & IMPROVE THE INFO HERE: -->
 HIGHLY RECOMMENDED TO LOOK INTO `provider-example` SUBDIRECTORY ([`provider-example`](provider-example/)) IN THIS FORK; SEE ESPECIALLY `provider-example/Cargo.toml`.
 
 AS DISCUSSED ABOVE, HIGHLY RECOMMENDED TO PUT DEPENDENCY LIKE THIS INTO `Cargo.toml`:
 
 ```rust,ignore
-rustls = { package = "portable-rustls", features=[...], ... }
+rustls = { package = "embedded-rustls", features=[...], ... }
 ``````
 
 See the [Making a custom CryptoProvider] section of the documentation for more information
 on this topic.
 
-<!-- TODO(portable-rustls) UPDATE WITH BETTER REFERENCES FOR THIS FORK: -->
+<!-- TODO(portable-rustls/...) UPDATE WITH BETTER REFERENCES FOR THIS FORK: -->
 [`custom-provider`]: https://github.com/rustls/rustls/tree/main/provider-example/
 [`RustCrypto`]: https://github.com/RustCrypto
 [Making a custom CryptoProvider]: https://docs.rs/rustls/latest/rustls/crypto/struct.CryptoProvider.html#making-a-custom-cryptoprovider
@@ -227,10 +227,10 @@ Our [examples] directory contains demos that show how to handle I/O using the
 If you're already using Tokio for an async runtime you may prefer to use
 [`tokio-rustls`] instead of interacting with rustls directly.
 
-<!-- TODO(portable-rustls) CLEANUP THIS NOTE & IMPROVE THE INFO HERE: -->
+<!-- TODO(portable-rustls/...) CLEANUP THIS NOTE & IMPROVE THE INFO HERE: -->
 NOTE: SOME REFERENCES MAY NEED ADAPTATION TO WORK WITH THIS FORK
 
-<!-- TODO(portable-rustls) CLEANUP THIS NOTE & IMPROVE THE INFO HERE: -->
+<!-- TODO(portable-rustls/...) CLEANUP THIS NOTE & IMPROVE THE INFO HERE: -->
 ADDITIONAL NOTE: `tokio-rustls` WOULD NEED TO BE ADAPTED TO WORK WITH THIS FORK.
 
 The [`mio`] based examples are the most complete, and discussed below. Users
@@ -291,7 +291,7 @@ Run `cargo run --bin tlsserver-mio -- --help` for more options.
 
 # License
 
-<!-- TODO(portable-rustls) UPDATE HERE & IN LICENSE FILES AS MAY BE NEEDED FOR THIS FORK -->
+<!-- TODO(portable-rustls/...) UPDATE HERE & IN LICENSE FILES AS MAY BE NEEDED FOR THIS FORK -->
 Rustls is distributed under the following three licenses:
 
 - Apache License version 2.0.
@@ -302,7 +302,7 @@ These are included as LICENSE-APACHE, LICENSE-MIT and LICENSE-ISC
 respectively.  You may use this software under the terms of any
 of these licenses, at your option.
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK:
+<!-- TODO(portable-rustls/...) UPDATE INFO FOR THIS FORK:
 # Project Membership
 
 - Joe Birr-Pixton ([@ctz], Project Founder - full-time funded by [Prossimo])
@@ -320,9 +320,9 @@ of these licenses, at your option.
 # Code of conduct
 
 This project adopts the [Rust Code of Conduct](https://www.rust-lang.org/policies/code-of-conduct).
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK:
+<!-- TODO(portable-rustls/...) UPDATE INFO FOR THIS FORK:
 Please email rustls-mod@googlegroups.com to report any instance of misconduct, or if you
 have any comments or questions on the Code of Conduct.
 -- -->
-<!-- TODO(portable-rustls) CLEANUP & UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->
+<!-- TODO(portable-rustls/...) CLEANUP & UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->
 PLEASE REPORT PRIVATELY TO A MAINTAINER OF THIS FORK IN CASE OF ANY QUESTIONS, COMMENTS, OR POSSIBLE MISCONDUCT.
