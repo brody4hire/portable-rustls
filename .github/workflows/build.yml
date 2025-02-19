@@ -448,6 +448,8 @@ jobs:
 
       # QUICK WORKAROUND NEEDED since cargo-semver-checks seems to try running with all features enabled
       # as tracked in: https://github.com/brody4hire/portable-rustls/issues/28
+      # NOTE that this DOES mutate the configuration in `rustls/Cargo.toml` (and likely in `Cargo.lock`)
+      # within this CI job, which is not expected to be anything serious.
       - run: cargo remove portable-atomic -p ${{ env.MAIN_CRATE }}
 
       - name: Check semver
