@@ -26,7 +26,16 @@ default = []
 # IMPORTANT: KEEP THIS FEATURE NAME IN SYNC with the following:
 # - [package.metadata.docs.rs] section further below
 # - docs generate job configured in: .github/workflows/docs.yml
-unstable-std-extra = ["std", "prefer-post-quantum", "ring", "logging", "brotli", "tls12", "zlib"]
+unstable-std-extra = [
+  # XXX XXX
+  "std",
+  "prefer-post-quantum",
+  "ring",
+  "logging",
+  "brotli",
+  "tls12",
+  "zlib",
+]
 
 # IMPORTANT NODE: Any feature that affects documented API must be listed in `unstable-std-extra` above.
 aws-lc-rs = ["aws_lc_rs"] # ALIAS - FAVORED OVER `aws_lc_rs` FEATURE NAME IN THIS FORK
