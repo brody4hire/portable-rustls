@@ -153,7 +153,8 @@ impl WebPkiServerVerifier {
     pub fn builder(roots: Arc<RootCertStore>) -> ServerCertVerifierBuilder {
         Self::builder_with_provider(
             roots,
-            Arc::clone(CryptoProvider::get_default_or_install_from_crate_features()),
+            // XXX TODO NOTE & DOCUMENT: THIS MAKES A FULL CLONE OF crypto::CryptoProvider
+            Arc::from(CryptoProvider::get_default_or_install_from_crate_features().clone()),
         )
     }
 
