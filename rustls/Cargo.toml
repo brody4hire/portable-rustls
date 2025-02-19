@@ -17,26 +17,34 @@ build = "build.rs"
 [features]
 default = []
 
+# XXX TODO UPDATE NOTE(S) HERE
 # NOTE: This unstable & undocumented feature is intended to help make it easier to configure
 # docs.rs to generate the documentation for all features where this is needed,
 # excluding any potentially problematic features such as:
 # - `unsafe-assume-single-core`
 # - FIPS (if added back to this fork someday in the future)
 #
+# XXX TODO UPDATE NOTE(S) HERE
 # IMPORTANT: KEEP THIS FEATURE NAME IN SYNC with the following:
 # - [package.metadata.docs.rs] section further below
 # - docs generate job configured in: .github/workflows/docs.yml
+# XXX TODO RENAME
+# XXX TBD UPDATE CI to use `--features unstable-...`  INSTEAD OF USING all-features-except - ??? ???
 unstable-std-extra = [
-  # XXX XXX
+  # XXX TODO RECONSIDER ORDERING
+  "aws-lc-rs",
+  "prefer-post-quantum", # (also covers "aws-lc-rs" until removed)
   "std",
-  "prefer-post-quantum",
   "ring",
   "logging",
   "brotli",
   "tls12",
   "zlib",
+  "read_buf",
+  "custom-provider",
 ]
 
+# XXX TODO UPDATE NOTE(S) HERE
 # IMPORTANT NODE: Any feature that affects documented API must be listed in `unstable-std-extra` above.
 aws-lc-rs = ["aws_lc_rs"] # ALIAS - FAVORED OVER `aws_lc_rs` FEATURE NAME IN THIS FORK
 aws_lc_rs = ["dep:aws-lc-rs", "webpki/aws_lc_rs"]
