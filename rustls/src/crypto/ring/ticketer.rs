@@ -305,7 +305,9 @@ mod tests {
 
     #[test]
     fn ticketswitcher_switching_test() {
-        #[expect(deprecated)]
+        // SKIP #[expect(deprecated)] - ISSUE WITH RUST NIGHTLY: nightly-2024-05-01
+        // NOTE: THIS #[expect(deprecated)] IS ALSO VERIFIED IN: rustls/src/crypto/aws_lc_rs/ticketer.rs
+        // #[expect(deprecated)]
         let t = Arc::new(crate::ticketer::TicketSwitcher::new(1, make_ticket_generator).unwrap());
         let now = UnixTime::now();
         let cipher1 = t.encrypt(b"ticket 1").unwrap();
@@ -333,7 +335,9 @@ mod tests {
 
     #[test]
     fn ticketswitcher_recover_test() {
-        #[expect(deprecated)]
+        // SKIP #[expect(deprecated)] - ISSUE WITH RUST NIGHTLY: nightly-2024-05-01
+        // NOTE: THIS #[expect(deprecated)] IS ALSO VERIFIED IN: rustls/src/crypto/aws_lc_rs/ticketer.rs
+        // #[expect(deprecated)]
         let mut t = crate::ticketer::TicketSwitcher::new(1, make_ticket_generator).unwrap();
         let now = UnixTime::now();
         let cipher1 = t.encrypt(b"ticket 1").unwrap();
