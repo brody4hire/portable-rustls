@@ -225,6 +225,7 @@ impl CryptoProvider {
     /// Call this early in your process to configure which provider is used for
     /// the provider.  The configuration should happen before any use of
     /// [`ClientConfig::builder()`] or [`ServerConfig::builder()`].
+    #[cfg(any(feature = "default-provider", feature = "std"))]
     pub fn install_default(self) -> Result<(), Arc<Self>> {
         static_default::install_default(self)
     }
@@ -232,6 +233,7 @@ impl CryptoProvider {
     /// Returns the default `CryptoProvider` for this process.
     ///
     /// This will be `None` if no default has been set yet.
+    #[cfg(any(feature = "default-provider", feature = "std"))]
     pub fn get_default() -> Option<&'static Arc<Self>> {
         static_default::get_default()
     }
@@ -241,6 +243,7 @@ impl CryptoProvider {
     /// - gets the pre-installed default, or
     /// - installs one `from_crate_features()`, or else
     /// - panics about the need to call [`CryptoProvider::install_default()`]
+    #[cfg(any(feature = "default-provider", feature = "std"))]
     pub(crate) fn get_default_or_install_from_crate_features() -> &'static Arc<Self> {
         if let Some(provider) = Self::get_default() {
             return provider;
@@ -259,6 +262,7 @@ impl CryptoProvider {
     /// providers), or specify no providers, or the feature `custom-provider` is activated.
     /// In all cases the application should explicitly specify the provider to use
     /// with [`CryptoProvider::install_default`].
+    #[cfg(any(feature = "default-provider", feature = "std"))]
     fn from_crate_features() -> Option<Self> {
         #[cfg(all(
             feature = "ring",
@@ -660,6 +664,7 @@ impl From<Vec<u8>> for SharedSecret {
 // ...
 // pub fn default_fips_provider() ...
 
+#[cfg(any(feature = "default-provider", feature = "std"))]
 mod static_default {
     #[cfg(not(feature = "std"))]
     use alloc::boxed::Box;
