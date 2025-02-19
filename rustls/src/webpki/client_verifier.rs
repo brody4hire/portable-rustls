@@ -190,8 +190,7 @@ impl ClientCertVerifierBuilder {
 /// A client certificate verifier that uses the `webpki` crate[^1] to perform client certificate
 /// validation.
 ///
-/// It must be created via the [`WebPkiClientVerifier::builder()`] or
-/// [`WebPkiClientVerifier::builder_with_provider()`] functions.
+/// It must be created via [`WebPkiClientVerifier::builder_with_provider()`].
 ///
 /// Once built, the provided `Arc<dyn ClientCertVerifier>` can be used with a Rustls [`ServerConfig`]
 /// to configure client certificate validation using [`with_client_cert_verifier`][ConfigBuilder<ClientConfig, WantsVerifier>::with_client_cert_verifier].
@@ -205,7 +204,8 @@ impl ClientCertVerifierBuilder {
 /// # use rustls::RootCertStore;
 /// # use rustls::server::WebPkiClientVerifier;
 /// # let roots = RootCertStore::empty();
-/// let client_verifier = WebPkiClientVerifier::builder(roots.into())
+/// # // XXX XXX TODO FIX FORMATTING
+/// let client_verifier = WebPkiClientVerifier::builder_with_provider(roots.into(), rustls::crypto::aws_lc_rs::default_provider().into())
 ///   .build()
 ///   .unwrap();
 /// # }
@@ -219,7 +219,8 @@ impl ClientCertVerifierBuilder {
 /// # use rustls::RootCertStore;
 /// # use rustls::server::WebPkiClientVerifier;
 /// # let roots = RootCertStore::empty();
-/// let client_verifier = WebPkiClientVerifier::builder(roots.into())
+/// # // XXX XXX TODO FIX FORMATTING
+/// let client_verifier = WebPkiClientVerifier::builder_with_provider(roots.into(), rustls::crypto::aws_lc_rs::default_provider().into())
 ///   .allow_unauthenticated()
 ///   .build()
 ///   .unwrap();
@@ -244,7 +245,8 @@ impl ClientCertVerifierBuilder {
 /// # use rustls::server::{WebPkiClientVerifier};
 /// # let roots = RootCertStore::empty();
 /// # let crls = Vec::new();
-/// let client_verifier = WebPkiClientVerifier::builder(roots.into())
+/// # // XXX XXX TODO FIX FORMATTING
+/// let client_verifier = WebPkiClientVerifier::builder_with_provider(roots.into(), rustls::crypto::aws_lc_rs::default_provider().into())
 ///   .with_crls(crls)
 ///   .build()
 ///   .unwrap();

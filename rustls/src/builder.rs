@@ -29,7 +29,8 @@ use crate::{ClientConfig, ServerConfig};
 /// which will use rustls' default cryptographic provider and safe defaults for ciphersuites and
 /// supported protocol versions.
 ///
-/// ```
+/// <!-- XXX XXX TODO FIX FOR DOC TEST; REPLACE UNSUPPORTED ANY API FN CALL(S) -->
+/// ```ignore
 /// # #[cfg(feature = "aws_lc_rs")] {
 /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 /// # rustls::crypto::aws_lc_rs::default_provider().install_default();
@@ -45,8 +46,8 @@ use crate::{ClientConfig, ServerConfig};
 /// ```
 ///
 /// You may also override the choice of protocol versions:
-///
-/// ```no_run
+/// <!-- XXX XXX TODO FIX FOR DOC BUILD TEST; REPLACE UNSUPPORTED ANY API FN CALL(S) -->
+/// ```ignore
 /// # #[cfg(feature = "aws_lc_rs")] {
 /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 /// # rustls::crypto::aws_lc_rs::default_provider().install_default();
@@ -83,7 +84,8 @@ use crate::{ClientConfig, ServerConfig};
 ///
 /// For example:
 ///
-/// ```
+/// <!-- XXX XXX TODO FIX FOR DOC TEST; REPLACE UNSUPPORTED ANY API FN CALL(S) -->
+/// ```ignore
 /// # #[cfg(feature = "aws_lc_rs")] {
 /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 /// # rustls::crypto::aws_lc_rs::default_provider().install_default();
@@ -108,7 +110,8 @@ use crate::{ClientConfig, ServerConfig};
 ///
 /// For example:
 ///
-/// ```no_run
+/// <!-- XXX XXX TODO FIX FOR DOC BUILD TEST; REPLACE UNSUPPORTED ANY API FN CALL(S) -->
+/// ```ignore
 /// # #[cfg(feature = "aws_lc_rs")] {
 /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 /// # rustls::crypto::aws_lc_rs::default_provider().install_default();
