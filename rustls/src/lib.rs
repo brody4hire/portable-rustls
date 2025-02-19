@@ -215,7 +215,7 @@
 //! # #[cfg(feature = "aws_lc_rs")] {
 //! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # use webpki;
-//! # use std::sync::Arc;
+//! # use std::rc::Rc as Arc;
 //! # rustls::crypto::aws_lc_rs::default_provider().install_default();
 //! # let root_store = rustls::RootCertStore::from_iter(
 //! #  webpki_roots::TLS_SERVER_ROOTS
@@ -458,16 +458,15 @@ mod log {
 #[macro_use]
 mod test_macros;
 
+// XXX XXX XXX
 /// This internal `sync` module aliases the `Arc` implementation to allow downstream forks
 /// of rustls targetting architectures without atomic pointers to replace the implementation
 /// with another implementation such as `portable_atomic_util::Arc` in one central location.
+// XXX TBD ALIAS MOD NAMING - ???
 mod sync {
-    #[cfg(unstable_portable_atomic_arc)]
-    #[allow(clippy::disallowed_types)]
-    pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;
-    #[cfg(not(unstable_portable_atomic_arc))]
-    #[allow(clippy::disallowed_types)]
-    pub(crate) type Arc<T> = alloc::sync::Arc<T>;
+    // XXX TBD DISALLOWED TYPES - ???
+    // XXX TODO UPDATE DOC
+    pub(crate) use alloc::rc::Rc as Arc;
 }
 
 #[macro_use]

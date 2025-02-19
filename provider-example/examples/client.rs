@@ -1,6 +1,6 @@
 use std::io::{stdout, Read, Write};
 use std::net::TcpStream;
-use std::sync::Arc;
+use std::rc::Rc as Arc;
 
 fn main() {
     env_logger::init();

@@ -40,7 +40,7 @@ use crate::{crypto, DistinguishedName};
 /// `set_`, `insert_`, `remove_` and `take_` operations are mutating; this isn't
 /// expressed in the type system to allow implementations freedom in
 /// how to achieve interior mutability.  `Mutex` is a common choice.
-pub trait ClientSessionStore: fmt::Debug + Send + Sync {
+pub trait ClientSessionStore: fmt::Debug /* XXX XXX SKIP IN THIS FORK: XXX + Send + Sync */ {
     /// Remember what `NamedGroup` the given server chose.
     fn set_kx_hint(&self, server_name: ServerName<'static>, group: NamedGroup);
 
@@ -94,7 +94,7 @@ pub trait ClientSessionStore: fmt::Debug + Send + Sync {
 
 /// A trait for the ability to choose a certificate chain and
 /// private key for the purposes of client authentication.
-pub trait ResolvesClientCert: fmt::Debug + Send + Sync {
+pub trait ResolvesClientCert: fmt::Debug /* XXX XXX SKIP IN THIS FORK: XXX + Send + Sync */ {
     /// Resolve a client certificate chain/private key to use as the client's
     /// identity.
     ///

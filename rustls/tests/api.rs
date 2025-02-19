@@ -2280,6 +2280,7 @@ fn client_flush_does_nothing() {
     assert!(matches!(client.writer().flush(), Ok(())));
 }
 
+#[cfg(unsupported_send_and_sync_traits)] // Send + Sync traits NOT SUPPORTED
 #[allow(clippy::no_effect)]
 #[test]
 fn server_is_send_and_sync() {
@@ -2288,6 +2289,7 @@ fn server_is_send_and_sync() {
     &server as &dyn Sync;
 }
 
+#[cfg(unsupported_send_and_sync_traits)] // Send + Sync traits NOT SUPPORTED
 #[allow(clippy::no_effect)]
 #[test]
 fn client_is_send_and_sync() {

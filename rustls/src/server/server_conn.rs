@@ -56,7 +56,7 @@ use crate::{compress, sign, verify, versions, DistinguishedName, KeyLog, WantsVe
 /// in the type system to allow implementations freedom in
 /// how to achieve interior mutability.  `Mutex` is a common
 /// choice.
-pub trait StoresServerSessions: Debug + Send + Sync {
+pub trait StoresServerSessions: Debug /* XXX XXX SKIP IN THIS FORK: XXX + Send + Sync */ {
     /// Store session secrets encoded in `value` against `key`,
     /// overwrites any existing value against `key`.  Returns `true`
     /// if the value was stored.
@@ -77,7 +77,7 @@ pub trait StoresServerSessions: Debug + Send + Sync {
 }
 
 /// A trait for the ability to encrypt and decrypt tickets.
-pub trait ProducesTickets: Debug + Send + Sync {
+pub trait ProducesTickets: Debug /* XXX XXX SKIP IN THIS FORK: XXX + Send + Sync */ {
     /// Returns true if this implementation will encrypt/decrypt
     /// tickets.  Should return false if this is a dummy
     /// implementation: the server will not send the SessionTicket
@@ -118,7 +118,7 @@ pub trait ProducesTickets: Debug + Send + Sync {
 /// For applications that use async I/O and need to do I/O to choose
 /// a certificate (for instance, fetching a certificate from a data store),
 /// the [`Acceptor`] interface is more suitable.
-pub trait ResolvesServerCert: Debug + Send + Sync {
+pub trait ResolvesServerCert: Debug /* XXX XXX SKIP IN THIS FORK: XXX + Send + Sync */ {
     /// Choose a certificate chain and matching key given simplified
     /// ClientHello information.
     ///
@@ -731,9 +731,10 @@ mod connection {
     /// ```no_run
     /// # #[cfg(feature = "aws_lc_rs")] {
     /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+    /// # use std::rc::Rc as Arc;
     /// # fn choose_server_config(
     /// #     _: rustls::server::ClientHello,
-    /// # ) -> std::sync::Arc<rustls::ServerConfig> {
+    /// # ) -> Arc<rustls::ServerConfig> {
     /// #     unimplemented!();
     /// # }
     /// # #[allow(unused_variables)]

@@ -5,7 +5,7 @@ use std::io::{self, BufRead, BufReader, Write};
 use std::mem;
 use std::os::fd::{AsRawFd, FromRawFd};
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
+use std::rc::Rc as Arc;
 use std::time::Instant;
 
 use anyhow::Context;

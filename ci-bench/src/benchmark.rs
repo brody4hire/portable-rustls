@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::rc::Rc as Arc;
 
 use fxhash::FxHashMap;
 use itertools::Itertools;

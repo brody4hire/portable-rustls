@@ -21,7 +21,7 @@
 
 use std::io::{self, Read, Write};
 use std::net::ToSocketAddrs;
-use std::sync::Arc;
+use std::rc::Rc as Arc;
 use std::{process, str};
 
 use clap::Parser;
