@@ -1,4 +1,6 @@
 #![no_std]
+// QUICK CLIPPY WORKAROUND
+#![allow(unexpected_cfgs)]
 
 extern crate alloc;
 #[cfg(feature = "std")]
@@ -46,9 +48,11 @@ impl rustls::crypto::KeyProvider for Provider {
     ) -> Result<Arc<dyn rustls::sign::SigningKey>, rustls::Error> {
         Ok(Arc::new(
             sign::EcdsaSigningKeyP256::try_from(key_der).map_err(|err| {
+                #[cfg(unsupported_other_error_info)] // OTHER ERROR INFO NOT SUPPORTED
                 #[cfg(feature = "std")]
                 let err = rustls::OtherError(Arc::new(err));
-                #[cfg(not(feature = "std"))]
+                #[cfg(not(unsupported_other_error_info))] // OTHER ERROR INFO NOT SUPPORTED
+                // #[cfg(not(feature = "std"))]
                 let err = rustls::Error::General(alloc::format!("{}", err));
                 err
             })?,
