@@ -30,10 +30,10 @@
 //! - `--cfg portable_atomic_unstable_coerce_unsized`
 //! - `--cfg unstable_portable_atomic_arc`
 //!
-//! <!-- TODO: ADD CARGO FEATURE TO AUTOMATE THIS STEP: -->
-//! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
-//! - `once_cell`
-//! - `portable-atomic`
+//! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, ENABLE EXACTLY ONE OF THESE FEATURES
+//! (see further below for more info):
+//! - `critical-section` (with more requirements for no-std, as referenced below)
+//! - `unsafe-assume-single-core` (may be easiest to configure, with important limitations as referenced below)
 //!
 //! <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
 //! <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->
@@ -406,6 +406,16 @@
 //!
 //! - `zlib`: uses the `zlib-rs` crate for RFC8879 certificate compression support.
 //!
+//! - `critical-section` - includes both `once_cell` and `portable-atomic` with `critical-section`
+//!   feature enabled; need to add a critical section implementation in case of no-std
+//!   as documented in:
+//!   - <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
+//!
+//! - `unsafe-assume-single-core` - includes `portable-atomic` with `unsafe-assume-single-core` feature
+//!   enabled and includes `once_cell` with `critical-section` feature enabled; this feature may not
+//!   be used together with `critical-section`; please see the following for some more important info:
+//!   - <https://docs.rs/portable-atomic#optional-features>
+//!
 //! ## Crate cfg options
 //!
 //! - `unstable_portable_atomic_arc` - configures this fork to use `Arc` from `portable_atomic_util` instead
@@ -466,6 +476,23 @@
 #![cfg_attr(read_buf, feature(core_io_borrowed_buf))]
 #![cfg_attr(bench, feature(test))]
 #![no_std]
+
+// This constraint is also enforced by `portable-atomic` crate - enforcing here as well
+// for extra clarity (with a QUICK WORKAROUND)
+// FOR FUTURE CONSIDERATION: it may be a nicer developer experience if both this crate and
+// `portable-atomic` would allow both of these features in some form, which would provide
+// some form a fallback in case `critical-section` feature is not specified - this is now
+// tracked in: https://github.com/brody4hire/portable-rustls/issues/27
+#[cfg(all(
+    feature = "critical-section",
+    feature = "unsafe-assume-single-core",
+    // QUICK WORKAROUND NEEDED since cargo-semver-checks seems to try running with all features enabled
+    // as tracked in: https://github.com/brody4hire/portable-rustls/issues/28
+    // NOTE that this should be OK as it would be really weird for std to work together with any
+    // target that is supported with `unsafe-assume-single-core` in `portable-atomic`.
+    not(feature = "std"),
+))]
+compile_error!("invalid combination of `critical-section` & `unsafe-assume-single-core` features");
 
 extern crate alloc;
 // This `extern crate` plus the `#![no_std]` attribute changes the default prelude from
