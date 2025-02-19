@@ -24,6 +24,7 @@ use crate::sync::Arc;
 use crate::time_provider::DefaultTimeProvider;
 use crate::time_provider::TimeProvider;
 use crate::unbuffered::{EncryptError, TransmitTlsData};
+#[cfg(unstable_default_crypto_api)] // NOT NEEDED - DEFAULT CRYPTO PROVIDER API NOT SUPPORTED
 #[cfg(feature = "std")]
 use crate::WantsVerifier;
 use crate::{compress, sign, verify, versions, KeyLog, WantsVersions};
@@ -278,6 +279,7 @@ impl ClientConfig {
     /// and safe protocol version defaults.
     ///
     /// For more information, see the [`ConfigBuilder`] documentation.
+    #[cfg(unstable_default_crypto_api)] // DEFAULT CRYPTO PROVIDER API NOT SUPPORTED
     #[cfg(feature = "std")]
     pub fn builder() -> ConfigBuilder<Self, WantsVerifier> {
         Self::builder_with_protocol_versions(versions::DEFAULT_VERSIONS)
@@ -295,6 +297,7 @@ impl ClientConfig {
     ///   the crate features and process default.
     ///
     /// For more information, see the [`ConfigBuilder`] documentation.
+    #[cfg(unstable_default_crypto_api)] // DEFAULT CRYPTO PROVIDER API NOT SUPPORTED
     #[cfg(feature = "std")]
     pub fn builder_with_protocol_versions(
         versions: &[&'static versions::SupportedProtocolVersion],
