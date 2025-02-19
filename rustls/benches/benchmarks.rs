@@ -6,7 +6,11 @@ use rustls::crypto::ring as provider;
 #[path = "../tests/common/mod.rs"]
 mod test_utils;
 use std::io;
-use std::sync::Arc;
+
+#[cfg(unstable_portable_atomic_arc)]
+pub use portable_atomic_util::Arc;
+#[cfg(not(unstable_portable_atomic_arc))]
+pub use std::sync::Arc;
 
 use portable_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
 
