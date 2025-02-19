@@ -687,7 +687,9 @@ mod static_default {
     }
 
     pub(crate) fn get_default() -> Option<&'static CryptoProvider> {
-        PROCESS_DEFAULT_PROVIDER.get().map(|v| &**v)
+        PROCESS_DEFAULT_PROVIDER
+            .get()
+            .map(|v| &**v)
     }
 
     #[cfg(feature = "std")]
