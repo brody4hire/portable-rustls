@@ -232,7 +232,7 @@ impl CryptoProvider {
     /// Returns the default `CryptoProvider` for this process.
     ///
     /// This will be `None` if no default has been set yet.
-    pub fn get_default() -> Option<&'static Box<Self>> {
+    pub fn get_default() -> Option<&'static Self> {
         static_default::get_default()
     }
 
@@ -241,7 +241,7 @@ impl CryptoProvider {
     /// - gets the pre-installed default, or
     /// - installs one `from_crate_features()`, or else
     /// - panics about the need to call [`CryptoProvider::install_default()`]
-    pub(crate) fn get_default_or_install_from_crate_features() -> &'static Box<Self> {
+    pub(crate) fn get_default_or_install_from_crate_features() -> &'static Self {
         if let Some(provider) = Self::get_default() {
             return provider;
         }
@@ -686,8 +686,8 @@ mod static_default {
             .map_err(|e| *e)
     }
 
-    pub(crate) fn get_default() -> Option<&'static Box<CryptoProvider>> {
-        PROCESS_DEFAULT_PROVIDER.get()
+    pub(crate) fn get_default() -> Option<&'static CryptoProvider> {
+        PROCESS_DEFAULT_PROVIDER.get().map(|v| &**v)
     }
 
     #[cfg(feature = "std")]
