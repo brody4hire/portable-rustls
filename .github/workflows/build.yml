@@ -16,6 +16,7 @@ on:
 
 env:
   MAIN_CRATE: portable-rustls
+  # XXX TBD DEFINE PER UNSUPPORTED CFG FEATURE - ??? ??? ???
   ALL_UNSUPPORTED_CFG: --cfg hashbrown_cfg_not_supported --cfg cfg_aws_lc_rs_not_supported
 
 concurrency:
@@ -94,9 +95,11 @@ jobs:
           RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       - name: cargo test (debug; aws-lc-rs)
-        run: cargo test --no-default-features --features aws_lc_rs,tls12,read_buf,logging,std --all-targets
+        run: cargo test --no-default-features --features tls12,read_buf,logging,std --all-targets
         env:
           RUST_BACKTRACE: 1
+          # XXX XXX ONLY KEEP UNSUPPORTED CFG for aws-lc-rs - ???
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       # [FIPS REMOVED FROM THIS FORK]
       # - name: cargo test (release; fips)
@@ -238,6 +241,7 @@ jobs:
         run: cargo test --no-default-features --features include-extra-cfg-dependencies,tls12,std
         working-directory: rustls
         env:
+          # XXX XXX ONLY KEEP UNSUPPORTED CFG for aws-lc-rs - ???
           RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       # [FIPS REMOVED FROM THIS FORK]
@@ -252,6 +256,8 @@ jobs:
   bogo:
     name: BoGo test suite
     runs-on: ubuntu-latest
+    env:
+      RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -330,6 +336,7 @@ jobs:
         # XXX XXX
         run: cargo run -p rustls-bench --profile=bench --locked --features include-extra-cfg-dependencies -- --multiplier 0.1
         env:
+          # XXX XXX ONLY KEEP UNSUPPORTED CFG for aws-lc-rs - ???
           RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       # [FIPS REMOVED FROM THIS FORK]
@@ -373,6 +380,7 @@ jobs:
     env:
       # Favor CI testing on Rust nightly in this fork
       RUST_VERSION: nightly
+      RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -471,6 +479,8 @@ jobs:
 
       - name: Check semver
         uses: obi1kenobi/cargo-semver-checks-action@v2
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
   format:
     name: Format
