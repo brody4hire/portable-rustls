@@ -74,6 +74,8 @@ jobs:
 
       - name: cargo build (debug; default features)
         run: cargo build --locked
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       # N/A [FIPS REMOVED FROM THIS FORK]: nb. feature sets that include "fips" ...
       # nb. "--all-targets" does not include doctests
@@ -211,6 +213,7 @@ jobs:
         run: cargo build --locked --no-default-features --features hashbrown --target ${{ env.NO_STD_BUILD_TARGET }}
         working-directory: rustls
         env:
+          # XXX TBD XXX
           RUSTFLAGS: --cfg hashbrown_cfg_not_supported
 
       # NOTE: no features are enabled by default on main crate in this fork
@@ -232,7 +235,7 @@ jobs:
 
       - name: cargo test (debug; no default features; aws-lc-rs,tls12)
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
-        run: cargo test --no-default-features --features aws_lc_rs,tls12,std
+        run: cargo test --no-default-features --features include-extra-cfg-dependencies,tls12,std
         working-directory: rustls
         env:
           RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
@@ -324,7 +327,10 @@ jobs:
         run: cargo run -p rustls-bench --profile=bench --locked --features ring -- --multiplier 0.1
 
       - name: Smoke-test benchmark program (aws-lc-rs)
-        run: cargo run -p rustls-bench --profile=bench --locked --features aws-lc-rs -- --multiplier 0.1
+        # XXX XXX
+        run: cargo run -p rustls-bench --profile=bench --locked --features include-extra-cfg-dependencies -- --multiplier 0.1
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       # [FIPS REMOVED FROM THIS FORK]
       # - name: Smoke-test benchmark program (fips)
