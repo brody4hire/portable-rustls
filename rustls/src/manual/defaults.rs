@@ -26,6 +26,7 @@ the implementation security will be improved.  We think this is an uncommon case
 Both provide roughly the same classical security level, but x25519 has better performance and
 it's _much_ more likely that both peers will have good quality implementations.
 
+<!-- XXX TODO
 ### About the post-quantum-secure key exchange `X25519MLKEM768`
 
 [`X25519MLKEM768`] -- a hybrid[^1], post-quantum-secure[^2] key exchange
@@ -67,5 +68,6 @@ by default out of conservatism.
 [Cloudflare]: <https://blog.cloudflare.com/pq-2024/#ml-kem-768-and-x25519>
 [interop-bug]: <https://github.com/rustls/rustls/issues/new?assignees=&labels=&projects=&template=bug_report.md&title=>
 [tldr.fail]: <https://tldr.fail/>
+-- XXX -->
 
 */

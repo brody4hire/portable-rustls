@@ -58,6 +58,7 @@ pub use crate::suites::CipherSuiteCommon;
 
 /// Controls core cryptography used by rustls.
 ///
+/// <!-- XXX TODO
 /// This crate comes with two built-in options, provided as
 /// `CryptoProvider` structures:
 ///
@@ -181,6 +182,7 @@ pub use crate::suites::CipherSuiteCommon;
 ///
 /// You can verify the configuration at runtime by checking
 /// [`ServerConfig::fips()`]/[`ClientConfig::fips()`] return `true`.
+/// XXX -->
 #[derive(Debug, Clone)]
 pub struct CryptoProvider {
     /// List of supported ciphersuites, in preference order -- the first element
