@@ -24,7 +24,7 @@ impl server::StoresServerSessions for NoServerSessionStorage {
     }
 }
 
-#[cfg(any(feature = "std", feature = "hashbrown"))]
+#[cfg(any(feature = "std", hashbrown_cfg_not_supported))]
 mod cache {
     use alloc::vec::Vec;
     use core::fmt::{Debug, Formatter};
@@ -144,7 +144,7 @@ mod cache {
     }
 }
 
-#[cfg(any(feature = "std", feature = "hashbrown"))]
+#[cfg(any(feature = "std", hashbrown_cfg_not_supported))]
 pub use cache::ServerSessionMemoryCache;
 
 /// Something which never produces tickets.
@@ -190,7 +190,7 @@ impl server::ResolvesServerCert for AlwaysResolvesServerRawPublicKeys {
     }
 }
 
-#[cfg(any(feature = "std", feature = "hashbrown"))]
+#[cfg(any(feature = "std", hashbrown_cfg_not_supported))]
 mod sni_resolver {
     use alloc::string::{String, ToString};
     use core::fmt::Debug;
@@ -306,7 +306,7 @@ mod sni_resolver {
     }
 }
 
-#[cfg(any(feature = "std", feature = "hashbrown"))]
+#[cfg(any(feature = "std", hashbrown_cfg_not_supported))]
 pub use sni_resolver::ResolvesServerCertUsingSni;
 
 #[cfg(test)]

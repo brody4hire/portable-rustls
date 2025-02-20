@@ -31,7 +31,7 @@ impl client::ClientSessionStore for NoClientSessionStorage {
     }
 }
 
-#[cfg(any(feature = "std", feature = "hashbrown"))]
+#[cfg(any(feature = "std", hashbrown_cfg_not_supported))]
 mod cache {
     use alloc::collections::VecDeque;
     use core::fmt;
@@ -189,7 +189,7 @@ mod cache {
     }
 }
 
-#[cfg(any(feature = "std", feature = "hashbrown"))]
+#[cfg(any(feature = "std", hashbrown_cfg_not_supported))]
 pub use cache::ClientSessionMemoryCache;
 
 #[derive(Debug)]

@@ -190,10 +190,13 @@ jobs:
         run: cargo build --locked --no-default-features --target ${{ env.NO_STD_BUILD_TARGET }}
         working-directory: rustls
 
-      - name: cargo build (debug; no default features; no-std, hashbrown) with no-std target - ${{ env.NO_STD_BUILD_TARGET }}
+      - name: cargo build (debug; no default features; no-std, hashbrown_cfg_not_supported) with no-std target - ${{ env.NO_STD_BUILD_TARGET }}
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
+        # NOTE: KEEPING --features hashbrown TO INSTALL hashbrown from dependencies
         run: cargo build --locked --no-default-features --features hashbrown --target ${{ env.NO_STD_BUILD_TARGET }}
         working-directory: rustls
+        env:
+          RUSTFLAGS: --cfg hashbrown_cfg_not_supported
 
       # NOTE: no features are enabled by default on main crate in this fork
       - name: cargo test (debug; default features)
