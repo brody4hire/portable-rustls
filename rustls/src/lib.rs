@@ -342,7 +342,7 @@
 //! -- -->
 //!
 //! <!-- XXX XXX
-//! - `prefer-post-quantum`: for the [`aws-lc-rs`]-backed provider, prioritizes post-quantum secure
+//! - `unstable-prefer-post_quantum-not-supported`: for the [`aws-lc-rs`]-backed provider, prioritizes post-quantum secure
 //!   key exchange by default (using X25519MLKEM768).  This feature merely alters the order
 //!   of `rustls::crypto::aws_lc_rs::DEFAULT_KX_GROUPS`.  We expect to add this feature
 //!   to the default set in a future minor release.  See [the manual][x25519mlkem768-manual]

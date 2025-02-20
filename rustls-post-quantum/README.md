@@ -13,7 +13,7 @@ NOTE: THIS SEPARATE "`rustls-post-quantum`" CRATE WHICH ONLY CONTAINS ALIASES IS
 
 The functionality of this crate became part of the core rustls
 crate from the 0.23.22 release. When using that version of the crate,
-use the `prefer-post-quantum` Cargo feature to control whether to prefer
+use the `unstable-prefer-post_quantum-not-supported` Cargo feature to control whether to prefer
 using post-quantum algorithms instead of using this crate.
 
 This crate is release under the same licenses as the [main rustls crate][rustls].
