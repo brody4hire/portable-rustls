@@ -113,17 +113,13 @@ jobs:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo test (debug; unstable-std-extra [should cover all non-unsafe features])
-        # USING `--all-targets` to avoid doc tests
-        # TODO: FIX doc tests to work with --cfg unstable_portable_atomic_arc & enable doc tests here
-        run: cargo test -F unstable-std-extra --all-targets
+        run: cargo test -F unstable-std-extra
         working-directory: rustls
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo test (debug; all features except unsafe-assume-single-core)
-        # USING `--all-targets` to avoid doc tests
-        # TODO: FIX doc tests to work with --cfg unstable_portable_atomic_arc & enable doc tests here
-        run: cargo test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --all-targets
+        run: cargo test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
         working-directory: rustls
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
