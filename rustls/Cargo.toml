@@ -17,13 +17,25 @@ build = "build.rs"
 [features]
 default = []
 
-aws-lc-rs = ["aws_lc_rs"] # ALIAS - FAVORED OVER `aws_lc_rs` FEATURE NAME IN THIS FORK
-aws_lc_rs = ["dep:aws-lc-rs", "webpki/aws_lc_rs"]
+# XXX TBD XXX XXX
+include-extra-cfg-dependencies = [
+  # XXX aws-lc-rs
+  "dep:aws-lc-rs",
+  "webpki/aws_lc_rs",
+  # XXX hashbrown
+  "hashbrown",
+]
+
+# XXX TODO REMOVE aws-lc-rs:
+# aws-lc-rs = ["aws_lc_rs"] # ALIAS - FAVORED OVER `aws_lc_rs` FEATURE NAME IN THIS FORK
+# aws_lc_rs = ["dep:aws-lc-rs", "webpki/aws_lc_rs"]
 brotli = ["dep:brotli", "dep:brotli-decompressor", "std"]
 custom-provider = []
 # [FIPS REMOVED FROM THIS FORK] fips = ...
 logging = ["log"]
-prefer-post-quantum = ["aws-lc-rs"]
+# XXX TBD XXX XXX
+# prefer-post-quantum = ["aws-lc-rs"]
+prefer-post-quantum = ["include-extra-cfg-dependencies"]
 read_buf = ["rustversion", "std"]
 ring = ["dep:ring", "webpki/ring"]
 std = ["webpki/std", "pki-types/std", "once_cell/std"]

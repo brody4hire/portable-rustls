@@ -926,7 +926,7 @@ impl ResumptionParam {
 
 #[derive(Copy, Clone, Debug, PartialEq, ValueEnum)]
 enum Provider {
-    #[cfg(feature = "aws-lc-rs")]
+    #[cfg(cfg_aws_lc_rs_not_supported)]
     AwsLcRs,
     // [FIPS REMOVED FROM THIS FORK]
     // #[cfg(all(..., ... "fips"))]
@@ -942,7 +942,7 @@ enum Provider {
 impl Provider {
     fn build(self) -> CryptoProvider {
         match self {
-            #[cfg(feature = "aws-lc-rs")]
+            #[cfg(cfg_aws_lc_rs_not_supported)]
             Self::AwsLcRs => rustls::crypto::aws_lc_rs::default_provider(),
             // [FIPS REMOVED FROM THIS FORK]
             // #[cfg(all(..., ... "fips"))]
@@ -957,7 +957,7 @@ impl Provider {
 
     fn ticketer(self) -> Result<Arc<dyn ProducesTickets>, Error> {
         match self {
-            #[cfg(feature = "aws-lc-rs")]
+            #[cfg(cfg_aws_lc_rs_not_supported)]
             Self::AwsLcRs => rustls::crypto::aws_lc_rs::Ticketer::new(),
             // [FIPS REMOVED FROM THIS FORK]
             // #[cfg(all(..., ... "fips"))]
@@ -994,7 +994,7 @@ impl Provider {
         #[allow(unused_mut)]
         let mut available = vec![];
 
-        #[cfg(feature = "aws-lc-rs")]
+        #[cfg(cfg_aws_lc_rs_not_supported)]
         available.push(Self::AwsLcRs);
 
         // [FIPS REMOVED FROM THIS FORK]

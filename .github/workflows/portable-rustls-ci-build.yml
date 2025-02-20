@@ -16,6 +16,7 @@ on:
 
 env:
   MAIN_CRATE: portable-rustls
+  ALL_UNSUPPORTED_CFG: --cfg hashbrown_cfg_not_supported --cfg cfg_aws_lc_rs_not_supported
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
@@ -208,4 +209,4 @@ jobs:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
       - run: cross test --all-features --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc ${{ env.ALL_UNSUPPORTED_CFG }}

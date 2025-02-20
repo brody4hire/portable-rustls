@@ -16,7 +16,7 @@ macro_rules! test_for_each_provider {
             $($tt)+
         }
 
-        #[cfg(feature = "aws_lc_rs")]
+        #[cfg(cfg_aws_lc_rs_not_supported)]
         mod test_with_aws_lc_rs {
             use crate::crypto::aws_lc_rs as provider;
             #[allow(unused_imports)]
@@ -42,7 +42,7 @@ macro_rules! bench_for_each_provider {
             $($tt)+
         }
 
-        #[cfg(feature = "aws_lc_rs")]
+        #[cfg(cfg_aws_lc_rs_not_supported)]
         mod bench_with_aws_lc_rs {
             use crate::crypto::aws_lc_rs as provider;
             #[allow(unused_imports)]

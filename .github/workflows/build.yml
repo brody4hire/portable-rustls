@@ -16,6 +16,7 @@ on:
 
 env:
   MAIN_CRATE: portable-rustls
+  ALL_UNSUPPORTED_CFG: --cfg hashbrown_cfg_not_supported --cfg cfg_aws_lc_rs_not_supported
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
@@ -80,6 +81,7 @@ jobs:
         run: cargo test --release --locked --all-features --all-targets
         env:
           RUST_BACKTRACE: 1
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       # nb. this is separate since `--doc` option cannot be combined with other target option(s) ref:
       # - https://doc.rust-lang.org/cargo/commands/cargo-test.html
@@ -87,6 +89,7 @@ jobs:
         run: cargo test --release --locked --all-features --doc
         env:
           RUST_BACKTRACE: 1
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       - name: cargo test (debug; aws-lc-rs)
         run: cargo test --no-default-features --features aws_lc_rs,tls12,read_buf,logging,std --all-targets
@@ -105,15 +108,23 @@ jobs:
 
       - name: cargo test (debug; rustls-provider-example; all features)
         run: cargo test --all-features -p rustls-provider-example
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       - name: cargo build (debug; rustls-provider-test)
         run: cargo build --locked -p rustls-provider-test
 
       - name: cargo test (debug; rustls-provider-test; all features)
         run: cargo test --all-features -p rustls-provider-test
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
+      # XXX TBD ??? ???
       - name: cargo package --all-features -p ${{ env.MAIN_CRATE }}
         run: cargo package --all-features -p ${{ env.MAIN_CRATE }}
+        env:
+          # XXX TBD ??? ???
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
   msrv:
     # NOTE: MSRV - Rust nightly is covered by multiple jobs in portable-rustls-ci-build.yml
@@ -131,12 +142,16 @@ jobs:
 
       # zlib-rs is optional and requires a later MSRV
       - run: cargo check --locked --lib $(admin/all-features-except zlib ${{ env.MAIN_CRATE }}) -p ${{ env.MAIN_CRATE }}
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: "1.75"
 
       - run: cargo check --locked --lib --all-features -p ${{ env.MAIN_CRATE }}
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
   features:
     name: Features
@@ -219,6 +234,8 @@ jobs:
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
         run: cargo test --no-default-features --features aws_lc_rs,tls12,std
         working-directory: rustls
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       # [FIPS REMOVED FROM THIS FORK]
       # - name: cargo test (debug; no default features; fips,tls12)
@@ -316,7 +333,7 @@ jobs:
       - name: Run micro-benchmarks
         run: cargo bench --locked --all-features
         env:
-          RUSTFLAGS: --cfg=bench
+          RUSTFLAGS: --cfg=bench ${{ env.ALL_UNSUPPORTED_CFG }}
 
   docs:
     name: Check for documentation errors
@@ -340,6 +357,8 @@ jobs:
           cargo build --locked --all-features
           ./admin/pull-readme
           git diff --exit-code
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
   coverage:
     name: Measure coverage
@@ -512,6 +531,8 @@ jobs:
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
       # - Keep the main crate free of all warnings... FOR ALL FEATURES IN MAIN CRATE
       - run: cargo clippy -p ${{ env.MAIN_CRATE }} --all-features -- --deny warnings
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
   clippy-nightly:
     name: Clippy - Rust nightly
@@ -536,6 +557,8 @@ jobs:
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
       # DENY ALL WARNINGS FROM RUST NIGHTLY CLIPPY FOR ALL FEATURES IN MAIN CRATE in this fork
       - run: cargo clippy -p ${{ env.MAIN_CRATE }} --all-features -- --deny warnings
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
   check-external-types:
     name: Validate external types appearing in public API

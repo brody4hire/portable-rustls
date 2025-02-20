@@ -15,7 +15,7 @@ autobenches = false
 [dependencies]
 # WITH ADAPTED MAIN PACKAGE NAME for this fork (MISSING version - should be OK in this fork)
 rustls = { package = "portable-rustls", path = "../rustls", features = [
-  "aws-lc-rs",
+  "include-extra-cfg-dependencies",
   "prefer-post-quantum",
   "std",
 ] }
