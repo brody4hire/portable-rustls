@@ -1,4 +1,6 @@
 #![cfg(feature = "ring")]
+// QUICK WORKAROUND
+#![allow(unexpected_cfgs)]
 
 use bencher::{benchmark_group, benchmark_main, Bencher};
 use rustls::crypto::ring as provider;
