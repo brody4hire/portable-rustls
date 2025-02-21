@@ -1,8 +1,7 @@
-/// pub trait - version with doc - version that includes Send & Sync - supports use with alloc::sync::Arc
-#[cfg(not(use_rc_alias))]
-macro_rules! pub_api_trait_with_doc {
-    ($doc_text: literal, $name:ident, $body:tt) => {
-        #[doc = $doc_text]
+/// pub trait for rustls API - version with meta (as needed for doc) - version that includes Send & Sync - supports use with alloc::sync::Arc
+macro_rules! rustls_api_trait {
+    ($name:ident, $x:meta, $_extra_separator_to_help_avoid_bad_code_formatting:tt, $body:tt) => {
+        #[$x]
         pub trait $name: core::fmt::Debug + Send + Sync $body
     }
 }
@@ -10,17 +9,17 @@ macro_rules! pub_api_trait_with_doc {
 /////// XXX TODO REPLACE ALL USE OF THIS MACRO WITH pub_api_trait_with_doc! (with doc fixed) & REMOVE THIS MACRO
 /// pub trait - version with no doc - version that includes Send & Sync - supports use with alloc::sync::Arc
 #[cfg(not(use_rc_alias))]
-macro_rules! pub_api_trait {
+macro_rules! api_trait_with_doc_missing {
     ($name:ident, $body:tt) => {
         pub trait $name: core::fmt::Debug + Send + Sync $body
     }
 }
 
-/// pub trait - version with doc - version with no Send / Sync - supports use with alloc::rc::Rc
+/// pub trait for rustls API - version with meta (as needed for doc) - version with no Send / Sync - supports use with alloc::rc::Rc
 #[cfg(use_rc_alias)]
-macro_rules! pub_api_trait_with_doc {
-    ($doc_text: literal, $name:ident, $body:tt) => {
-        #[doc = $doc_text]
+macro_rules! pub_api_trait_with_xxx_meta_xxx {
+    ($name:ident, $x:meta, $_extra_separator_to_help_avoid_bad_code_formatting:tt, $body:tt) => {
+        #[$x]
         pub trait $name: core::fmt::Debug $body
     }
 }
@@ -28,7 +27,7 @@ macro_rules! pub_api_trait_with_doc {
 /////// XXX TODO REPLACE ALL USE OF THIS MACRO WITH pub_api_trait_with_doc! (with doc fixed) & REMOVE THIS MACRO
 /// pub trait - version with no doc - version with no Send / Sync - supports use with alloc::rc::Rc
 #[cfg(use_rc_alias)]
-macro_rules! pub_api_trait {
+macro_rules! api_trait_with_doc_missing {
     ($name:ident, $body:tt) => {
         pub trait $name: core::fmt::Debug $body
     }

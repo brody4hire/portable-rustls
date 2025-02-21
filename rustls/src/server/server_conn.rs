@@ -56,7 +56,7 @@ use crate::{compress, sign, verify, versions, DistinguishedName, KeyLog, WantsVe
 /// in the type system to allow implementations freedom in
 /// how to achieve interior mutability.  `Mutex` is a common
 /// choice.
-pub_api_trait!(StoresServerSessions, {
+api_trait_with_doc_missing!(StoresServerSessions, {
     /// Store session secrets encoded in `value` against `key`,
     /// overwrites any existing value against `key`.  Returns `true`
     /// if the value was stored.
@@ -120,7 +120,7 @@ pub trait ProducesTickets: Debug + Send + Sync {
 /// a certificate (for instance, fetching a certificate from a data store),
 /// the [`Acceptor`] interface is more suitable.
 ////// XXX TODO DOC XXX
-pub_api_trait!(ResolvesServerCert, {
+api_trait_with_doc_missing!(ResolvesServerCert, {
     /// Choose a certificate chain and matching key given simplified
     /// ClientHello information.
     ///

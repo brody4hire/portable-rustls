@@ -13,7 +13,7 @@ use crate::x509;
 
 use super::CryptoProvider;
 
-pub_api_trait_with_doc!("\
+rustls_api_trait!(SigningKey, doc = "\
 An abstract signing key.
 
 This interface is used by rustls to use a private signing key
@@ -58,7 +58,7 @@ custom implementation of the [`ResolvesServerCert`] or [`ResolvesClientCert`] tr
 [`ResolvesServerCertUsingSni`]: crate::server::ResolvesServerCertUsingSni
 [`ResolvesServerCert`]: crate::server::ResolvesServerCert
 [`ResolvesClientCert`]: crate::client::ResolvesClientCert
-", SigningKey, {
+", "--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---", {
     /// Choose a `SignatureScheme` from those offered.
     ///
     /// Expresses the choice by returning something that implements `Signer`,
@@ -77,7 +77,7 @@ custom implementation of the [`ResolvesServerCert`] or [`ResolvesClientCert`] tr
 
 ///// XXX TODO XXX XXX DOC XXX XXX
 /// A thing that can sign a message.
-pub_api_trait!(Signer, {
+api_trait_with_doc_missing!(Signer, {
     /// Signs `message` using the selected scheme.
     ///
     /// `message` is not hashed; the implementer must hash it using the hash function

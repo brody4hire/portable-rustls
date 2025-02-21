@@ -41,7 +41,7 @@ use crate::{crypto, DistinguishedName};
 /// `set_`, `insert_`, `remove_` and `take_` operations are mutating; this isn't
 /// expressed in the type system to allow implementations freedom in
 /// how to achieve interior mutability.  `Mutex` is a common choice.
-pub_api_trait!(ClientSessionStore, {
+api_trait_with_doc_missing!(ClientSessionStore, {
     /// Remember what `NamedGroup` the given server chose.
     fn set_kx_hint(&self, server_name: ServerName<'static>, group: NamedGroup);
 
@@ -96,7 +96,7 @@ pub_api_trait!(ClientSessionStore, {
 //// XXX TODO FIX API DOC HERE
 /// A trait for the ability to choose a certificate chain and
 /// private key for the purposes of client authentication.
-pub_api_trait!(ResolvesClientCert, {
+api_trait_with_doc_missing!(ResolvesClientCert, {
     /// Resolve a client certificate chain/private key to use as the client's
     /// identity.
     ///
