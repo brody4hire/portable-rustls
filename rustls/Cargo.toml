@@ -29,6 +29,7 @@ ring = ["dep:ring", "webpki/ring"]
 std = ["webpki/std", "pki-types/std", "once_cell/std"]
 tls12 = []
 zlib = ["dep:zlib-rs"]
+# XXX XXX XXX
 portable-atomic = ["dep:portable-atomic"]
 
 [build-dependencies]
@@ -45,13 +46,14 @@ log = { workspace = true, optional = true }
 once_cell = { version = "1.20.3", default-features = false, features = ["alloc", "race"] }
 # TODO SHOULD BE OPTIONAL WITH FEATURE CONFIG IN THIS FORK
 portable-atomic-util = { version = "0.2.4", features = ["alloc"] }
+# XXX XXX XXX
+portable-atomic = { version = "1.10.0", default-features = false, optional = true }
 ring = { workspace = true, optional = true }
 subtle = { workspace = true }
 webpki = { workspace = true }
 pki-types = { workspace = true }
 zeroize = { workspace = true }
 zlib-rs = { workspace = true, optional = true }
-portable-atomic = { version = "1.10.0", default-features = false, optional = true }
 
 [dev-dependencies]
 base64 = { workspace = true }
