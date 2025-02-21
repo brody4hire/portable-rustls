@@ -26,14 +26,17 @@ jobs:
     name: build with unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     strategy:
+      # XXX XXX
+      fail-fast: false
       matrix:
         rust:
           - nightly
           - nightly-2024-01-01
           # RUST NIGHTLY version(s) for MSRV - 1.71:
           - nightly-2023-06-01
-          # FAILS AT: cargo add once_cell
-          # - nightly-2023-05-01
+          # XXX TBD ???
+          # FAILS AT: XXX ???
+          - nightly-2023-05-01
         os:
           - ubuntu-latest
           # FOR FUTURE CONSIDERATION:
@@ -63,8 +66,9 @@ jobs:
       - run: cargo add portable-atomic -F unsafe-assume-single-core -p ${{ env.MAIN_CRATE }}
       # - run: cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
 
+      # XXX XXX UPDATE LABEL - ???
       - name: cargo build (debug; no-std) # (with no built-in provider)
-        run: cargo build --target ${{ matrix.target }}
+        run: cargo build -F portable-atomic --target ${{ matrix.target }}
         working-directory: rustls
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
@@ -117,6 +121,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
+      # XXX
+      fail-fast: false
       matrix:
         rust:
           - nightly
@@ -156,7 +162,7 @@ jobs:
       # XXX TODO TRY WITH BOTH unsafe-assume-single-core & critical-section HERE
       # - run: cargo add portable-atomic -F unsafe-assume-single-core -p ${{ env.MAIN_CRATE }}
       - run: cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
-      - run: cross build --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+      - run: cross build -F portable-atomic --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
