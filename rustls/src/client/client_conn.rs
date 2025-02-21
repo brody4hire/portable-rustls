@@ -30,18 +30,18 @@ use crate::{compress, sign, verify, versions, KeyLog, WantsVersions};
 #[cfg(doc)]
 use crate::{crypto, DistinguishedName};
 
-//// XXX TODO FIX API DOC HERE
-/// A trait for the ability to store client session data, so that sessions
-/// can be resumed in future connections.
-///
-/// Generally all data in this interface should be treated as
-/// **highly sensitive**, containing enough key material to break all security
-/// of the corresponding session.
-///
-/// `set_`, `insert_`, `remove_` and `take_` operations are mutating; this isn't
-/// expressed in the type system to allow implementations freedom in
-/// how to achieve interior mutability.  `Mutex` is a common choice.
-api_trait_with_doc_missing!(ClientSessionStore, {
+rustls_api_trait!(ClientSessionStore, doc = "\
+A trait for the ability to store client session data, so that sessions
+can be resumed in future connections.
+
+Generally all data in this interface should be treated as
+**highly sensitive**, containing enough key material to break all security
+of the corresponding session.
+
+`set_`, `insert_`, `remove_` and `take_` operations are mutating; this isn't
+expressed in the type system to allow implementations freedom in
+how to achieve interior mutability.  `Mutex` is a common choice.
+", _________________________________________________________________________________________________________, {
     /// Remember what `NamedGroup` the given server chose.
     fn set_kx_hint(&self, server_name: ServerName<'static>, group: NamedGroup);
 
@@ -93,10 +93,10 @@ api_trait_with_doc_missing!(ClientSessionStore, {
     ) -> Option<persist::Tls13ClientSessionValue>;
 });
 
-//// XXX TODO FIX API DOC HERE
-/// A trait for the ability to choose a certificate chain and
-/// private key for the purposes of client authentication.
-api_trait_with_doc_missing!(ResolvesClientCert, {
+rustls_api_trait!(ResolvesClientCert, doc = "\
+A trait for the ability to choose a certificate chain and
+private key for the purposes of client authentication.
+", _________________________________________________________________________________________________________, {
     /// Resolve a client certificate chain/private key to use as the client's
     /// identity.
     ///

@@ -75,9 +75,9 @@ custom implementation of the [`ResolvesServerCert`] or [`ResolvesClientCert`] tr
     fn algorithm(&self) -> SignatureAlgorithm;
 });
 
-///// XXX TODO XXX XXX DOC XXX XXX
-/// A thing that can sign a message.
-api_trait_with_doc_missing!(Signer, {
+rustls_api_trait!(Signer, doc = "\
+A thing that can sign a message.
+", _________________________________________________________________________________________________________, {
     /// Signs `message` using the selected scheme.
     ///
     /// `message` is not hashed; the implementer must hash it using the hash function

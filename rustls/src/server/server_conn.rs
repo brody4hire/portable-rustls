@@ -34,29 +34,31 @@ use crate::vecbuf::ChunkVecBuffer;
 use crate::WantsVerifier;
 use crate::{compress, sign, verify, versions, DistinguishedName, KeyLog, WantsVersions};
 
-/// A trait for the ability to store server session data.
-///
-/// The keys and values are opaque.
-///
-/// Inserted keys are randomly chosen by the library and have
-/// no internal structure (in other words, you may rely on all
-/// bits being uniformly random).  Queried keys are untrusted data.
-///
-/// Both the keys and values should be treated as
-/// **highly sensitive data**, containing enough key material
-/// to break all security of the corresponding sessions.
-///
-/// Implementations can be lossy (in other words, forgetting
-/// key/value pairs) without any negative security consequences.
-///
-/// However, note that `take` **must** reliably delete a returned
-/// value.  If it does not, there may be security consequences.
-///
-/// `put` and `take` are mutating operations; this isn't expressed
-/// in the type system to allow implementations freedom in
-/// how to achieve interior mutability.  `Mutex` is a common
-/// choice.
-api_trait_with_doc_missing!(StoresServerSessions, {
+rustls_api_trait!(StoresServerSessions, doc = "\
+A trait for the ability to store server session data.
+
+The keys and values are opaque.
+
+Inserted keys are randomly chosen by the library and have
+no internal structure (in other words, you may rely on all
+bits being uniformly random).  Queried keys are untrusted data.
+
+Both the keys and values should be treated as
+**highly sensitive data**, containing enough key material
+to break all security of the corresponding sessions.
+
+Implementations can be lossy (in other words, forgetting
+key/value pairs) without any negative security consequences.
+
+However, note that `take` **must** reliably delete a returned
+value.  If it does not, there may be security consequences.
+
+`put` and `take` are mutating operations; this isn't expressed
+in the type system to allow implementations freedom in
+how to achieve interior mutability.  `Mutex` is a common
+choice.
+", _________________________________________________________________________________________________________, {
+    // {
     /// Store session secrets encoded in `value` against `key`,
     /// overwrites any existing value against `key`.  Returns `true`
     /// if the value was stored.
@@ -110,18 +112,17 @@ pub trait ProducesTickets: Debug + Send + Sync {
     fn decrypt(&self, cipher: &[u8]) -> Option<Vec<u8>>;
 }
 
-////// XXX TODO DOC XXX
-/// How to choose a certificate chain and signing key for use
-/// in server authentication.
-///
-/// This is suitable when selecting a certificate does not require
-/// I/O or when the application is using blocking I/O anyhow.
-///
-/// For applications that use async I/O and need to do I/O to choose
-/// a certificate (for instance, fetching a certificate from a data store),
-/// the [`Acceptor`] interface is more suitable.
-////// XXX TODO DOC XXX
-api_trait_with_doc_missing!(ResolvesServerCert, {
+rustls_api_trait!(ResolvesServerCert, doc = "\
+How to choose a certificate chain and signing key for use
+in server authentication.
+
+This is suitable when selecting a certificate does not require
+I/O or when the application is using blocking I/O anyhow.
+
+For applications that use async I/O and need to do I/O to choose
+a certificate (for instance, fetching a certificate from a data store),
+the [`Acceptor`] interface is more suitable.
+", _________________________________________________________________________________________________________, {
     /// Choose a certificate chain and matching key given simplified
     /// ClientHello information.
     ///
