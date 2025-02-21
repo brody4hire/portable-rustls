@@ -236,6 +236,7 @@ impl CryptoProvider {
     /// This will be `None` if no default has been set yet.
     // XXX TBD CONSIDER BETTER SOLUTION THAN #[allow(unused_qualifications)] - ???
     #[allow(unused_qualifications)]
+    // XXX TBD CLIPPY RECOMMENDS RETURNING SIMPLY 'static &Self IN CASE RC ALIAS IS ENABLED
     pub fn get_default() -> Option<&'static static_default::Arc<Self>> {
         static_default::get_default()
     }
