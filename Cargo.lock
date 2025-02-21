@@ -2187,6 +2187,7 @@ dependencies = [
  "macro_rules_attribute",
  "num-bigint",
  "once_cell",
+ "portable-atomic",
  "portable-atomic-util",
  "rcgen",
  "ring",
