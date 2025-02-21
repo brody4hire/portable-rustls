@@ -8,11 +8,18 @@ macro_rules! pub_api_trait_with_doc {
 }
 
 macro_rules! pub_api_trait_with_xxx_meta_xxx {
-    ($name:ident, $x:meta, $extra_ignored:tt, $body:tt) => {
+    ($name:ident, $x:meta, $_extra_separator_to_avoid_bad_code_formatting:tt, $body:tt) => {
         #[$x]
         pub trait $name: core::fmt::Debug + Send + Sync $body
     }
 }
+
+// macro_rules! rustls_api_trait_xxx_with_xxx_meta_xxx {
+//     ($name:ident, $extra_ignored:tt, $x:meta, $body:tt) => {
+//         #[$x]
+//         pub trait $name: core::fmt::Debug + Send + Sync $body
+//     }
+// }
 
 /////// XXX TODO REPLACE ALL USE OF THIS MACRO WITH pub_api_trait_with_doc! (with doc fixed) & REMOVE THIS MACRO
 /// pub trait - version with no doc - version that includes Send & Sync - supports use with alloc::sync::Arc

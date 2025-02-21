@@ -67,7 +67,7 @@ impl ClientCertVerified {
 pub_api_trait_with_xxx_meta_xxx!(ServerCertVerifier, doc = "\
 Something that can verify a server certificate chain, and verify
 signatures made by certificates.
-", "--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---", {
+", _________________________________________________________________________________________________________, {
     /// Verify the end-entity certificate `end_entity` is valid for the
     /// hostname `dns_name` and chains to at least one trust anchor.
     ///
@@ -153,7 +153,7 @@ signatures made by certificates.
     fn root_hint_subjects(&self) -> Option<&[DistinguishedName]> {
         None
     }
-    });
+});
 
 #[allow(unreachable_pub)]
 pub_api_trait_with_doc!(
