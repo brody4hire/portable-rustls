@@ -59,10 +59,9 @@ jobs:
           target: ${{ matrix.target }}
 
       # TODO: CARGO FEATURE FOR THIS STEP
-      - name: additional dependencies as needed for target(s) with no atomic ptr
-        run: |
-          cargo add once_cell -F critical-section -p ${{ env.MAIN_CRATE }}
-          cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
+      # XXX TODO TRY WITH BOTH unsafe-assume-single-core & critical-section HERE
+      - run: cargo add portable-atomic -F unsafe-assume-single-core -p ${{ env.MAIN_CRATE }}
+      # - run: cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
 
       - name: cargo build (debug; no-std) # (with no built-in provider)
         run: cargo build --target ${{ matrix.target }}
@@ -154,10 +153,9 @@ jobs:
       - name: Install cross (cross-rs) from GitHub
         run: cargo install cross --git https://github.com/cross-rs/cross
       # TODO: CARGO FEATURE FOR THIS STEP
-      - name: additional dependencies as needed for target(s) with no atomic ptr
-        run: |
-          cargo add once_cell -F critical-section -p ${{ env.MAIN_CRATE }}
-          cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
+      # XXX TODO TRY WITH BOTH unsafe-assume-single-core & critical-section HERE
+      # - run: cargo add portable-atomic -F unsafe-assume-single-core -p ${{ env.MAIN_CRATE }}
+      - run: cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
       - run: cross build --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
