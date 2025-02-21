@@ -7,6 +7,13 @@ macro_rules! pub_api_trait_with_doc {
     }
 }
 
+macro_rules! pub_api_trait_with_meta {
+    ($name:ident, $x:meta, $body:tt) => {
+        #[$x]
+        pub trait $name: core::fmt::Debug + Send + Sync $body
+    }
+}
+
 /////// XXX TODO REPLACE ALL USE OF THIS MACRO WITH pub_api_trait_with_doc! (with doc fixed) & REMOVE THIS MACRO
 /// pub trait - version with no doc - version that includes Send & Sync - supports use with alloc::sync::Arc
 #[cfg(not(use_rc_alias))]

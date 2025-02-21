@@ -241,7 +241,8 @@ impl CryptoProvider {
     /// - gets the pre-installed default, or
     /// - installs one `from_crate_features()`, or else
     /// - panics about the need to call [`CryptoProvider::install_default()`]
-    pub(crate) fn get_default_or_install_from_crate_features() -> &'static static_default::Arc<Self> {
+    pub(crate) fn get_default_or_install_from_crate_features() -> &'static static_default::Arc<Self>
+    {
         if let Some(provider) = Self::get_default() {
             return provider;
         }
