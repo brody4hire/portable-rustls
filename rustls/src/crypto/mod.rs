@@ -225,6 +225,8 @@ impl CryptoProvider {
     /// Call this early in your process to configure which provider is used for
     /// the provider.  The configuration should happen before any use of
     /// [`ClientConfig::builder()`] or [`ServerConfig::builder()`].
+    // XXX TBD CONSIDER BETTER SOLUTION THAN #[allow(unused_qualifications)] - ???
+    #[allow(unused_qualifications)]
     pub fn install_default(self) -> Result<(), static_default::Arc<Self>> {
         static_default::install_default(self)
     }
@@ -232,6 +234,8 @@ impl CryptoProvider {
     /// Returns the default `CryptoProvider` for this process.
     ///
     /// This will be `None` if no default has been set yet.
+    // XXX TBD CONSIDER BETTER SOLUTION THAN #[allow(unused_qualifications)] - ???
+    #[allow(unused_qualifications)]
     pub fn get_default() -> Option<&'static static_default::Arc<Self>> {
         static_default::get_default()
     }
@@ -241,6 +245,8 @@ impl CryptoProvider {
     /// - gets the pre-installed default, or
     /// - installs one `from_crate_features()`, or else
     /// - panics about the need to call [`CryptoProvider::install_default()`]
+    // XXX TBD CONSIDER BETTER SOLUTION THAN #[allow(unused_qualifications)] - ???
+    #[allow(unused_qualifications)]
     pub(crate) fn get_default_or_install_from_crate_features() -> &'static static_default::Arc<Self>
     {
         if let Some(provider) = Self::get_default() {
