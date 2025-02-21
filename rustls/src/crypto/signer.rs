@@ -14,7 +14,7 @@ use crate::x509;
 use super::CryptoProvider;
 
 pub_api_trait_with_xxx_meta_xxx!(SigningKey, doc = "\
-An abstract signing key. ---- asdf
+An abstract signing key.
 
 This interface is used by rustls to use a private signing key
 for authentication.  This includes server and client authentication.
