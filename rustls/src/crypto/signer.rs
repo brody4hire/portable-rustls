@@ -13,8 +13,8 @@ use crate::x509;
 
 use super::CryptoProvider;
 
-pub_api_trait_with_xxx_meta_xxx!(SigningKey, doc = "\
-An abstract signing key. ---- asdf
+pub_api_trait_with_xxx_meta_xxx!(doc = "\
+An abstract signing key.
 
 This interface is used by rustls to use a private signing key
 for authentication.  This includes server and client authentication.
@@ -58,7 +58,7 @@ custom implementation of the [`ResolvesServerCert`] or [`ResolvesClientCert`] tr
 [`ResolvesServerCertUsingSni`]: crate::server::ResolvesServerCertUsingSni
 [`ResolvesServerCert`]: crate::server::ResolvesServerCert
 [`ResolvesClientCert`]: crate::client::ResolvesClientCert
-", "--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---", {
+", SigningKey, "--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---", {
     /// Choose a `SignatureScheme` from those offered.
     ///
     /// Expresses the choice by returning something that implements `Signer`,

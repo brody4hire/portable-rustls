@@ -64,10 +64,10 @@ impl ClientCertVerified {
 }
 
 #[allow(unreachable_pub)]
-pub_api_trait_with_xxx_meta_xxx!(ServerCertVerifier, doc = "\
+pub_api_trait_with_xxx_meta_xxx!(doc = "\
 Something that can verify a server certificate chain, and verify
 signatures made by certificates.
-", "--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---", {
+", ServerCertVerifier, "--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---", {
     /// Verify the end-entity certificate `end_entity` is valid for the
     /// hostname `dns_name` and chains to at least one trust anchor.
     ///
