@@ -8,7 +8,7 @@ macro_rules! pub_api_trait_with_doc {
 }
 
 macro_rules! pub_api_trait_with_xxx_meta_xxx {
-    ($x:meta, $name:ident, $extra_ignored:tt, $body:tt) => {
+    ($name:ident, $x:meta, $extra_ignored:tt, $body:tt) => {
         #[$x]
         pub trait $name: core::fmt::Debug + Send + Sync $body
     }
