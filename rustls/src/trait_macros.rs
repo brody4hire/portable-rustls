@@ -2,6 +2,9 @@
 #[cfg(not(use_rc_alias))]
 macro_rules! rustls_api_trait {
     ($name:ident, $x:meta, $_extra_separator_to_help_avoid_bad_code_formatting:tt, $body:tt) => {
+        // XXX TBD RESOLVE TODO - ??? ???
+        // TODO: should only allow unreachable_pub in more limited cases
+        #[allow(unreachable_pub)]
         #[$x]
         pub trait $name: core::fmt::Debug + Send + Sync $body
     }
@@ -11,6 +14,7 @@ macro_rules! rustls_api_trait {
 #[cfg(use_rc_alias)]
 macro_rules! rustls_api_trait {
     ($name:ident, $x:meta, $_extra_separator_to_help_avoid_bad_code_formatting:tt, $body:tt) => {
+        #[allow(unreachable_pub)]
         #[$x]
         pub trait $name: core::fmt::Debug $body
     }

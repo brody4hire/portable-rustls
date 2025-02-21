@@ -63,7 +63,6 @@ impl ClientCertVerified {
     }
 }
 
-#[allow(unreachable_pub)]
 rustls_api_trait!(ServerCertVerifier, doc = "\
 Something that can verify a server certificate chain, and verify
 signatures made by certificates.
@@ -155,7 +154,6 @@ signatures made by certificates.
     }
 });
 
-#[allow(unreachable_pub)]
 rustls_api_trait!(ClientCertVerifier, doc = "\
 Something that can verify a client certificate chain
 ", _________________________________________________________________________________________________________, {
