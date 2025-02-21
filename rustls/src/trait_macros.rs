@@ -18,7 +18,7 @@ macro_rules! api_trait_with_doc_missing {
 
 /// pub trait for rustls API - version with meta (as needed for doc) - version with no Send / Sync - supports use with alloc::rc::Rc
 #[cfg(use_rc_alias)]
-macro_rules! pub_api_trait_with_xxx_meta_xxx {
+macro_rules! rustls_api_trait {
     ($name:ident, $x:meta, $_extra_separator_to_help_avoid_bad_code_formatting:tt, $body:tt) => {
         #[$x]
         pub trait $name: core::fmt::Debug $body
