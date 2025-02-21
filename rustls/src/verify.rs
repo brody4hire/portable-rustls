@@ -156,12 +156,9 @@ signatures made by certificates.
 });
 
 #[allow(unreachable_pub)]
-pub_api_trait_with_doc!(
-    "\
+pub_api_trait_with_xxx_meta_xxx!(ClientCertVerifier,doc = "\
 Something that can verify a client certificate chain
-",
-    ClientCertVerifier,
-    {
+", _________________________________________________________________________________________________________, {
         /// Returns `true` to enable the server to request a client certificate and
         /// `false` to skip requesting a client certificate. Defaults to `true`.
         fn offer_client_auth(&self) -> bool {
