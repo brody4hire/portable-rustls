@@ -30,7 +30,7 @@ std = ["webpki/std", "pki-types/std", "once_cell/std"]
 tls12 = []
 zlib = ["dep:zlib-rs"]
 # XXX XXX XXX
-portable-atomic = ["dep:portable-atomic"]
+portable-atomic = ["dep:portable-atomic", "once_cell/portable-atomic"]
 
 [build-dependencies]
 rustversion = { version = "1.0.6", optional = true }
