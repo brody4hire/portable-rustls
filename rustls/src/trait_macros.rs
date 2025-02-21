@@ -1,4 +1,5 @@
 /// pub trait for rustls API - version with meta (as needed for doc) - version that includes Send & Sync - supports use with alloc::sync::Arc
+#[cfg(not(use_rc_alias))]
 macro_rules! rustls_api_trait {
     ($name:ident, $x:meta, $_extra_separator_to_help_avoid_bad_code_formatting:tt, $body:tt) => {
         #[$x]
