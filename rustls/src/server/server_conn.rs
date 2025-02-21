@@ -76,6 +76,7 @@ api_trait_with_doc_missing!(StoresServerSessions, {
     fn can_cache(&self) -> bool;
 });
 
+// XXX XXX USE rustls_api_trait! - ???
 /// A trait for the ability to encrypt and decrypt tickets.
 pub trait ProducesTickets: Debug + Send + Sync {
     /// Returns true if this implementation will encrypt/decrypt
