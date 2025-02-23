@@ -9,14 +9,17 @@
 //! * NEED TO EXPLICITLY ENABLE ANY FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
 //! * IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 //!
+//! <!-- TODO CLEAN UP THIS DOCUMENTATION -->
 //! THIS FORK SUPPORTS using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
 //! * USE Rust nightly toolchain
 //! * USE `--cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
 //! * USE `--cfg unstable_portable_atomic_arc` in RUSTFLAGS FOR `cargo build` (etc.)
-//! <!-- TODO: ADD CARGO FEATURE TO AUTOMATE THIS STEP: -->
-//! * WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH `critical-section` FEATURE ENABLED:
-//!   - `once_cell`
-//!   - `portable-atomic`
+//! * NEED TO ADD MULTIPLE DEPENDENCIES WITH SPECIFIC FEATURES ENABLED WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, AS DESCRIBED DIRECTLY BELOW
+//!
+//! <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
+//! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH SPECIFIC FEATURES ENABLED:
+//! - add `once_cell` with `portable-atomic` feature enabled
+//! - `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
 //!
 //! <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
 //! <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->

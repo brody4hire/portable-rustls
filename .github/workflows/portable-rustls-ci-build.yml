@@ -61,7 +61,7 @@ jobs:
       # TODO: CARGO FEATURE FOR THIS STEP
       - name: additional dependencies as needed for target(s) with no atomic ptr
         run: |
-          cargo add once_cell -F critical-section -p ${{ env.MAIN_CRATE }}
+          cargo add once_cell -F portable-atomic -p ${{ env.MAIN_CRATE }}
           cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
 
       - name: cargo build (debug; no-std) # (with no built-in provider)
@@ -156,7 +156,7 @@ jobs:
       # TODO: CARGO FEATURE FOR THIS STEP
       - name: additional dependencies as needed for target(s) with no atomic ptr
         run: |
-          cargo add once_cell -F critical-section -p ${{ env.MAIN_CRATE }}
+          cargo add once_cell -F portable-atomic -p ${{ env.MAIN_CRATE }}
           cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
       - run: cross build --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
