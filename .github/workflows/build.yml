@@ -16,6 +16,8 @@ on:
 
 env:
   MAIN_CRATE: portable-rustls
+  # XXX TBD DEFINE PER UNSUPPORTED CFG FEATURE - ??? ??? ???
+  ALL_UNSUPPORTED_CFG: --cfg hashbrown_cfg_not_supported --cfg cfg_aws_lc_rs_not_supported
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
@@ -73,6 +75,8 @@ jobs:
 
       - name: cargo build (debug; default features)
         run: cargo build --locked
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       # N/A [FIPS REMOVED FROM THIS FORK]: nb. feature sets that include "fips" ...
       # nb. "--all-targets" does not include doctests
@@ -80,6 +84,7 @@ jobs:
         run: cargo test --release --locked --all-features --all-targets
         env:
           RUST_BACKTRACE: 1
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       # nb. this is separate since `--doc` option cannot be combined with other target option(s) ref:
       # - https://doc.rust-lang.org/cargo/commands/cargo-test.html
@@ -87,11 +92,14 @@ jobs:
         run: cargo test --release --locked --all-features --doc
         env:
           RUST_BACKTRACE: 1
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       - name: cargo test (debug; aws-lc-rs)
-        run: cargo test --no-default-features --features aws_lc_rs,tls12,read_buf,logging,std --all-targets
+        run: cargo test --no-default-features --features tls12,read_buf,logging,std --all-targets
         env:
           RUST_BACKTRACE: 1
+          # XXX XXX ONLY KEEP UNSUPPORTED CFG for aws-lc-rs - ???
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       # [FIPS REMOVED FROM THIS FORK]
       # - name: cargo test (release; fips)
@@ -105,15 +113,23 @@ jobs:
 
       - name: cargo test (debug; rustls-provider-example; all features)
         run: cargo test --all-features -p rustls-provider-example
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       - name: cargo build (debug; rustls-provider-test)
         run: cargo build --locked -p rustls-provider-test
 
       - name: cargo test (debug; rustls-provider-test; all features)
         run: cargo test --all-features -p rustls-provider-test
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
+      # XXX TBD ??? ???
       - name: cargo package --all-features -p ${{ env.MAIN_CRATE }}
         run: cargo package --all-features -p ${{ env.MAIN_CRATE }}
+        env:
+          # XXX TBD ??? ???
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
   msrv:
     # NOTE: MSRV - Rust nightly is covered by multiple jobs in portable-rustls-ci-build.yml
@@ -131,12 +147,16 @@ jobs:
 
       # zlib-rs is optional and requires a later MSRV
       - run: cargo check --locked --lib $(admin/all-features-except zlib ${{ env.MAIN_CRATE }}) -p ${{ env.MAIN_CRATE }}
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: "1.75"
 
       - run: cargo check --locked --lib --all-features -p ${{ env.MAIN_CRATE }}
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
   features:
     name: Features
@@ -190,10 +210,14 @@ jobs:
         run: cargo build --locked --no-default-features --target ${{ env.NO_STD_BUILD_TARGET }}
         working-directory: rustls
 
-      - name: cargo build (debug; no default features; no-std, hashbrown) with no-std target - ${{ env.NO_STD_BUILD_TARGET }}
+      - name: cargo build (debug; no default features; no-std, hashbrown_cfg_not_supported) with no-std target - ${{ env.NO_STD_BUILD_TARGET }}
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
+        # NOTE: KEEPING --features hashbrown TO INSTALL hashbrown from dependencies
         run: cargo build --locked --no-default-features --features hashbrown --target ${{ env.NO_STD_BUILD_TARGET }}
         working-directory: rustls
+        env:
+          # XXX TBD XXX
+          RUSTFLAGS: --cfg hashbrown_cfg_not_supported
 
       # NOTE: no features are enabled by default on main crate in this fork
       - name: cargo test (debug; default features)
@@ -214,8 +238,11 @@ jobs:
 
       - name: cargo test (debug; no default features; aws-lc-rs,tls12)
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
-        run: cargo test --no-default-features --features aws_lc_rs,tls12,std
+        run: cargo test --no-default-features --features include-extra-cfg-dependencies,tls12,std
         working-directory: rustls
+        env:
+          # XXX XXX ONLY KEEP UNSUPPORTED CFG for aws-lc-rs - ???
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       # [FIPS REMOVED FROM THIS FORK]
       # - name: cargo test (debug; no default features; fips,tls12)
@@ -229,6 +256,8 @@ jobs:
   bogo:
     name: BoGo test suite
     runs-on: ubuntu-latest
+    env:
+      RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -304,7 +333,11 @@ jobs:
         run: cargo run -p rustls-bench --profile=bench --locked --features ring -- --multiplier 0.1
 
       - name: Smoke-test benchmark program (aws-lc-rs)
-        run: cargo run -p rustls-bench --profile=bench --locked --features aws-lc-rs -- --multiplier 0.1
+        # XXX XXX
+        run: cargo run -p rustls-bench --profile=bench --locked --features include-extra-cfg-dependencies -- --multiplier 0.1
+        env:
+          # XXX XXX ONLY KEEP UNSUPPORTED CFG for aws-lc-rs - ???
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
       # [FIPS REMOVED FROM THIS FORK]
       # - name: Smoke-test benchmark program (fips)
@@ -313,7 +346,7 @@ jobs:
       - name: Run micro-benchmarks
         run: cargo bench --locked --all-features
         env:
-          RUSTFLAGS: --cfg=bench
+          RUSTFLAGS: --cfg=bench ${{ env.ALL_UNSUPPORTED_CFG }}
 
   docs:
     name: Check for documentation errors
@@ -337,6 +370,8 @@ jobs:
           cargo build --locked --all-features
           ./admin/pull-readme
           git diff --exit-code
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
   coverage:
     name: Measure coverage
@@ -345,6 +380,7 @@ jobs:
     env:
       # Favor CI testing on Rust nightly in this fork
       RUST_VERSION: nightly
+      RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -443,6 +479,8 @@ jobs:
 
       - name: Check semver
         uses: obi1kenobi/cargo-semver-checks-action@v2
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
   format:
     name: Format
@@ -509,6 +547,8 @@ jobs:
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
       # - Keep the main crate free of all warnings... FOR ALL FEATURES IN MAIN CRATE
       - run: cargo clippy -p ${{ env.MAIN_CRATE }} --all-features -- --deny warnings
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
   clippy-nightly:
     name: Clippy - Rust nightly
@@ -533,6 +573,8 @@ jobs:
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
       # DENY ALL WARNINGS FROM RUST NIGHTLY CLIPPY FOR ALL FEATURES IN MAIN CRATE in this fork
       - run: cargo clippy -p ${{ env.MAIN_CRATE }} --all-features -- --deny warnings
+        env:
+          RUSTFLAGS: ${{ env.ALL_UNSUPPORTED_CFG }}
 
   check-external-types:
     name: Validate external types appearing in public API

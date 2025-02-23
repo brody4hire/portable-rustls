@@ -728,7 +728,7 @@ mod connection {
     /// # Example
     ///
     /// ```no_run
-    /// # #[cfg(feature = "aws_lc_rs")] {
+    /// # #[cfg(cfg_aws_lc_rs_not_supported)] {
     /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
     /// # fn choose_server_config(
     /// #     _: rustls::server::ClientHello,

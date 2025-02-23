@@ -30,7 +30,7 @@ use crate::{ClientConfig, ServerConfig};
 /// supported protocol versions.
 ///
 /// ```
-/// # #[cfg(feature = "aws_lc_rs")] {
+/// # #[cfg(cfg_aws_lc_rs_not_supported)] {
 /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 /// # rustls::crypto::aws_lc_rs::default_provider().install_default();
 /// use rustls::{ClientConfig, ServerConfig};
@@ -47,7 +47,7 @@ use crate::{ClientConfig, ServerConfig};
 /// You may also override the choice of protocol versions:
 ///
 /// ```no_run
-/// # #[cfg(feature = "aws_lc_rs")] {
+/// # #[cfg(cfg_aws_lc_rs_not_supported)] {
 /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 /// # rustls::crypto::aws_lc_rs::default_provider().install_default();
 /// # use rustls::ServerConfig;
@@ -84,7 +84,7 @@ use crate::{ClientConfig, ServerConfig};
 /// For example:
 ///
 /// ```
-/// # #[cfg(feature = "aws_lc_rs")] {
+/// # #[cfg(cfg_aws_lc_rs_not_supported)] {
 /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 /// # rustls::crypto::aws_lc_rs::default_provider().install_default();
 /// # use rustls::ClientConfig;
@@ -109,7 +109,7 @@ use crate::{ClientConfig, ServerConfig};
 /// For example:
 ///
 /// ```no_run
-/// # #[cfg(feature = "aws_lc_rs")] {
+/// # #[cfg(cfg_aws_lc_rs_not_supported)] {
 /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 /// # rustls::crypto::aws_lc_rs::default_provider().install_default();
 /// # use rustls::ServerConfig;

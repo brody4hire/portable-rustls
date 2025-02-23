@@ -26,7 +26,7 @@ use crate::{suites, Error, NamedGroup, ProtocolVersion, SupportedProtocolVersion
 pub mod ring;
 
 /// aws-lc-rs-based CryptoProvider.
-#[cfg(feature = "aws_lc_rs")]
+#[cfg(cfg_aws_lc_rs_not_supported)]
 pub mod aws_lc_rs;
 
 /// TLS message encryption/decryption interfaces.
@@ -58,6 +58,7 @@ pub use crate::suites::CipherSuiteCommon;
 
 /// Controls core cryptography used by rustls.
 ///
+/// <!-- XXX TODO XXX
 /// This crate comes with two built-in options, provided as
 /// `CryptoProvider` structures:
 ///
@@ -123,7 +124,7 @@ pub use crate::suites::CipherSuiteCommon;
 /// API ([`ConfigBuilder::with_single_cert`] etc.), it might look like this:
 ///
 /// ```
-/// # #[cfg(feature = "aws_lc_rs")] {
+/// # #[cfg(cfg_aws_lc_rs_not_supported)] {
 /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 /// # use std::sync::Arc;
 /// # mod fictious_hsm_api { pub fn load_private_key(key_der: pki_types::PrivateKeyDer<'static>) -> ! { unreachable!(); } }
@@ -181,6 +182,7 @@ pub use crate::suites::CipherSuiteCommon;
 ///
 /// You can verify the configuration at runtime by checking
 /// [`ServerConfig::fips()`]/[`ClientConfig::fips()`] return `true`.
+/// -- XXX -->
 #[derive(Debug, Clone)]
 pub struct CryptoProvider {
     /// List of supported ciphersuites, in preference order -- the first element
@@ -262,7 +264,7 @@ impl CryptoProvider {
     fn from_crate_features() -> Option<Self> {
         #[cfg(all(
             feature = "ring",
-            not(feature = "aws_lc_rs"),
+            not(cfg_aws_lc_rs_not_supported),
             not(feature = "custom-provider")
         ))]
         {
@@ -270,7 +272,7 @@ impl CryptoProvider {
         }
 
         #[cfg(all(
-            feature = "aws_lc_rs",
+            cfg_aws_lc_rs_not_supported,
             not(feature = "ring"),
             not(feature = "custom-provider")
         ))]

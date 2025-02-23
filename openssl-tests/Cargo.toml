@@ -12,5 +12,9 @@ base64 = { workspace = true }
 num-bigint = { workspace = true }
 once_cell = { workspace = true }
 # WITH ADAPTED MAIN PACKAGE NAME for this fork
-rustls = { package = "portable-rustls", path = "../rustls", features = ["aws-lc-rs", "std", "tls12"] }
+rustls = { package = "portable-rustls", path = "../rustls", features = [
+  "include-extra-cfg-dependencies",
+  "std",
+  "tls12",
+] }
 openssl = { workspace = true }

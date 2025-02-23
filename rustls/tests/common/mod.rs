@@ -316,7 +316,7 @@ pub static ALL_KEY_TYPES: &[KeyType] = &[
     KeyType::Rsa4096,
     KeyType::EcdsaP256,
     KeyType::EcdsaP384,
-    #[cfg(all(not(feature = "ring"), feature = "aws_lc_rs"))]
+    #[cfg(all(not(feature = "ring"), cfg_aws_lc_rs_not_supported))]
     KeyType::EcdsaP521,
     KeyType::Ed25519,
 ];
@@ -967,8 +967,8 @@ pub fn do_suite_and_kx_test(
 
 fn exactly_one_provider() -> bool {
     cfg!(any(
-        all(feature = "ring", not(feature = "aws_lc_rs")),
-        all(feature = "aws_lc_rs", not(feature = "ring"))
+        all(feature = "ring", not(cfg_aws_lc_rs_not_supported)),
+        all(cfg_aws_lc_rs_not_supported, not(feature = "ring"))
     ))
 }
 

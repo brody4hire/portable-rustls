@@ -186,7 +186,7 @@
 //! the Mozilla set of root certificates.
 //!
 //! ```rust,no_run
-//! # #[cfg(feature = "aws-lc-rs")] {
+//! # #[cfg(cfg_aws_lc_rs_not_supported)] {
 //! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! let root_store = rustls::RootCertStore::from_iter(
 //!     webpki_roots::TLS_SERVER_ROOTS
@@ -202,7 +202,7 @@
 //! and use it for all connections made by that process.
 //!
 //! ```rust,no_run
-//! # #[cfg(feature = "aws_lc_rs")] {
+//! # #[cfg(cfg_aws_lc_rs_not_supported)] {
 //! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # let root_store: rustls::RootCertStore = panic!();
 //! let config = rustls::ClientConfig::builder()
@@ -215,7 +215,7 @@
 //! know what to expect to find in the server's certificate.
 //!
 //! ```rust
-//! # #[cfg(feature = "aws_lc_rs")] {
+//! # #[cfg(cfg_aws_lc_rs_not_supported)] {
 //! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # use webpki;
 //! # use std::sync::Arc;
@@ -258,7 +258,7 @@
 //! errors.
 //!
 //! ```rust,no_run
-//! # #[cfg(feature = "aws_lc_rs")] {
+//! # #[cfg(cfg_aws_lc_rs_not_supported)] {
 //! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
 //! # let mut client = rustls::ClientConnection::new(panic!(), panic!()).unwrap();
 //! # struct Socket { }
@@ -482,7 +482,7 @@ mod conn;
 pub mod crypto;
 mod error;
 mod hash_hs;
-#[cfg(any(feature = "std", feature = "hashbrown"))]
+#[cfg(any(feature = "std", hashbrown_cfg_not_supported))]
 mod limited_cache;
 mod rand;
 mod record_layer;
@@ -618,7 +618,7 @@ pub use crate::suites::{
 };
 #[cfg(feature = "std")]
 pub use crate::ticketer::TicketRotator;
-#[cfg(any(feature = "std", feature = "hashbrown"))] // < XXX: incorrect feature gate
+#[cfg(any(feature = "std", hashbrown_cfg_not_supported))] // < XXX: incorrect feature gate
 pub use crate::ticketer::TicketSwitcher;
 #[cfg(feature = "tls12")]
 pub use crate::tls12::Tls12CipherSuite;
@@ -648,7 +648,7 @@ pub mod client {
     pub use client_conn::{ClientConnection, WriteEarlyData};
     pub use ech::{EchConfig, EchGreaseConfig, EchMode, EchStatus};
     pub use handy::AlwaysResolvesClientRawPublicKeys;
-    #[cfg(any(feature = "std", feature = "hashbrown"))]
+    #[cfg(any(feature = "std", hashbrown_cfg_not_supported))]
     pub use handy::ClientSessionMemoryCache;
 
     /// Dangerous configuration that should be audited and used with extreme care.
@@ -681,9 +681,9 @@ pub mod server {
     mod tls13;
 
     pub use builder::WantsServerCert;
-    #[cfg(any(feature = "std", feature = "hashbrown"))]
+    #[cfg(any(feature = "std", hashbrown_cfg_not_supported))]
     pub use handy::ResolvesServerCertUsingSni;
-    #[cfg(any(feature = "std", feature = "hashbrown"))]
+    #[cfg(any(feature = "std", hashbrown_cfg_not_supported))]
     pub use handy::ServerSessionMemoryCache;
     pub use handy::{AlwaysResolvesServerRawPublicKeys, NoServerSessionStorage};
     pub use server_conn::{
@@ -731,7 +731,7 @@ pub mod sign {
 /// APIs for implementing QUIC TLS
 pub mod quic;
 
-#[cfg(any(feature = "std", feature = "hashbrown"))] // < XXX: incorrect feature gate
+#[cfg(any(feature = "std", hashbrown_cfg_not_supported))] // < XXX: incorrect feature gate
 /// APIs for implementing TLS tickets
 pub mod ticketer;
 
@@ -746,15 +746,15 @@ pub mod lock;
 /// Polyfills for features that are not yet stabilized or available with current MSRV.
 pub(crate) mod polyfill;
 
-#[cfg(any(feature = "std", feature = "hashbrown"))]
+#[cfg(any(feature = "std", hashbrown_cfg_not_supported))]
 mod hash_map {
     #[cfg(feature = "std")]
     pub(crate) use std::collections::hash_map::Entry;
     #[cfg(feature = "std")]
     pub(crate) use std::collections::HashMap;
 
-    #[cfg(all(not(feature = "std"), feature = "hashbrown"))]
+    #[cfg(all(not(feature = "std"), hashbrown_cfg_not_supported))]
     pub(crate) use hashbrown::hash_map::Entry;
-    #[cfg(all(not(feature = "std"), feature = "hashbrown"))]
+    #[cfg(all(not(feature = "std"), hashbrown_cfg_not_supported))]
     pub(crate) use hashbrown::HashMap;
 }

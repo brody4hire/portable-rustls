@@ -23,7 +23,7 @@ use rustls::internal::msgs::handshake::{
 };
 use rustls::internal::msgs::message::{Message, MessagePayload, PlainMessage};
 use rustls::server::{ClientHello, ParsedCertificate, ResolvesServerCert};
-#[cfg(feature = "aws_lc_rs")]
+#[cfg(cfg_aws_lc_rs_not_supported)]
 use rustls::{
     client::{EchConfig, EchGreaseConfig, EchMode},
     crypto::aws_lc_rs::hpke::ALL_SUPPORTED_SUITES,
@@ -7011,7 +7011,7 @@ fn test_debug_server_name_from_string() {
     )
 }
 
-#[cfg(all(feature = "ring", feature = "aws_lc_rs"))]
+#[cfg(all(feature = "ring", cfg_aws_lc_rs_not_supported))]
 #[test]
 fn test_explicit_provider_selection() {
     let client_config = finish_client_config(
@@ -7247,7 +7247,7 @@ fn test_server_fips_service_indicator_includes_require_ems() {
     assert!(!server_config.fips());
 }
 
-#[cfg(feature = "aws_lc_rs")]
+#[cfg(cfg_aws_lc_rs_not_supported)]
 #[test]
 fn test_client_fips_service_indicator_includes_ech_hpke_suite() {
     if !provider_is_fips() {

@@ -1,15 +1,15 @@
-#![cfg(any(feature = "ring", feature = "aws_lc_rs"))]
+#![cfg(any(feature = "ring", cfg_aws_lc_rs_not_supported))]
 
 //! Note that the default test runner builds each test file into a separate
 //! executable, and runs tests in an indeterminate order.  That restricts us
 //! to doing all the desired tests, in series, in one function.
 
 use portable_rustls as rustls; // TEST IMPORT WORKAROUND for this fork
-#[cfg(all(feature = "aws_lc_rs", not(feature = "ring")))]
+#[cfg(all(cfg_aws_lc_rs_not_supported, not(feature = "ring")))]
 use rustls::crypto::aws_lc_rs as provider;
-#[cfg(all(feature = "ring", not(feature = "aws_lc_rs")))]
+#[cfg(all(feature = "ring", not(cfg_aws_lc_rs_not_supported)))]
 use rustls::crypto::ring as provider;
-#[cfg(all(feature = "ring", feature = "aws_lc_rs"))]
+#[cfg(all(feature = "ring", cfg_aws_lc_rs_not_supported))]
 use rustls::crypto::ring as provider;
 use rustls::crypto::CryptoProvider;
 use rustls::ClientConfig;
@@ -19,11 +19,11 @@ use crate::common::*;
 
 #[test]
 fn test_process_provider() {
-    if dbg!(cfg!(all(feature = "ring", feature = "aws_lc_rs"))) {
+    if dbg!(cfg!(all(feature = "ring", cfg_aws_lc_rs_not_supported))) {
         test_explicit_choice_required();
-    } else if dbg!(cfg!(all(feature = "ring", not(feature = "aws_lc_rs")))) {
+    } else if dbg!(cfg!(all(feature = "ring", not(cfg_aws_lc_rs_not_supported)))) {
         test_ring_used_as_implicit_provider();
-    } else if dbg!(cfg!(all(feature = "aws_lc_rs", not(feature = "ring")))) {
+    } else if dbg!(cfg!(all(cfg_aws_lc_rs_not_supported, not(feature = "ring")))) {
         test_aws_lc_rs_used_as_implicit_provider();
     } else {
         panic!("fix feature combinations");

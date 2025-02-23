@@ -10,7 +10,7 @@ mod tests_with_ring {
     mod tests;
 }
 
-#[cfg(feature = "aws_lc_rs")]
+#[cfg(cfg_aws_lc_rs_not_supported)]
 #[path = "."]
 mod tests_with_aws_lc_rs {
     provider_aws_lc_rs!();
