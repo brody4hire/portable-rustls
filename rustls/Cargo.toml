@@ -15,7 +15,11 @@ exclude = ["src/testdata", "tests/**"]
 build = "build.rs"
 
 [features]
+# XXX TBD INCLUDE portable-atomic - ???
 default = []
+
+# XXX TODO UPDATE DOC
+portable-atomic = ["once_cell/portable-atomic"]
 
 aws-lc-rs = ["aws_lc_rs"] # ALIAS - FAVORED OVER `aws_lc_rs` FEATURE NAME IN THIS FORK
 aws_lc_rs = ["dep:aws-lc-rs", "webpki/aws_lc_rs"]
