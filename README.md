@@ -84,7 +84,8 @@ THIS FORK SUPPORTS using `Arc` from `portable-atomic-util` to support targets wi
 <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
 WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH SPECIFIC FEATURES ENABLED:
 - add `once_cell` with `portable-atomic` feature enabled
-- `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
+- add `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
+- possibly more requirements in case of `portable-atomic` with `critical-section` for no-std: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
 
 <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
 <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->

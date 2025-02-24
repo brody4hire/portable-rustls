@@ -39,11 +39,18 @@ brotli = { workspace = true, optional = true }
 brotli-decompressor = { workspace = true, optional = true }
 hashbrown = { workspace = true, optional = true }
 log = { workspace = true, optional = true }
-# only required for no-std - RECENT VERSION NEEDED IN THIS FORK TO AVOID ANY
-# POTENTIAL ISSUES WITH `critical-section` feature for no atomic ptr support
+# REQUIRED for no-std (with recent update to avoid any potential surprises with no atomic ptr support, etc.)
+# NOTE: While it would be possible to use `once_cell` with `critical-section` feature,
+# which would enable using `once_cell::sync::OnceCell` instead of `once_cell::race::OnceBox`,
+# this does not seem to have so much benefit as the likelihood of multiple threads attempting
+# to set the default crypto provider at the same time seems extremely low.
+# Using `once_cell::sync::OnceCell` would let the losing thread to see the winning value
+# in the error result from `crypto::CryptoProvider::set_default()`, which does not seem
+# worth using the `critical-section` feature with its no-std installation requirements.
+# TODO: specify `once_cell` version in single place - see also: https://github.com/rustls/rustls/pull/2350
 once_cell = { version = "1.20.3", default-features = false, features = ["alloc", "race"] }
-# TODO SHOULD BE OPTIONAL WITH FEATURE CONFIG IN THIS FORK
-portable-atomic-util = { version = "0.2.4", features = ["alloc"] }
+# TODO: KEEP `portable-atomic-util` OPTIONAL WITH FEATURE CONFIG IN THIS FORK
+portable-atomic-util = { version = "0.2.4", default-features = false, features = ["alloc"] }
 ring = { workspace = true, optional = true }
 subtle = { workspace = true }
 webpki = { workspace = true }
