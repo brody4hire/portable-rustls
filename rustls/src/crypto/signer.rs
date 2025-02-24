@@ -22,6 +22,7 @@ use super::CryptoProvider;
 /// `Arc<dyn SigningKey>`. There are no concrete public structs in Rustls
 /// that implement this trait.
 ///
+/// <!-- XXX TODO
 /// There are two main ways to get a signing key:
 ///
 ///  - [`KeyProvider::load_private_key()`], or
@@ -57,6 +58,7 @@ use super::CryptoProvider;
 /// [`ResolvesServerCertUsingSni`]: crate::server::ResolvesServerCertUsingSni
 /// [`ResolvesServerCert`]: crate::server::ResolvesServerCert
 /// [`ResolvesClientCert`]: crate::client::ResolvesClientCert
+/// XXX -->
 pub trait SigningKey: Debug + Send + Sync {
     /// Choose a `SignatureScheme` from those offered.
     ///

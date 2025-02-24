@@ -34,8 +34,10 @@
 //! obsolete cryptography by default.
 //!
 //! <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
+//! <!-- XXX
 //! Rustls implements TLS1.2 and TLS1.3 for both clients and servers. See [the full
 //! list of protocol features](manual::_04_features).
+//! XXX -->
 //!
 //! ### Platform support
 //!
@@ -342,11 +344,13 @@
 //!   See [manual::_06_fips] for more details.
 //! -- -->
 //!
-//! - `prefer-post-quantum`: for the [`aws-lc-rs`]-backed provider, prioritizes post-quantum secure
+//! <!-- XXX XXX
+//! - `unstable-prefer-post_quantum-not-supported`: for the [`aws-lc-rs`]-backed provider, prioritizes post-quantum secure
 //!   key exchange by default (using X25519MLKEM768).  This feature merely alters the order
 //!   of `rustls::crypto::aws_lc_rs::DEFAULT_KX_GROUPS`.  We expect to add this feature
 //!   to the default set in a future minor release.  See [the manual][x25519mlkem768-manual]
 //!   for more details.
+//! XXX -->
 //!
 //! <!-- UPDATED DESCRIPTION FOR THIS FORK -->
 //! - `custom-provider`: disables implicit use of any built-in providers
@@ -372,7 +376,9 @@
 //!
 //! - `zlib`: uses the `zlib-rs` crate for RFC8879 certificate compression support.
 //!
+//! <!-- XXX
 //! [x25519mlkem768-manual]: manual::_05_defaults#about-the-post-quantum-secure-key-exchange-x25519mlkem768
+//! XXX -->
 
 // Require docs for public APIs, deny unsafe code, etc.
 #![forbid(unsafe_code, unused_must_use)]

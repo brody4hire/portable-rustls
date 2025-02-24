@@ -45,7 +45,7 @@ fn tls12_handshake_fragmented() {
 
     let mut expected_client = TLS12_CLIENT_TRANSCRIPT_FRAGMENTED.to_vec();
     let mut expected_server = TLS12_SERVER_TRANSCRIPT_FRAGMENTED.to_vec();
-    if provider_is_aws_lc_rs() && cfg!(feature = "prefer-post-quantum") {
+    if provider_is_aws_lc_rs() && cfg!(feature = "unstable-prefer-post_quantum-not-supported") {
         // client hello is larger for X25519MLKEM768
         expected_client.splice(0..0, ["EncodeTlsData", "EncodeTlsData"]);
         expected_server.splice(0..0, ["BlockedHandshake", "BlockedHandshake"]);
@@ -85,7 +85,7 @@ fn tls13_handshake_fragmented() {
     let mut expected_client = TLS13_CLIENT_TRANSCRIPT_FRAGMENTED.to_vec();
     let mut expected_server = TLS13_SERVER_TRANSCRIPT_FRAGMENTED.to_vec();
 
-    if provider_is_aws_lc_rs() && cfg!(feature = "prefer-post-quantum") {
+    if provider_is_aws_lc_rs() && cfg!(feature = "unstable-prefer-post_quantum-not-supported") {
         // client hello is larger for X25519MLKEM768
         expected_client.splice(0..0, ["EncodeTlsData", "EncodeTlsData"]);
         expected_server.splice(0..0, ["BlockedHandshake", "BlockedHandshake"]);

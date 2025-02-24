@@ -3899,7 +3899,7 @@ fn expected_kx_for_version(version: &SupportedProtocolVersion) -> NamedGroup {
         version.version,
         provider_is_aws_lc_rs(),
         provider_is_fips(),
-        cfg!(feature = "prefer-post-quantum"),
+        cfg!(feature = "unstable-prefer-post_quantum-not-supported"),
     ) {
         (ProtocolVersion::TLSv1_3, true, _, true) => NamedGroup::X25519MLKEM768,
         (_, _, true, _) => NamedGroup::secp256r1,
