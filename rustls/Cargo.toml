@@ -21,6 +21,9 @@ aws-lc-rs = ["aws_lc_rs"] # ALIAS - FAVORED OVER `aws_lc_rs` FEATURE NAME IN THI
 aws_lc_rs = ["dep:aws-lc-rs", "webpki/aws_lc_rs"]
 brotli = ["dep:brotli", "dep:brotli-decompressor", "std"]
 custom-provider = []
+# XXX TODO UPDATE TESTING & DOCUMENTATION
+# XXX TODO ENSURE THIS SHOWS UP IN GENERATED DOCUMENTATION
+default-provider = []
 # [FIPS REMOVED FROM THIS FORK] fips = ...
 logging = ["log"]
 prefer-post-quantum = ["aws-lc-rs"]
