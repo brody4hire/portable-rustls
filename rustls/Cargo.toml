@@ -47,7 +47,8 @@ log = { workspace = true, optional = true }
 # Using `once_cell::sync::OnceCell` would let the losing thread to see the winning value
 # in the error result from `crypto::CryptoProvider::set_default()`, which does not seem
 # worth using the `critical-section` feature with its no-std installation requirements.
-# TODO: specify `once_cell` version in single place - see also: https://github.com/rustls/rustls/pull/2350
+# TODO: specify `once_cell` version in single place - as RECENTLY UPDATED in upstream RUSTLS
+# (It may be best to specify the `once_cell` features here, as may be needed for updates moving forward.)
 once_cell = { version = "1.20.3", default-features = false, features = ["alloc", "race"] }
 # TODO: KEEP `portable-atomic-util` OPTIONAL WITH FEATURE CONFIG IN THIS FORK
 portable-atomic-util = { version = "0.2.4", default-features = false, features = ["alloc"] }
