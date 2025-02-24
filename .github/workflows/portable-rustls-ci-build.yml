@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   build:
-    name: build with unstable_portable_atomic_arc
+    name: build with portable-atomic feature
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -65,10 +65,10 @@ jobs:
           cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
 
       - name: cargo build (debug; no-std) # (with no built-in provider)
-        run: cargo build --target ${{ matrix.target }}
+        run: cargo build -F portable-atomic --target ${{ matrix.target }}
         working-directory: rustls
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
       # NOTE: BUILD with hashbrown FAILS with no atomic ptr - MISSING SUPPORT in default hasher
       # - name: cargo build (debug; no-std; hashbrown) # (with no built-in provider)
@@ -77,7 +77,7 @@ jobs:
   test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: test with unstable_portable_atomic_arc
+    name: test with portable-atomic feature
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -103,10 +103,10 @@ jobs:
           toolchain: ${{ matrix.rust }}
 
       - name: cargo test (debug; std) # no built-in provider
-        run: cargo test --features std
+        run: cargo test --features std,portable-atomic
         working-directory: rustls
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
       # TODO test with all features
       # - name: cargo test (debug; all features)
@@ -114,7 +114,7 @@ jobs:
       #   ...
 
   cross-build:
-    name: cross build test with unstable_portable_atomic_arc
+    name: cross build test with portable-atomic feature
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
@@ -158,14 +158,14 @@ jobs:
         run: |
           cargo add once_cell -F portable-atomic -p ${{ env.MAIN_CRATE }}
           cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
-      - run: cross build --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+      - run: cross build -F portable-atomic --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
   cross-test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: cross-target testing with unstable_portable_atomic_arc
+    name: cross-target testing with portable-atomic feature
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
@@ -207,9 +207,9 @@ jobs:
         # TODO: improve performance installing bindgen with caching - see recent RUSTLS update:
         # - https://github.com/rustls/rustls/pull/2343
         run: cargo add --dev --features bindgen 'aws-lc-sys@>0.20' --package ${{ env.MAIN_CRATE }} --verbose && cargo install bindgen-cli --verbose
-      - run: cross test --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+      - run: cross test -F portable-atomic --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
       - run: cross test --all-features --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
