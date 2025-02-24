@@ -12,6 +12,8 @@ Rustls is a modern TLS library written in Rust.
 
 <!-- TODO(portable-rustls) UPDATE INFO & LINKS BELOW FOR THIS FORK -->
 
+<!-- TODO: IMPROVE ORGANIZATION IN GENERAL REF: https://github.com/brody4hire/portable-rustls/issues/37 -->
+
 # portable-rustls - a fork of upstream rustls
 
 <p align="center">☆ ☆ ☆ (a modern TLS library IMPLEMENTED IN RUST) ☆ ☆ ☆</p>
@@ -21,23 +23,31 @@ Rustls is a modern TLS library written in Rust.
 ![Crates.io MSRV](https://img.shields.io/crates/msrv/portable-rustls?style=flat-square)
 
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
-IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK (AS STATED FURTHER BELOW)
+__IMPORTANT NOTICE:__ regardless of upstream __`rustls`__ project this fork is __NOT CERTIFIED__ and __NOT PEER-REVIEWED__ - USE AT YOUR OWN RISK (as stated further below)
 
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 RECOMMENDED USAGE OF THIS FORK (as stated further below):
-* USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
-* NEED TO EXPLICITLY ENABLE ANY FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
-* IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 
-THIS FORK SUPPORTS BUILDING FOR TARGETS WITH NO ATOMIC PTR - SEE INFO FURTHER BELOW
+<!-- NOTE: SHOULD KEEP THIS BLOCK QUOTATION IN SYNC WITH INFO FURTHER BELOW -->
+>Add dependency on this fork as follows in `Cargo.toml`:
+>
+>```rust,ignore
+>rustls = { package = "portable-rustls", features=[...], ... }
+>```
+>
+>Then import and use __`rustls`__ in the code as usual.
+>
+>(Unlike the original __`rustls`__, no features are enabled by default in this fork.)
 
-ADDITIONAL NOTE (as stated further below): FIPS SUPPORT IS REMOVED FROM THIS FORK. THERE MAY BE SOME VESTIGES IN THE API,
-IMPLEMENTATION OR DOCUMENTATION BUT THIS DOES NOT IMPLY EXISTENCE OF FIPS SUPPORT IN ANY FORM.
+NOTE: This fork supports building for targets with no atomic ptr - see info further below.
+
+ADDITIONAL NOTE (as stated further below): FIPS support is REMOVED FROM THIS FORK; any possible vestiges remaining should be considered non-functional.
 
 # Status
 
 <!-- TODO(portable-rustls) UPDATE & CLEAN UP INFO FOR THIS FORK -->
-FROM UPSTREAM RUSTLS:
+__FROM UPSTREAM RUSTLS:__
+
 Rustls is used in production at many organizations and projects. We aim to maintain
 reasonable API surface stability but the API may evolve as we make changes to accommodate
 new features or performance improvements.
@@ -65,21 +75,35 @@ https://docs.rs/portable-rustls/
 
 # Approach
 
-<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
-IMPORTANT NOTICE: REGARDLESS OF UPSTREAM `rustls` PROJECT THIS FORK IS NOT CERTIFIED AND NOT PEER-REVIEWED - USE AT YOUR OWN RISK AS STATED FURTHER BELOW
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE DOCUMENTATION IN GENERAL FOR THIS FORK -->
+<!-- TODO(portable-rustls) IMPROVE SYNCHRONIZATION OF IMPORTANT INFO WITH BEGINNING OF README.md -->
+<!-- (as tracked in: https://github.com/brody4hire/portable-rustls/issues/31) -->
+__IMPORTANT NOTICE:__ regardless of upstream __`rustls`__ project this fork is __NOT CERTIFIED__ and __NOT PEER-REVIEWED__ - USE AT YOUR OWN RISK
+
+## RECOMMENDED USAGE
 
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 RECOMMENDED USAGE OF THIS FORK:
-* USE DEPENDENCY LIKE THIS IN `Cargo.toml`: `rustls = { package = "portable-rustls", ... }`
-* NEED TO EXPLICITLY ENABLE ANY FEATURES AS NEEDED - NO FEATURES ARE ENABLED BY DEFAULT IN THIS FORK
-* IMPORT AS USUAL FROM `rustls`: `use rustls;` OR `use rustls::...`
 
-<!-- TODO CLEAN UP THIS DOCUMENTATION -->
-THIS FORK SUPPORTS using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
-* USE Rust nightly toolchain
-* USE `--cfg portable_atomic_unstable_coerce_unsized` in RUSTFLAGS FOR `cargo build` (etc.)
-* USE `--cfg unstable_portable_atomic_arc` in RUSTFLAGS FOR `cargo build` (etc.)
-* NEED TO ADD MULTIPLE DEPENDENCIES WITH SPECIFIC FEATURES ENABLED WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, AS DESCRIBED DIRECTLY BELOW
+Add dependency on this fork as follows in `Cargo.toml`:
+
+```rust,ignore
+rustls = { package = "portable-rustls", features=[...], ... }
+```
+
+Then import and use __`rustls`__ in the code as usual.
+
+(Unlike the original __`rustls`__, no features are enabled by default in this fork.)
+
+### targets with no atomic ptr
+
+This fork supports using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
+
+Must use Rust nightly toolchain.
+
+Must use the following cfg flags in `RUSTFLAGS` FOR `cargo build` (etc.):
+- `--cfg portable_atomic_unstable_coerce_unsized`
+- `--cfg unstable_portable_atomic_arc`
 
 <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
 WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH SPECIFIC FEATURES ENABLED:
@@ -91,17 +115,27 @@ WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDE
 <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->
 ALSO NEED TO BUILD WITH A CRYPTO PROVIDER FOR THIS CRATE TO BE USEFUL IN GENERAL.
 
-ADDITIONAL NOTE: FIPS SUPPORT IS REMOVED FROM THIS FORK. THERE MAY BE SOME VESTIGES IN THE API,
-IMPLEMENTATION OR DOCUMENTATION BUT THIS DOES NOT IMPLY EXISTENCE OF FIPS SUPPORT IN ANY FORM.
+### Additional notes
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
+FIPS support feature is removed from this fork. Any possible vestiges remaining in the API or documentation should be considered non-functional.
+
+<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK:
 Rustls is a TLS library that aims to provide a good level of cryptographic security,
 requires no configuration to achieve that security, and provides no unsafe features or
 obsolete cryptography by default.
+- -->
 
-<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
+<!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK - MAY BE PROVIDER DEPENDENT:
 Rustls implements TLS1.2 and TLS1.3 for both clients and servers. See [the full
-list of protocol features](https://docs.rs/rustls/latest/rustls/manual/_04_features/index.html).
+list of protocol features](https://docs.rs/portable-rustls/latest/portable_rustls/manual/_04_features/index.html).
+- -->
+
+## General usage
+
+NOTE: Most of the general usage information below comes directly from the upstream __`rustls`__ project.
+
+<!-- TODO(portable-rustls) CLEAN UP - AVOID ALL CAPS for emphasis -->
+Any major discrepancies from upstream __`rustls`__ are noted __in bold__ or with ALL CAPS.
 
 ### Platform support
 
@@ -120,31 +154,42 @@ can replace all cryptography dependencies of rustls.  This is a route to being p
 to a wider set of architectures and environments, or compliance requirements.  See the
 [`crypto::CryptoProvider`] documentation for more details.
 
+<!-- N/A FOR THIS FORK & ALSO MISSING AN UPDATE RECENTLY CONTRIBUTED TO UPSTREAM RUSTLS:
 Specifying `default-features = false` when depending on rustls will remove the
 dependency on aws-lc-rs.
+- -->
 
+<!-- TODO UPDATE THIS INFO OR ADD REFERENCE TO MSRV FROM BADGE - ALREADY UPDATED IN UPSTREAM RUSTLS PROJECT
 Rustls requires Rust 1.63 or later. It has an optional dependency on zlib-rs which requires 1.75 or later.
+- -->
 
 [ring-target-platforms]: https://github.com/briansmith/ring/blob/2e8363b433fa3b3962c877d9ed2e9145612f3160/include/ring-core/target.h#L18-L64
-[`crypto::CryptoProvider`]: https://docs.rs/rustls/latest/rustls/crypto/struct.CryptoProvider.html
+[`crypto::CryptoProvider`]: https://docs.rs/portable-rustls/latest/portable_rustls/crypto/struct.CryptoProvider.html
 [`ring`]: https://crates.io/crates/ring
 [aws-lc-rs-platforms-faq]: https://aws.github.io/aws-lc-rs/faq.html#can-i-run-aws-lc-rs-on-x-platform-or-architecture
 [`aws-lc-rs`]: https://crates.io/crates/aws-lc-rs
 
 ### Cryptography providers
 
+<!-- NOT ALL IS CORRECT FOR THIS FORK:
 Since Rustls 0.22 it has been possible to choose the provider of the cryptographic primitives
 that Rustls uses. This may be appealing if you have specific platform, compliance or feature
 requirements that aren't met by the default provider, [`aws-lc-rs`].
+- -->
 
-Users that wish to customize the provider in use can do so when constructing `ClientConfig`
+<!-- TODO: NEEDS IMPROVEMENT REF: https://github.com/brody4hire/portable-rustls/issues/36 -->
+__NOTICE: It is required to choose the provider of the cryptographic primitives that this library uses in this fork.__
+
+This be done by selecting the default provider (see the [`crypto::CryptoProvider`] documentation) or MORE DYNAMICALLY...
+
+Users that wish to customize the provider in use MORE DYNAMICALLY can do so when constructing `ClientConfig`
 and `ServerConfig` instances using the `with_crypto_provider` method on the respective config
 builder types. See the [`crypto::CryptoProvider`] documentation for more details.
 
 #### Built-in providers
 
 Rustls ships with two built-in providers controlled by associated crate features,
-which are both optional in this fork:
+__which are both optional in this fork__:
 
 * [`aws-lc-rs`] - available with the `aws-lc-rs` crate feature enabled.
 * [`ring`] - available with the `ring` crate feature enabled.
@@ -185,21 +230,24 @@ from [`RustCrypto`] for cryptography.
 
 <!-- TODO(portable-rustls) UPDATE INFO BELOW AS MAY BE NEEDED FOR THIS FORK -->
 
-We also provide a simple example of writing your own provider in the [`custom-provider`]
-example. This example implements a minimal provider using parts of the [`RustCrypto`]
+There is a simple example of writing your own provider in the [`custom provider example`].
+This example implements a minimal provider using parts of the [`RustCrypto`]
 ecosystem.
 
-<!-- TODO(portable-rustls) CLEANUP THIS NOTE & IMPROVE THE INFO HERE: -->
-HIGHLY RECOMMENDED TO LOOK INTO `provider-example` SUBDIRECTORY ([`provider-example`](provider-example/)) IN THIS FORK; SEE ESPECIALLY `provider-example/Cargo.toml`.
-AS DISCUSSED ABOVE, HIGHLY RECOMMENDED TO PUT DEPENDENCY LIKE THIS INTO `Cargo.toml`: `rustls = { package = "portable-rustls" ... }`
+As described above, it is (highly) recommended to add dependency on this fork as follows in `Cargo.toml`
+as done in the [`custom provider example`] in this fork:
+
+>```rust,ignore
+>rustls = { package = "portable-rustls", features=[...], ... }
+>```
 
 See the [Making a custom CryptoProvider] section of the documentation for more information
 on this topic.
 
-<!-- TODO(portable-rustls) UPDATE WITH BETTER REFERENCES FOR THIS FORK: -->
-[`custom-provider`]: https://github.com/rustls/rustls/tree/main/provider-example/
+<!-- TODO `custom provider example` reference text is updated in this fork to improve consistency - TODO contribute update to upstream RUSTLS -->
+[`custom provider example`]: https://github.com/brody4hire/portable-rustls/tree/main-develop-head/provider-example/
 [`RustCrypto`]: https://github.com/RustCrypto
-[Making a custom CryptoProvider]: https://docs.rs/rustls/latest/rustls/crypto/struct.CryptoProvider.html#making-a-custom-cryptoprovider
+[Making a custom CryptoProvider]: https://docs.rs/portable-rustls/latest/portable_rustls/crypto/struct.CryptoProvider.html#making-a-custom-cryptoprovider
 
 # Example code
 
@@ -219,7 +267,7 @@ new to Rustls may prefer to look at the simple client/server examples before
 diving in to the more complex MIO examples.
 
 [examples]: examples/
-[`stream::Stream`]: https://docs.rs/rustls/latest/rustls/struct.Stream.html
+[`stream::Stream`]: https://docs.rs/portable-rustls/latest/portable_rustls/struct.Stream.html
 [`mio`]: https://docs.rs/mio/latest/mio/
 [`tokio-rustls`]: https://docs.rs/tokio-rustls/latest/tokio_rustls/
 

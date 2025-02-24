@@ -1,6 +1,8 @@
 <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK: -->
 # Rustls development roadmap
 
+__NOTE: THIS ROADMAP COMES FROM UPSTREAM `RUSTLS` PROJECT, NOTHING SPECIFIC FOR THIS FORK AT THIS POINT.__
+
 ## Future priorities
 
 <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK: -->

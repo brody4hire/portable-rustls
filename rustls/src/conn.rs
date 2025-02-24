@@ -297,7 +297,7 @@ mod connection {
 
     const UNEXPECTED_EOF_MESSAGE: &str =
         "peer closed connection without sending TLS close_notify: \
-https://docs.rs/rustls/latest/rustls/manual/_03_howto/index.html#unexpected-eof";
+https://docs.rs/portable-rustls/latest/portable_rustls/manual/_03_howto/index.html#unexpected-eof";
 
     /// A structure that implements [`std::io::Write`] for writing plaintext.
     pub struct Writer<'a> {

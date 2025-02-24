@@ -1,6 +1,7 @@
 /*!
 
-The below list reflects the support provided with the default crate features.
+<!-- TODO: MAKE THIS STATEMENT MORE SPECIFIC FOR THIS FORK -->
+The below list reflects the support provided with _existing_ crate features.
 Items marked with an asterisk `*` can be extended or altered via public
 APIs ([`CryptoProvider`] for example).
 
@@ -41,8 +42,11 @@ APIs ([`CryptoProvider`] for example).
 
 ## Non-features
 
+<!-- UPDATED FOR THIS FORK:
 For reasons explained in the other sections of this manual, rustls does not
 and will not support:
+- -->
+__Coming from upstream `rustls`, none of the following are supported by this fork:__
 
 * SSL1, SSL2, SSL3, TLS1 or TLS1.1
 * RC4
@@ -59,7 +63,7 @@ and will not support:
   certificates"). _Rustls' default certificate verifier does not support using a trust anchor as
   both a CA certificate and an end-entity certificate in order to limit complexity and risk in
   path building. While dangerous, all authentication can be turned off if required --
-  see the [example code](https://github.com/rustls/rustls/blob/992e2364a006b2e84a8cf6a7c3eaf0bdb773c9de/examples/src/bin/tlsclient-mio.rs#L318)_ `*`
+  see the [example code](https://github.com/brody4hire/portable-rustls/blob/portable-rustls-0.0.1/examples/src/bin/tlsclient-mio.rs#L338)_ `*`
 
 ### About "custom extensions"
 
@@ -87,13 +91,19 @@ Note the above is not a guarantee or offer that rustls will implement
 any specific extensions that are standardized by the IETF TLSWG.
 It is a non-goal of this project to implement absolutely everything.
 
+<!-- HIDING THIS STATEMENT IN THIS THIS FORK
 For experimentation and pre-standardization testing, we suggest
 forking rustls.
+- END HIDING THIS STATEMENT IN THIS THIS FORK -->
 
+<!-- HIDING GOLANG POSITION IN THIS FORK
 See also: [Go's position on such an API][golang].
+- END HIDING GOLANG POSITION IN THIS FORK -->
 
 [alps]: https://datatracker.ietf.org/doc/html/draft-vvv-tls-alps
+<!-- HIDING GOLANG POSITION IN THIS FORK
 [golang]: https://github.com/golang/go/issues/51497
+- END HIDING GOLANG POSITION IN THIS FORK -->
 [tlswg]: https://datatracker.ietf.org/wg/tls/charter/
 [^3]: rustls does not currently implement ALPS, but it is something we
   would consider once standardised and deployed.

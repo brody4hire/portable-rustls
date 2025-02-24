@@ -172,7 +172,7 @@ pub use crate::suites::CipherSuiteCommon;
 /// Content-Length: 19899
 /// ```
 ///
-/// [provider-example/]: https://github.com/rustls/rustls/tree/main/provider-example/
+/// [provider-example/]: https://github.com/brody4hire/portable-rustls/tree/main-develop-head/provider-example/
 /// [rust-crypto]: https://github.com/rustcrypto
 /// [dalek-cryptography]: https://github.com/dalek-cryptography
 ///
@@ -335,7 +335,7 @@ pub trait SecureRandom: Send + Sync + Debug {
 /// keys held in hardware security modules (HSMs) or physical tokens. For these use-cases
 /// see the Rustls manual section on [customizing private key usage].
 ///
-/// [customizing private key usage]: <https://docs.rs/rustls/latest/rustls/manual/_03_howto/index.html#customising-private-key-usage>
+/// [customizing private key usage]: <https://docs.rs/portable-rustls/latest/portable_rustls/manual/_03_howto/index.html#customising-private-key-usage>
 pub trait KeyProvider: Send + Sync + Debug {
     /// Decode and validate a private signing key from `key_der`.
     ///

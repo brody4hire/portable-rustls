@@ -1,6 +1,6 @@
-# Benchmarking
+# BENCHMARKING INFO FROM UPSTREAM RUSTLS PROJECT
 
-<!-- TODO(portable-rustls) UPDATE INFO BELOW AS MAY BE NEEDED FOR THIS FORK -->
+<!-- TODO(portable-rustls) UPDATE & CUSTOMIZE BENCHMARKING FOR THIS FORK -->
 
 This repository includes benchmarks for multiple use cases. They are described below, along with
 information on how to run them.
