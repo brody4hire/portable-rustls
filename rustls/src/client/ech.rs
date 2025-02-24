@@ -224,7 +224,7 @@ impl EchGreaseConfig {
                         symmetric_cipher_suites: vec![suite.sym],
                     },
                     maximum_name_length: 0,
-                    public_name: DnsName::try_from("filler").unwrap(),
+                    public_name: panic!("XXX"), // DnsName::try_from("filler").unwrap(),
                     extensions: Vec::default(),
                 }),
                 suite: self.suite,
