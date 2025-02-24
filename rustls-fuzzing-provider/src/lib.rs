@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::rc::Rc as Arc;
 
 use rustls::client::danger::ServerCertVerifier;
 use rustls::client::WebPkiServerVerifier;

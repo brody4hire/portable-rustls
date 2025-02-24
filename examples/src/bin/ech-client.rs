@@ -32,7 +32,7 @@ use std::error::Error;
 use std::fs;
 use std::io::{stdout, BufReader, Read, Write};
 use std::net::{TcpStream, ToSocketAddrs};
-use std::sync::Arc;
+use std::rc::Rc as Arc;
 
 use clap::Parser;
 use hickory_resolver::config::{ResolverConfig, ResolverOpts};

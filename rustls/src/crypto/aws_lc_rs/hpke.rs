@@ -19,6 +19,7 @@ use crate::crypto::hpke::{
 use crate::crypto::tls13::{expand, HkdfExpander, HkdfPrkExtract, HkdfUsingHmac};
 use crate::msgs::enums::{HpkeAead, HpkeKdf, HpkeKem};
 use crate::msgs::handshake::HpkeSymmetricCipherSuite;
+#[cfg(unsupported_other_error_info)] // OTHER ERROR INFO NOT SUPPORTED
 #[cfg(feature = "std")]
 use crate::sync::Arc;
 use crate::{Error, OtherError};
@@ -926,11 +927,13 @@ impl<const KDF_LEN: usize> Drop for KemSharedSecret<KDF_LEN> {
 }
 
 fn key_rejected_err(_e: aws_lc_rs::error::KeyRejected) -> Error {
+    #[cfg(unsupported_other_error_info)] // OTHER ERROR INFO NOT SUPPORTED
     #[cfg(feature = "std")]
     {
         Error::Other(OtherError(Arc::new(_e)))
     }
-    #[cfg(not(feature = "std"))]
+    // OTHER ERROR INFO NOT SUPPORTED
+    // #[cfg(not(feature = "std"))]
     {
         Error::Other(OtherError())
     }

@@ -22,7 +22,7 @@
 use std::collections::HashMap;
 use std::io::{self, Read, Write};
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
+use std::rc::Rc as Arc;
 use std::{fs, net};
 
 use clap::{Parser, Subcommand};

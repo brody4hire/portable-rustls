@@ -5,6 +5,7 @@ use pki_types::CertificateRevocationListDer;
 use webpki::{CertRevocationList, OwnedCertRevocationList};
 
 use crate::error::{CertRevocationListError, CertificateError, Error, OtherError};
+#[cfg(unsupported_other_error_info)] // OTHER ERROR INFO NOT SUPPORTED
 #[cfg(feature = "std")]
 use crate::sync::Arc;
 
@@ -78,6 +79,7 @@ fn pki_error(error: webpki::Error) -> Error {
         }
 
         _ => CertificateError::Other(OtherError(
+            #[cfg(unsupported_other_error_info)] // OTHER ERROR INFO NOT SUPPORTED
             #[cfg(feature = "std")]
             Arc::new(error),
         ))
@@ -102,7 +104,8 @@ fn crl_error(e: webpki::Error) -> CertRevocationListError {
         UnsupportedRevocationReason => CertRevocationListError::UnsupportedRevocationReason,
 
         _ => CertRevocationListError::Other(OtherError(
-            #[cfg(feature = "std")]
+            #[cfg(all(unsupported_other_error_info, feature = "std"))]
+            // OTHER ERROR INFO NOT SUPPORTED
             Arc::new(e),
         )),
     }

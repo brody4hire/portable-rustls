@@ -57,7 +57,7 @@ use super::CryptoProvider;
 /// [`ResolvesServerCertUsingSni`]: crate::server::ResolvesServerCertUsingSni
 /// [`ResolvesServerCert`]: crate::server::ResolvesServerCert
 /// [`ResolvesClientCert`]: crate::client::ResolvesClientCert
-pub trait SigningKey: Debug + Send + Sync {
+pub trait SigningKey: Debug /* XXX XXX SKIP IN THIS FORK: XXX + Send + Sync */ {
     /// Choose a `SignatureScheme` from those offered.
     ///
     /// Expresses the choice by returning something that implements `Signer`,
@@ -75,7 +75,7 @@ pub trait SigningKey: Debug + Send + Sync {
 }
 
 /// A thing that can sign a message.
-pub trait Signer: Debug + Send + Sync {
+pub trait Signer: Debug /* XXX XXX SKIP IN THIS FORK: XXX + Send + Sync */ {
     /// Signs `message` using the selected scheme.
     ///
     /// `message` is not hashed; the implementer must hash it using the hash function

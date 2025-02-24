@@ -211,12 +211,14 @@ impl HpkeOpener for HpkeRsReceiver {
     }
 }
 
+#[cfg(unsupported_other_error_info)] // OTHER ERROR INFO NOT SUPPORTED
 #[cfg(feature = "std")]
 fn other_err(err: impl std::error::Error + Send + Sync + 'static) -> Error {
     Error::Other(OtherError(alloc::sync::Arc::new(err)))
 }
 
-#[cfg(not(feature = "std"))]
+// OTHER ERROR INFO NOT SUPPORTED
+// #[cfg(not(feature = "std"))]
 fn other_err(_err: impl core::any::Any) -> Error {
     Error::Other(OtherError())
 }

@@ -125,7 +125,7 @@ pub use crate::suites::CipherSuiteCommon;
 /// ```
 /// # #[cfg(feature = "aws_lc_rs")] {
 /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
-/// # use std::sync::Arc;
+/// # use std::rc::Rc as Arc;
 /// # mod fictious_hsm_api { pub fn load_private_key(key_der: pki_types::PrivateKeyDer<'static>) -> ! { unreachable!(); } }
 /// use rustls::crypto::aws_lc_rs;
 ///
@@ -225,14 +225,14 @@ impl CryptoProvider {
     /// Call this early in your process to configure which provider is used for
     /// the provider.  The configuration should happen before any use of
     /// [`ClientConfig::builder()`] or [`ServerConfig::builder()`].
-    pub fn install_default(self) -> Result<(), Arc<Self>> {
+    pub fn install_default(self) -> Result<(), Box<Self>> {
         static_default::install_default(self)
     }
 
     /// Returns the default `CryptoProvider` for this process.
     ///
     /// This will be `None` if no default has been set yet.
-    pub fn get_default() -> Option<&'static Arc<Self>> {
+    pub fn get_default() -> Option<&'static Self> {
         static_default::get_default()
     }
 
@@ -241,7 +241,7 @@ impl CryptoProvider {
     /// - gets the pre-installed default, or
     /// - installs one `from_crate_features()`, or else
     /// - panics about the need to call [`CryptoProvider::install_default()`]
-    pub(crate) fn get_default_or_install_from_crate_features() -> &'static Arc<Self> {
+    pub(crate) fn get_default_or_install_from_crate_features() -> &'static Self {
         if let Some(provider) = Self::get_default() {
             return provider;
         }
@@ -661,7 +661,6 @@ impl From<Vec<u8>> for SharedSecret {
 // pub fn default_fips_provider() ...
 
 mod static_default {
-    #[cfg(not(feature = "std"))]
     use alloc::boxed::Box;
     #[cfg(feature = "std")]
     use std::sync::OnceLock;
@@ -670,32 +669,33 @@ mod static_default {
     use once_cell::race::OnceBox;
 
     use super::CryptoProvider;
-    use crate::sync::Arc;
 
     #[cfg(feature = "std")]
     pub(crate) fn install_default(
         default_provider: CryptoProvider,
-    ) -> Result<(), Arc<CryptoProvider>> {
-        PROCESS_DEFAULT_PROVIDER.set(Arc::new(default_provider))
+    ) -> Result<(), Box<CryptoProvider>> {
+        PROCESS_DEFAULT_PROVIDER.set(Box::new(default_provider))
     }
 
     #[cfg(not(feature = "std"))]
     pub(crate) fn install_default(
         default_provider: CryptoProvider,
-    ) -> Result<(), Arc<CryptoProvider>> {
+    ) -> Result<(), Box<CryptoProvider>> {
         PROCESS_DEFAULT_PROVIDER
-            .set(Box::new(Arc::new(default_provider)))
+            .set(Box::new(Box::new(default_provider)))
             .map_err(|e| *e)
     }
 
-    pub(crate) fn get_default() -> Option<&'static Arc<CryptoProvider>> {
-        PROCESS_DEFAULT_PROVIDER.get()
+    pub(crate) fn get_default() -> Option<&'static CryptoProvider> {
+        PROCESS_DEFAULT_PROVIDER
+            .get()
+            .map(|v| &**v)
     }
 
     #[cfg(feature = "std")]
-    static PROCESS_DEFAULT_PROVIDER: OnceLock<Arc<CryptoProvider>> = OnceLock::new();
+    static PROCESS_DEFAULT_PROVIDER: OnceLock<Box<CryptoProvider>> = OnceLock::new();
     #[cfg(not(feature = "std"))]
-    static PROCESS_DEFAULT_PROVIDER: OnceBox<Arc<CryptoProvider>> = OnceBox::new();
+    static PROCESS_DEFAULT_PROVIDER: OnceBox<Box<CryptoProvider>> = OnceBox::new();
 }
 
 #[cfg(test)]

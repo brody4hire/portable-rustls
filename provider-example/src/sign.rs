@@ -1,5 +1,5 @@
 use alloc::boxed::Box;
-use alloc::sync::Arc;
+use alloc::rc::Rc as Arc;
 use alloc::vec::Vec;
 
 use pkcs8::DecodePrivateKey;

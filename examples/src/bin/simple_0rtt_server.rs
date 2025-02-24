@@ -15,7 +15,7 @@
 use std::error::Error as StdError;
 use std::io::{Read, Write};
 use std::net::TcpListener;
-use std::sync::Arc;
+use std::rc::Rc as Arc;
 use std::{env, io};
 
 use rustls::pki_types::pem::PemObject;

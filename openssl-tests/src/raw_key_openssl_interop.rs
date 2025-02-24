@@ -7,7 +7,7 @@
 mod client {
     use std::io::{self, Read, Write};
     use std::net::TcpStream;
-    use std::sync::Arc;
+    use std::rc::Rc as Arc;
 
     use rustls::client::danger::{HandshakeSignatureValid, ServerCertVerified, ServerCertVerifier};
     use rustls::client::AlwaysResolvesClientRawPublicKeys;
@@ -158,7 +158,7 @@ mod client {
 mod server {
     use std::io::{self, ErrorKind, Read, Write};
     use std::net::TcpListener;
-    use std::sync::Arc;
+    use std::rc::Rc as Arc;
 
     use rustls::client::danger::HandshakeSignatureValid;
     use rustls::crypto::{

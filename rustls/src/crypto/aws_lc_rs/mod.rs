@@ -281,11 +281,13 @@ pub(super) fn fips() -> bool {
 }
 
 pub(super) fn unspecified_err(_e: aws_lc_rs::error::Unspecified) -> Error {
+    #[cfg(unsupported_other_error_info)] // OTHER ERROR INFO NOT SUPPORTED
     #[cfg(feature = "std")]
     {
         Error::Other(OtherError(Arc::new(_e)))
     }
-    #[cfg(not(feature = "std"))]
+    // OTHER ERROR INFO NOT SUPPORTED
+    // #[cfg(not(feature = "std"))]
     {
         Error::Other(OtherError())
     }
