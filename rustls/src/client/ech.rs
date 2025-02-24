@@ -48,6 +48,7 @@ pub enum EchMode {
 
 impl EchMode {
     /// Returns true if the ECH mode will use a FIPS approved HPKE suite.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     pub fn fips(&self) -> bool {
         match self {
             Self::Enable(ech_config) => ech_config.suite.fips(),

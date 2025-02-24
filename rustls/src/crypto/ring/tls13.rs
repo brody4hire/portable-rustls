@@ -104,6 +104,7 @@ impl Tls13AeadAlgorithm for Chacha20Poly1305Aead {
         Ok(ConnectionTrafficSecrets::Chacha20Poly1305 { key, iv })
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         false // chacha20poly1305 not FIPS approved
     }
@@ -132,6 +133,7 @@ impl Tls13AeadAlgorithm for Aes256GcmAead {
         Ok(ConnectionTrafficSecrets::Aes256Gcm { key, iv })
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         super::fips()
     }
@@ -160,6 +162,7 @@ impl Tls13AeadAlgorithm for Aes128GcmAead {
         Ok(ConnectionTrafficSecrets::Aes128Gcm { key, iv })
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         super::fips()
     }
@@ -294,6 +297,7 @@ impl Hkdf for RingHkdf {
         crypto::hmac::Tag::new(hmac::sign(&hmac::Key::new(self.1, key.as_ref()), message).as_ref())
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         super::fips()
     }

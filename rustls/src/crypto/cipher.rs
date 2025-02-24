@@ -35,6 +35,7 @@ pub trait Tls13AeadAlgorithm: Send + Sync {
     ) -> Result<ConnectionTrafficSecrets, UnsupportedOperationError>;
 
     /// Return `true` if this is backed by a FIPS-approved implementation.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         false
     }
@@ -81,6 +82,7 @@ pub trait Tls12AeadAlgorithm: Send + Sync + 'static {
     ) -> Result<ConnectionTrafficSecrets, UnsupportedOperationError>;
 
     /// Return `true` if this is backed by a FIPS-approved implementation.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         false
     }

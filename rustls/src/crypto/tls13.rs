@@ -177,6 +177,7 @@ pub trait Hkdf: Send + Sync {
     fn hmac_sign(&self, key: &OkmBlock, message: &[u8]) -> hmac::Tag;
 
     /// Return `true` if this is backed by a FIPS-approved implementation.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         false
     }

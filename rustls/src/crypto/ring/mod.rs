@@ -196,6 +196,7 @@ mod ring_shim {
     }
 }
 
+#[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
 pub(super) fn fips() -> bool {
     false
 }

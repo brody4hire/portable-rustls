@@ -22,6 +22,7 @@ struct KxGroup {
     ///
     /// `SupportedKxGroup::fips()` is true if and only if the algorithm is allowed,
     /// _and_ the implementation is FIPS-validated.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fips_allowed: bool,
 
     /// aws-lc-rs 1.9 and later accepts more formats of public keys than
@@ -66,6 +67,7 @@ impl SupportedKxGroup for KxGroup {
         self.name
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         self.fips_allowed && super::fips()
     }
@@ -87,6 +89,7 @@ pub static X25519: &dyn SupportedKxGroup = &KxGroup {
     //  schemes (defined in RFC 7748) that use Curve25519 and Curve448, respectively,
     //  are not compliant to SP 800-56Arev3."
     // -- <https://csrc.nist.gov/csrc/media/Projects/cryptographic-module-validation-program/documents/fips%20140-3/FIPS%20140-3%20IG.pdf>
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fips_allowed: false,
 
     pub_key_validator: |point: &[u8]| point.len() == 32,
@@ -96,6 +99,7 @@ pub static X25519: &dyn SupportedKxGroup = &KxGroup {
 pub static SECP256R1: &dyn SupportedKxGroup = &KxGroup {
     name: NamedGroup::secp256r1,
     agreement_algorithm: &agreement::ECDH_P256,
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fips_allowed: true,
     pub_key_validator: uncompressed_point,
 };
@@ -104,6 +108,7 @@ pub static SECP256R1: &dyn SupportedKxGroup = &KxGroup {
 pub static SECP384R1: &dyn SupportedKxGroup = &KxGroup {
     name: NamedGroup::secp384r1,
     agreement_algorithm: &agreement::ECDH_P384,
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fips_allowed: true,
     pub_key_validator: uncompressed_point,
 };

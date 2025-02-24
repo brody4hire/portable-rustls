@@ -284,11 +284,7 @@ mod tests {
         }
     }
 
-    #[test]
-    fn test_fips() {
-        // None of the rust-crypto backed hpke-rs suites should be considered FIPS approved.
-        assert!(ALL_SUPPORTED_SUITES
-            .iter()
-            .all(|suite| !suite.fips()));
-    }
+    // [FIPS REMOVED FROM THIS FORK]
+    // #[test]
+    // fn test_fips() ...
 }

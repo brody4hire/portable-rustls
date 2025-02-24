@@ -489,6 +489,7 @@ impl ServerConfig {
     /// is concerned only with cryptography, whereas this _also_ covers TLS-level
     /// configuration that NIST recommends.
     /// -- -->
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     pub fn fips(&self) -> bool {
         #[cfg(feature = "tls12")]
         {
@@ -675,6 +676,7 @@ mod connection {
         /// it is concerned only with cryptography, whereas this _also_ covers TLS-level
         /// configuration that NIST recommends, as well as ECH HPKE suites if applicable.
         /// -- -->
+        #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
         pub fn fips(&self) -> bool {
             self.inner.core.common_state.fips
         }
@@ -1130,7 +1132,9 @@ impl ConnectionCore<ServerConnectionData> {
         let mut common = CommonState::new(Side::Server);
         common.set_max_fragment_size(config.max_fragment_size)?;
         common.enable_secret_extraction = config.enable_secret_extraction;
-        common.fips = config.fips();
+        // [FIPS REMOVED FROM THIS FORK]
+        // common.fips = config.fips();
+
         Ok(Self::new(
             Box::new(hs::ExpectClientHello::new(config, extra_exts)),
             ServerConnectionData::default(),

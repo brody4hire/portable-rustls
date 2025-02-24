@@ -1,6 +1,8 @@
 //! Assorted public API tests.
 
 #![allow(clippy::duplicate_mod)]
+// ALLOW CFG ITEMS such as `unstable_api_not_supported` IN THIS FORK
+#![allow(unexpected_cfgs)]
 
 use std::fmt::Debug;
 use std::io::{self, BufRead, IoSlice, Read, Write};
@@ -23,6 +25,7 @@ use rustls::internal::msgs::handshake::{
 };
 use rustls::internal::msgs::message::{Message, MessagePayload, PlainMessage};
 use rustls::server::{ClientHello, ParsedCertificate, ResolvesServerCert};
+#[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
 #[cfg(feature = "aws_lc_rs")]
 use rustls::{
     client::{EchConfig, EchGreaseConfig, EchMode},
@@ -7196,6 +7199,7 @@ fn test_client_removes_tls12_session_if_server_sends_undecryptable_first_message
     ));
 }
 
+#[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
 #[test]
 fn test_client_fips_service_indicator() {
     assert_eq!(
@@ -7204,6 +7208,7 @@ fn test_client_fips_service_indicator() {
     );
 }
 
+#[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
 #[test]
 fn test_server_fips_service_indicator() {
     assert_eq!(
@@ -7212,6 +7217,7 @@ fn test_server_fips_service_indicator() {
     );
 }
 
+#[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
 #[test]
 fn test_connection_fips_service_indicator() {
     let client_config = Arc::new(make_client_config(KeyType::Rsa2048));
@@ -7223,6 +7229,7 @@ fn test_connection_fips_service_indicator() {
     assert_eq!(server_config.fips(), conn_pair.1.fips());
 }
 
+#[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
 #[test]
 fn test_client_fips_service_indicator_includes_require_ems() {
     if !provider_is_fips() {
@@ -7235,6 +7242,7 @@ fn test_client_fips_service_indicator_includes_require_ems() {
     assert!(!client_config.fips());
 }
 
+#[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
 #[test]
 fn test_server_fips_service_indicator_includes_require_ems() {
     if !provider_is_fips() {
@@ -7247,6 +7255,7 @@ fn test_server_fips_service_indicator_includes_require_ems() {
     assert!(!server_config.fips());
 }
 
+#[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
 #[cfg(feature = "aws_lc_rs")]
 #[test]
 fn test_client_fips_service_indicator_includes_ech_hpke_suite() {

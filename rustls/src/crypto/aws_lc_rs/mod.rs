@@ -71,6 +71,7 @@ impl SecureRandom for AwsLcRs {
             .map_err(|_| GetRandomFailed)
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         fips()
     }
@@ -84,6 +85,7 @@ impl KeyProvider for AwsLcRs {
         sign::any_supported_type(&key_der)
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         fips()
     }
@@ -276,6 +278,7 @@ mod ring_shim {
 }
 
 /// Are we in FIPS mode?
+#[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
 pub(super) fn fips() -> bool {
     aws_lc_rs::try_fips_mode().is_ok()
 }

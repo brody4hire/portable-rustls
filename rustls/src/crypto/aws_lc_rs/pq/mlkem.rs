@@ -50,6 +50,7 @@ impl SupportedKxGroup for MlKem768 {
         NamedGroup::MLKEM768
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         // AUDITORS:
         // At the time of writing, the ML-KEM implementation in AWS-LC-FIPS module 3.0

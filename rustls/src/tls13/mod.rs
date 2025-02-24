@@ -45,6 +45,7 @@ impl Tls13CipherSuite {
     /// Return `true` if this is backed by a FIPS-approved implementation.
     ///
     /// This means all the constituent parts that do cryptography return `true` for `fips()`.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     pub fn fips(&self) -> bool {
         let Self {
             common,

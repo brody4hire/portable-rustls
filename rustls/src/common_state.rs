@@ -56,6 +56,7 @@ pub struct CommonState {
     pub(crate) enable_secret_extraction: bool,
     temper_counters: TemperCounters,
     pub(crate) refresh_traffic_keys_pending: bool,
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     pub(crate) fips: bool,
 }
 
@@ -87,6 +88,7 @@ impl CommonState {
             enable_secret_extraction: false,
             temper_counters: TemperCounters::default(),
             refresh_traffic_keys_pending: false,
+            #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
             fips: false,
         }
     }

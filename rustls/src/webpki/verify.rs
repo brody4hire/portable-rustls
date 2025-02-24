@@ -104,6 +104,7 @@ impl WebPkiSupportedAlgorithms {
     }
 
     /// Return `true` if all cryptography is FIPS-approved.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     pub fn fips(&self) -> bool {
         self.all.iter().all(|alg| alg.fips())
             && self
