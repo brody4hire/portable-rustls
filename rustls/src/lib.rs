@@ -5,20 +5,9 @@
 //! <!-- (as tracked in: https://github.com/brody4hire/portable-rustls/issues/31) -->
 //! __IMPORTANT NOTICE:__ regardless of upstream __`rustls`__ project this fork is __NOT CERTIFIED__ and __NOT PEER-REVIEWED__ - USE AT YOUR OWN RISK
 //!
-//! ## REQUIREMENTS
-//!
-//! <!-- TODO(portable-rustls) CLEANUP & IMPROVE DOC FOR THIS FORK -->
-//! Requirements for building with this fork with default build configuration, which uses `Arc` from `portable-atomic-util`:
-//!
-//! - Use Rust nightly toolchain
-//! - Use `RUSTFLAGS` with `--cfg portable_atomic_unstable_coerce_unsized` during `cargo build` (etc.) as needed with `portable-atomic`
-//! - in case of no-std: add `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
-//! - possibly more requirements in case of `portable-atomic` with `critical-section` for no-std: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
-//! - need to build with some kind of crypto provider for this TLS functionality to be useful in general
-//!
 //! ## RECOMMENDED USAGE
 //!
-//! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE(S) FOR THIS FORK -->
+//! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
 //! RECOMMENDED USAGE OF THIS FORK:
 //!
 //! Add dependency on this fork as follows in `Cargo.toml`:
@@ -31,11 +20,25 @@
 //!
 //! (Unlike the original __`rustls`__, no features are enabled by default in this fork.)
 //!
-//! This fork provides a top-level `Arc` alias for convenience - import it as follows:
+//! ### targets with no atomic ptr
 //!
-//! ```rust,ignore
-//! use rustls::Arc;
-//! ```
+//! This fork supports using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
+//!
+//! Must use Rust nightly toolchain.
+//!
+//! Must use the following cfg flags in `RUSTFLAGS` FOR `cargo build` (etc.):
+//! - `--cfg portable_atomic_unstable_coerce_unsized`
+//! - `--cfg unstable_portable_atomic_arc`
+//!
+//! <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
+//! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH SPECIFIC FEATURES ENABLED:
+//! - add `once_cell` with `portable-atomic` feature enabled
+//! - add `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
+//! - possibly more requirements in case of `portable-atomic` with `critical-section` for no-std: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
+//!
+//! <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
+//! <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->
+//! ALSO NEED TO BUILD WITH A CRYPTO PROVIDER FOR THIS CRATE TO BE USEFUL IN GENERAL.
 //!
 //! ### Additional notes
 //!
@@ -412,8 +415,9 @@
 //!
 //! ## Crate cfg options
 //!
-//! - `unstable_use_arc_from_stdlib` - configures this fork to use `Arc` from `alloc::sync` instead of `portable-atomic-util`;
-//!   may be possible to build with Rust stable or nightly; this option is not supported.
+//! - `unstable_portable_atomic_arc` - configures this fork to use `Arc` from `portable_atomic_util` instead
+//!   of `std::sync::Arc` - requires Rust nightly together with `portable_atomic_unstable_coerce_unsized`
+//!   to build successfully.
 //!
 //! [x25519mlkem768-manual]: manual::_05_defaults#about-the-post-quantum-secure-key-exchange-x25519mlkem768
 
@@ -453,7 +457,7 @@
     clippy::single_component_path_imports,
     clippy::new_without_default
 )]
-// QUICK CLIPPY WORKAROUND for `unstable_use_arc_from_stdlib` IN THIS FORK
+// QUICK CLIPPY WORKAROUND for `unstable_portable_atomic_arc` IN THIS FORK
 #![allow(unexpected_cfgs)]
 // Enable documentation for all features on docs.rs
 #![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
