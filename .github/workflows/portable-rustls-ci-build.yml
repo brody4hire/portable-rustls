@@ -58,11 +58,15 @@ jobs:
           toolchain: ${{ matrix.rust }}
           target: ${{ matrix.target }}
 
-      # TODO: CARGO FEATURE FOR THIS STEP
-      - name: additional dependencies as needed for target(s) with no atomic ptr
-        run: |
-          cargo add once_cell -F portable-atomic -p ${{ env.MAIN_CRATE }}
-          cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
+      # TODO: ADD CARGO FEATURE TO HELP MAKE THIS STEP A LITTLE EASIER
+      # try installing `portable-atomic` with `unsafe-assume-single-core` as a documented option,
+      # in single case of target with no atomic ptr
+      - run: cargo add portable-atomic -F unsafe-assume-single-core -p ${{ env.MAIN_CRATE }}
+        if: ${{ startsWith(matrix.target, 'riscv32') }}
+      # otherwise try installing `portable-atomic` with `critical-section` (as a documented option)
+      # in the other cases
+      - run: cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
+        if: ${{ !startsWith(matrix.target, 'riscv32') }}
 
       - name: cargo build (debug; no-std) # (with no built-in provider)
         run: cargo build --target ${{ matrix.target }}
@@ -153,11 +157,15 @@ jobs:
       # - https://github.com/rustls/rustls/pull/2343
       - name: Install cross (cross-rs) from GitHub
         run: cargo install cross --git https://github.com/cross-rs/cross
-      # TODO: CARGO FEATURE FOR THIS STEP
-      - name: additional dependencies as needed for target(s) with no atomic ptr
-        run: |
-          cargo add once_cell -F portable-atomic -p ${{ env.MAIN_CRATE }}
-          cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
+      # TODO: ADD CARGO FEATURE TO HELP MAKE THIS STEP A LITTLE EASIER
+      # try installing `portable-atomic` with `unsafe-assume-single-core` as a documented option,
+      # in single case of target with no atomic ptr
+      - run: cargo add portable-atomic -F unsafe-assume-single-core -p ${{ env.MAIN_CRATE }}
+        if: ${{ startsWith(matrix.target, 'riscv32') }}
+      # otherwise try installing `portable-atomic` with `critical-section` (as a documented option)
+      # in the other cases
+      - run: cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
+        if: ${{ !startsWith(matrix.target, 'riscv32') }}
       - run: cross build --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
