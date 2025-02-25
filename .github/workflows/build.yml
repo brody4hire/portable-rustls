@@ -133,8 +133,7 @@ jobs:
     name: MSRV - Rust stable
     runs-on: ubuntu-latest
     env:
-      # NOTE: USING this unstable cfg option to simplify running this CI job
-      # TODO: test this job with default build configuration (using `portable_atomic_util::Arc`)
+      # AS NEEDED for Rust stable
       RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
@@ -351,7 +350,7 @@ jobs:
     name: Check for documentation errors
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED for default build with portable_atomic_util::Arc
+      # AS NEEDED FOR XXX XXX
       RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
@@ -380,7 +379,7 @@ jobs:
     env:
       # Favor CI testing on Rust nightly in this fork
       RUST_VERSION: nightly
-      # AS NEEDED for default build with portable_atomic_util::Arc
+      # AS NEEDED FOR XXX XXX
       RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
@@ -414,7 +413,7 @@ jobs:
     name: Check minimum versions of direct dependencies
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED for default build with portable_atomic_util::Arc
+      # AS NEEDED FOR XXX XXX
       RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
@@ -441,7 +440,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name != 'merge_group'
     env:
-      # AS NEEDED for default build with portable_atomic_util::Arc
+      # AS NEEDED FOR XXX XXX
       RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     strategy:
       matrix:
@@ -479,7 +478,7 @@ jobs:
     name: Check semver compatibility
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED for default build with portable_atomic_util::Arc
+      # AS NEEDED FOR XXX XXX
       RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
@@ -565,7 +564,7 @@ jobs:
     name: Clippy - Rust nightly
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED for default build with portable_atomic_util::Arc
+      # AS NEEDED FOR XXX XXX
       RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
@@ -625,7 +624,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VERSION: openssl-3.4.0
-      # AS NEEDED for default build with portable_atomic_util::Arc
+      # AS NEEDED FOR XXX XXX
       RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
