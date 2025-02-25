@@ -114,10 +114,12 @@ jobs:
           # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
-      # TODO test with all features
-      # - name: cargo test (debug; all features)
-      #   run: ...
-      #   ...
+      - name: cargo test (debug; all features)
+        run: cargo test --all-features
+        working-directory: rustls
+        env:
+          # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
   cross-build:
     name: cross build test with default Arc alias
