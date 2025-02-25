@@ -535,7 +535,7 @@ jobs:
         uses: obi1kenobi/cargo-semver-checks-action@v2
         env:
           # XXX TBD ??? ???
-          RUSTDOCFLAGS: ${{ env.RUSTFLAG }}
+          RUSTDOCFLAGS: ${{ env.RUSTFLAGS }}
 
   format:
     name: Format
