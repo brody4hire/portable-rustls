@@ -513,8 +513,10 @@ mod sync {
 }
 
 mod arc_alias {
+    // XXX TBD XXX XXX XXX
+    // XXX TODO UPDATE DOC
     // NOTE that unstable_use_arc_from_stdlib option is NOT DOCUMENTED and NOT SUPPORTED - primary purpose is for extra testing
-    #[cfg(not(unstable_use_arc_from_stdlib))]
+    #[cfg(unstable_portable_atomic_arc)]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;
     #[cfg(unstable_use_arc_from_stdlib)]

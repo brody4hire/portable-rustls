@@ -34,8 +34,8 @@ jobs:
           - windows-latest
           - macos-latest
         rust-flags:
-          # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
-          - --cfg portable_atomic_unstable_coerce_unsized
+          # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
+          - --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
         include:
           - rust: stable
             # AS NEEDED for Rust stable
@@ -174,8 +174,8 @@ jobs:
           - ubuntu-latest
           - macos-latest
         rust-flags:
-          # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
-          - --cfg portable_atomic_unstable_coerce_unsized
+          # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
+          - --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
         include:
           - rust: stable
             # AS NEEDED for Rust stable
@@ -262,8 +262,8 @@ jobs:
     name: BoGo test suite
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+      # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -303,8 +303,8 @@ jobs:
     name: Smoke-test fuzzing targets
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+      # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -328,8 +328,8 @@ jobs:
     name: Run benchmarks
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+      # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -353,14 +353,14 @@ jobs:
         run: cargo bench --locked --all-features
         env:
           # AS NEEDED for bench & default build with portable_atomic_util::Arc
-          RUSTFLAGS: --cfg bench --cfg portable_atomic_unstable_coerce_unsized
+          RUSTFLAGS: --cfg bench --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
   docs:
     name: Check for documentation errors
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+      # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -388,8 +388,8 @@ jobs:
     env:
       # Favor CI testing on Rust nightly in this fork
       RUST_VERSION: nightly
-      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+      # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -422,8 +422,8 @@ jobs:
     name: Check minimum versions of direct dependencies
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+      # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -489,8 +489,8 @@ jobs:
     name: Check semver compatibility
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+      # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -573,8 +573,8 @@ jobs:
     name: Clippy - Rust nightly
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+      # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -633,8 +633,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VERSION: openssl-3.4.0
-      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+      # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
