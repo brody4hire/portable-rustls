@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use rustls::Arc;
 
 use rustls::client::danger::ServerCertVerifier;
 use rustls::client::WebPkiServerVerifier;
@@ -21,6 +21,7 @@ use rustls::{
     PeerMisbehaved, ProtocolVersion, RootCertStore, SignatureAlgorithm, SignatureScheme,
     SupportedCipherSuite, Tls12CipherSuite, Tls13CipherSuite,
 };
+
 use webpki::alg_id;
 
 /// This is a `CryptoProvider` that provides NO SECURITY and is for fuzzing only.

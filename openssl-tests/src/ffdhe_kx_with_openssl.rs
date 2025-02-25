@@ -1,9 +1,11 @@
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
-use std::sync::Arc;
 use std::{fs, str, thread};
 
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
+
+use rustls::Arc;
+
 use rustls::crypto::{aws_lc_rs as provider, CryptoProvider};
 use rustls::pki_types::pem::PemObject;
 use rustls::pki_types::{CertificateDer, PrivateKeyDer};
