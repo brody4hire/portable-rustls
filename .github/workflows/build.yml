@@ -537,9 +537,7 @@ jobs:
     name: Clippy - Rust stable
     runs-on: ubuntu-latest
     env:
-      # XXX XXXX
-      # NOTE: USING this unstable cfg option to simplify running this CI job
-      # TODO: test this job with default build configuration (using `portable_atomic_util::Arc`)
+      # AS NEEDED for Rust stable
       RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
