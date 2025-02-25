@@ -5,9 +5,17 @@
 //! <!-- (as tracked in: https://github.com/brody4hire/portable-rustls/issues/31) -->
 //! __IMPORTANT NOTICE:__ regardless of upstream __`rustls`__ project this fork is __NOT CERTIFIED__ and __NOT PEER-REVIEWED__ - USE AT YOUR OWN RISK
 //!
+//! ## REQUIREMENTS
+//!
+//! <!-- TODO(portable-rustls) CLEANUP & IMPROVE DOC FOR THIS FORK -->
+//! Requirements for building with this fork with default build configuration, which uses `Arc` from `portable-atomic-util`:
+//!
+//! - Use Rust nightly toolchain
+//! - Use `RUSTFLAGS` with `--cfg portable_atomic_unstable_coerce_unsized` during `cargo build` (etc.) as needed with `portable-atomic`
+//!
 //! ## RECOMMENDED USAGE
 //!
-//! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+//! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE(S) FOR THIS FORK -->
 //! RECOMMENDED USAGE OF THIS FORK:
 //!
 //! Add dependency on this fork as follows in `Cargo.toml`:
@@ -20,19 +28,16 @@
 //!
 //! (Unlike the original __`rustls`__, no features are enabled by default in this fork.)
 //!
+//! This fork provides a top-level `Arc` alias for convenience - import it as follows:
+//!
+//! ```rust,ignore
+//! use rustls::Arc;
+//! ```
+//!
 //! ### targets with no atomic ptr
-//!
-//! This fork supports using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
-//!
-//! Must use Rust nightly toolchain.
-//!
-//! Must use the following cfg flags in `RUSTFLAGS` FOR `cargo build` (etc.):
-//! - `--cfg portable_atomic_unstable_coerce_unsized`
-//! - `--cfg unstable_portable_atomic_arc`
 //!
 //! <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
 //! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH SPECIFIC FEATURES ENABLED:
-//! - add `once_cell` with `portable-atomic` feature enabled
 //! - add `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
 //! - possibly more requirements in case of `portable-atomic` with `critical-section` for no-std: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
 //!
@@ -256,8 +261,8 @@
 //! ```rust
 //! # #[cfg(feature = "aws_lc_rs")] {
 //! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+//! # use rustls::Arc;
 //! # use webpki;
-//! # use std::sync::Arc;
 //! # rustls::crypto::aws_lc_rs::default_provider().install_default();
 //! # let root_store = rustls::RootCertStore::from_iter(
 //! #  webpki_roots::TLS_SERVER_ROOTS
@@ -415,9 +420,8 @@
 //!
 //! ## Crate cfg options
 //!
-//! - `unstable_portable_atomic_arc` - configures this fork to use `Arc` from `portable_atomic_util` instead
-//!   of `std::sync::Arc` - requires Rust nightly together with `portable_atomic_unstable_coerce_unsized`
-//!   to build successfully.
+//! - `unstable_use_arc_from_stdlib` - configures this fork to use `Arc` from `alloc::sync` instead of `portable-atomic-util`;
+//!   may be possible to build with Rust stable or nightly; this option is not supported.
 //!
 //! [x25519mlkem768-manual]: manual::_05_defaults#about-the-post-quantum-secure-key-exchange-x25519mlkem768
 
@@ -457,7 +461,7 @@
     clippy::single_component_path_imports,
     clippy::new_without_default
 )]
-// QUICK CLIPPY WORKAROUND for `unstable_portable_atomic_arc` IN THIS FORK
+// QUICK CLIPPY WORKAROUND for `unstable_use_arc_from_stdlib` IN THIS FORK
 #![allow(unexpected_cfgs)]
 // Enable documentation for all features on docs.rs
 #![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
@@ -512,13 +516,25 @@ mod test_macros;
 /// of rustls targetting architectures without atomic pointers to replace the implementation
 /// with another implementation such as `portable_atomic_util::Arc` in one central location.
 mod sync {
-    #[cfg(unstable_portable_atomic_arc)]
+    // Arc alias as exported by public API below
+    pub(crate) use crate::Arc;
+}
+
+mod arc_alias {
+    // NOTE that unstable_use_arc_from_stdlib option is NOT DOCUMENTED and NOT SUPPORTED - primary purpose is for extra testing
+    #[cfg(not(unstable_use_arc_from_stdlib))]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;
-    #[cfg(not(unstable_portable_atomic_arc))]
+    #[cfg(unstable_use_arc_from_stdlib)]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = alloc::sync::Arc<T>;
 }
+
+/// Arc alias for this entire crate - may alias to either of these depending on the cfg used when building:
+/// - [`portable_atomic_util::Arc`](https://docs.rs/portable-atomic-util/latest/portable_atomic_util/struct.Arc.html)
+/// - [`alloc::sync::Arc`]
+#[allow(unused_qualifications)]
+pub type Arc<T> = crate::arc_alias::Arc<T>;
 
 #[macro_use]
 mod msgs;

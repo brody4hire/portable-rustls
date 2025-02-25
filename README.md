@@ -25,7 +25,13 @@ Rustls is a modern TLS library written in Rust.
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 __IMPORTANT NOTICE:__ regardless of upstream __`rustls`__ project this fork is __NOT CERTIFIED__ and __NOT PEER-REVIEWED__ - USE AT YOUR OWN RISK (as stated further below)
 
-<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE DOC FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
+REQUIREMENTS FOR BUILDING WITH THIS FORK (as stated further below):
+
+>- Use Rust nightly toolchain
+>- Use `RUSTFLAGS` with `--cfg portable_atomic_unstable_coerce_unsized` during `cargo build` (etc.) as needed with `portable-atomic`
+
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE(S) FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 RECOMMENDED USAGE OF THIS FORK (as stated further below):
 
 <!-- NOTE: SHOULD KEEP THIS BLOCK QUOTATION IN SYNC WITH INFO FURTHER BELOW -->
@@ -80,9 +86,17 @@ https://docs.rs/portable-rustls/
 <!-- (as tracked in: https://github.com/brody4hire/portable-rustls/issues/31) -->
 __IMPORTANT NOTICE:__ regardless of upstream __`rustls`__ project this fork is __NOT CERTIFIED__ and __NOT PEER-REVIEWED__ - USE AT YOUR OWN RISK
 
+## REQUIREMENTS
+
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE DOC FOR THIS FORK -->
+Requirements for building with this fork with default build configuration, which uses `Arc` from `portable-atomic-util`:
+
+- Use Rust nightly toolchain
+- Use `RUSTFLAGS` with `--cfg portable_atomic_unstable_coerce_unsized` during `cargo build` (etc.) as needed with `portable-atomic`
+
 ## RECOMMENDED USAGE
 
-<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE(S) FOR THIS FORK -->
 RECOMMENDED USAGE OF THIS FORK:
 
 Add dependency on this fork as follows in `Cargo.toml`:
@@ -95,19 +109,16 @@ Then import and use __`rustls`__ in the code as usual.
 
 (Unlike the original __`rustls`__, no features are enabled by default in this fork.)
 
+This fork provides a top-level `Arc` alias for convenience - import it as follows:
+
+```rust,ignore
+use rustls::Arc;
+```
+
 ### targets with no atomic ptr
-
-This fork supports using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
-
-Must use Rust nightly toolchain.
-
-Must use the following cfg flags in `RUSTFLAGS` FOR `cargo build` (etc.):
-- `--cfg portable_atomic_unstable_coerce_unsized`
-- `--cfg unstable_portable_atomic_arc`
 
 <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
 WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH SPECIFIC FEATURES ENABLED:
-- add `once_cell` with `portable-atomic` feature enabled
 - add `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
 - possibly more requirements in case of `portable-atomic` with `critical-section` for no-std: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
 

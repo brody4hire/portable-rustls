@@ -16,6 +16,9 @@ on:
 
 env:
   MAIN_CRATE: portable-rustls
+  # NOTE: USING this unstable cfg option to simplify running the existing CI jobs in this CI workflow
+  # TODO: test as many jobs as possible with default build configuration (using `portable_atomic_util::Arc`)
+  RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
@@ -311,7 +314,9 @@ jobs:
       - name: Run micro-benchmarks
         run: cargo bench --locked --all-features
         env:
-          RUSTFLAGS: --cfg=bench
+          # XXX TBD ??? ???
+          # RUSTFLAGS: --cfg=bench
+          RUSTFLAGS: --cfg bench --cfg unstable_use_arc_from_stdlib
 
   docs:
     name: Check for documentation errors
