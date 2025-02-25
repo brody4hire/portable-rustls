@@ -16,9 +16,10 @@ on:
 
 env:
   MAIN_CRATE: portable-rustls
+  # XXX XXX
   # NOTE: USING this unstable cfg option to simplify running the existing CI jobs in this CI workflow
   # TODO: test as many jobs as possible with default build configuration (using `portable_atomic_util::Arc`)
-  RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+  # RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
@@ -31,25 +32,19 @@ jobs:
     strategy:
       matrix:
         rust:
-          - stable
-          - beta
           - nightly
         os:
           - ubuntu-latest
           - windows-latest
           - macos-latest
+        rust-flags: ['']
+        include:
+          - rust: stable
+            rust-flags: --cfg unstable_use_arc_from_stdlib
+            os: macos-latest
+          # XXX TODO Rust beta
         exclude:
-          # ONLY Rust nightly on Ubuntu in this fork - help save CI testing resources
-          - os: ubuntu-latest
-            rust: stable
-          - os: ubuntu-latest
-            rust: beta
-          # ONLY Rust nightly on Windows - slower platform
-          - os: windows-latest
-            rust: stable
-          - os: windows-latest
-            rust: beta
-          # and never use Windows for merge checks
+          # never use Windows for merge checks
           - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
     steps:
       - name: Checkout sources
@@ -76,6 +71,8 @@ jobs:
 
       - name: cargo build (debug; default features)
         run: cargo build --locked
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       # N/A [FIPS REMOVED FROM THIS FORK]: nb. feature sets that include "fips" ...
       # nb. "--all-targets" does not include doctests
@@ -83,6 +80,7 @@ jobs:
         run: cargo test --release --locked --all-features --all-targets
         env:
           RUST_BACKTRACE: 1
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       # nb. this is separate since `--doc` option cannot be combined with other target option(s) ref:
       # - https://doc.rust-lang.org/cargo/commands/cargo-test.html
@@ -90,11 +88,13 @@ jobs:
         run: cargo test --release --locked --all-features --doc
         env:
           RUST_BACKTRACE: 1
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo test (debug; aws-lc-rs)
         run: cargo test --no-default-features --features aws_lc_rs,tls12,read_buf,logging,std --all-targets
         env:
           RUST_BACKTRACE: 1
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       # [FIPS REMOVED FROM THIS FORK]
       # - name: cargo test (release; fips)
@@ -102,26 +102,42 @@ jobs:
 
       - name: cargo build (debug; rustls-provider-example)
         run: cargo build --locked -p rustls-provider-example
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo build (debug; rustls-provider-example lib in no-std mode)
         run: cargo build --locked -p rustls-provider-example --no-default-features
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo test (debug; rustls-provider-example; all features)
         run: cargo test --all-features -p rustls-provider-example
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo build (debug; rustls-provider-test)
         run: cargo build --locked -p rustls-provider-test
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo test (debug; rustls-provider-test; all features)
         run: cargo test --all-features -p rustls-provider-test
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo package --all-features -p ${{ env.MAIN_CRATE }}
         run: cargo package --all-features -p ${{ env.MAIN_CRATE }}
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
   msrv:
     # NOTE: MSRV - Rust nightly is covered by multiple jobs in portable-rustls-ci-build.yml
     name: MSRV - Rust stable
     runs-on: ubuntu-latest
+    env:
+      # NOTE: USING this unstable cfg option to simplify running this CI job
+      # TODO: test this job with default build configuration (using `portable_atomic_util::Arc`)
+      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -149,6 +165,9 @@ jobs:
       # it will catch unwanted usage of libstd in _dependencies_.
       # (may use another target with no std lib - x86_64-unknown-none for example)
       NO_STD_BUILD_TARGET: aarch64-unknown-none
+      # NOTE: USING this unstable cfg option to simplify running this CI job
+      # TODO: test this job with default build configuration (using `portable_atomic_util::Arc`)
+      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     strategy:
       matrix:
         rust:
@@ -232,6 +251,10 @@ jobs:
   bogo:
     name: BoGo test suite
     runs-on: ubuntu-latest
+    env:
+      # NOTE: USING this unstable cfg option to simplify running this CI job
+      # TODO: test this job with default build configuration (using `portable_atomic_util::Arc`)
+      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -270,6 +293,10 @@ jobs:
   fuzz:
     name: Smoke-test fuzzing targets
     runs-on: ubuntu-latest
+    env:
+      # NOTE: USING this unstable cfg option to simplify running this CI job
+      # TODO: test this job with default build configuration (using `portable_atomic_util::Arc`)
+      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -292,6 +319,10 @@ jobs:
   benchmarks:
     name: Run benchmarks
     runs-on: ubuntu-latest
+    env:
+      # NOTE: USING this unstable cfg option to simplify running this CI job
+      # TODO: test this job with default build configuration (using `portable_atomic_util::Arc`)
+      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -426,8 +457,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install nightly toolchain
+        uses: dtolnay/rust-toolchain@nightly
       - name: Install cross (cross-rs) from GitHub
         run: cargo install cross --git https://github.com/cross-rs/cross
       - name: Install bindgen feature & CLI for aws-lc-sys (as needed for many cross targets)
@@ -492,6 +523,11 @@ jobs:
   clippy:
     name: Clippy - Rust stable
     runs-on: ubuntu-latest
+    env:
+      # XXX XXXX
+      # NOTE: USING this unstable cfg option to simplify running this CI job
+      # TODO: test this job with default build configuration (using `portable_atomic_util::Arc`)
+      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -580,8 +616,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install nightly toolchain
+        uses: dtolnay/rust-toolchain@nightly
 
       - name: Cache ${{ env.VERSION }}
         uses: actions/cache@v4
