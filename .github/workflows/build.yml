@@ -352,7 +352,7 @@ jobs:
       - name: Run micro-benchmarks
         run: cargo bench --locked --all-features
         env:
-          # AS NEEDED for bench & default build with portable_atomic_util::Arc
+          # AS NEEDED for bench & build with Arc alias to portable_atomic_util::Arc
           RUSTFLAGS: --cfg bench --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
   docs:
