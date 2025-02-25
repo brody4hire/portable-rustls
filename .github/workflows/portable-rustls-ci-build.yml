@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   build:
-    name: build with default Arc alias
+    name: build with unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -82,7 +82,7 @@ jobs:
   test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: test with default Arc alias
+    name: test with unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -131,7 +131,7 @@ jobs:
           RUSTDOCFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
 
   cross-build:
-    name: cross build test with default Arc alias
+    name: cross build test with unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
@@ -187,7 +187,7 @@ jobs:
   cross-test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: cross-target testing with default Arc alias
+    name: cross-target testing with unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
