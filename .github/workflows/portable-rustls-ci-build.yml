@@ -115,6 +115,8 @@ jobs:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
       - name: cargo test (debug; all features)
+        # QUICK WORKAROUND TO AVOID TEST ISSUE WITH RUST NIGHTLY FROM MAY 2024
+        if: ${{ !startsWith(matrix.rust, 'nightly-2024-05') }}
         run: cargo test --all-features
         working-directory: rustls
         env:
