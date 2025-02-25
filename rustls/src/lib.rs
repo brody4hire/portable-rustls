@@ -256,8 +256,8 @@
 //! ```rust
 //! # #[cfg(feature = "aws_lc_rs")] {
 //! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+//! # use rustls::Arc;
 //! # use webpki;
-//! # use std::sync::Arc;
 //! # rustls::crypto::aws_lc_rs::default_provider().install_default();
 //! # let root_store = rustls::RootCertStore::from_iter(
 //! #  webpki_roots::TLS_SERVER_ROOTS
@@ -512,13 +512,28 @@ mod test_macros;
 /// of rustls targetting architectures without atomic pointers to replace the implementation
 /// with another implementation such as `portable_atomic_util::Arc` in one central location.
 mod sync {
+    // Arc alias as exported by public API below
+    pub(crate) use crate::Arc;
+}
+
+mod arc_alias {
+    // XXX TBD XXX XXX XXX
+    // XXX TODO UPDATE DOC
+    // XXX XXX NOTE THAT THIS USES SEPARATE cfg option per Arc option - EXACTLY ONE is required to build & test
+    // NOTE that unstable_use_arc_from_stdlib option is NOT DOCUMENTED and NOT SUPPORTED - primary purpose is for extra testing
     #[cfg(unstable_portable_atomic_arc)]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;
-    #[cfg(not(unstable_portable_atomic_arc))]
+    #[cfg(unstable_use_arc_from_stdlib)]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = alloc::sync::Arc<T>;
 }
+
+/// Arc alias for this entire crate - may alias to either of these depending on the cfg used when building:
+/// - [`portable_atomic_util::Arc`](https://docs.rs/portable-atomic-util/latest/portable_atomic_util/struct.Arc.html)
+/// - [`alloc::sync::Arc`]
+#[allow(unused_qualifications)]
+pub type Arc<T> = crate::arc_alias::Arc<T>;
 
 #[macro_use]
 mod msgs;

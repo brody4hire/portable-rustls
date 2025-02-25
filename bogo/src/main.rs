@@ -6,10 +6,12 @@
 
 use std::fmt::{Debug, Formatter};
 use std::io::{self, Read, Write};
-use std::sync::Arc;
 use std::{env, net, process, thread, time};
 
 use base64::prelude::{Engine, BASE64_STANDARD};
+
+use rustls::Arc;
+
 use rustls::client::danger::{HandshakeSignatureValid, ServerCertVerified, ServerCertVerifier};
 use rustls::client::{
     ClientConfig, ClientConnection, EchConfig, EchGreaseConfig, EchMode, EchStatus, Resumption,

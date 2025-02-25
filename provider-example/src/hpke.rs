@@ -8,6 +8,10 @@ use hpke_rs_rust_crypto::HpkeRustCrypto;
 use rustls::crypto::hpke::{
     EncapsulatedSecret, Hpke, HpkeOpener, HpkePrivateKey, HpkePublicKey, HpkeSealer, HpkeSuite,
 };
+
+#[cfg(feature = "std")]
+use rustls::Arc;
+
 use rustls::internal::msgs::enums::{
     HpkeAead as HpkeAeadId, HpkeKdf as HpkeKdfId, HpkeKem as HpkeKemId, HpkeKem,
 };
@@ -213,7 +217,7 @@ impl HpkeOpener for HpkeRsReceiver {
 
 #[cfg(feature = "std")]
 fn other_err(err: impl std::error::Error + Send + Sync + 'static) -> Error {
-    Error::Other(OtherError(alloc::sync::Arc::new(err)))
+    Error::Other(OtherError(Arc::new(err)))
 }
 
 #[cfg(not(feature = "std"))]

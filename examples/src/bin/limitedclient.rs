@@ -4,7 +4,8 @@
 
 use std::io::{stdout, Read, Write};
 use std::net::TcpStream;
-use std::sync::Arc;
+
+use rustls::Arc;
 
 use rustls::crypto::{aws_lc_rs as provider, CryptoProvider};
 

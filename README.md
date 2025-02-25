@@ -25,7 +25,13 @@ Rustls is a modern TLS library written in Rust.
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 __IMPORTANT NOTICE:__ regardless of upstream __`rustls`__ project this fork is __NOT CERTIFIED__ and __NOT PEER-REVIEWED__ - USE AT YOUR OWN RISK (as stated further below)
 
-<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE DOC FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
+REQUIREMENTS FOR BUILDING WITH THIS FORK (as stated further below):
+
+>- Use Rust nightly toolchain
+>- Use `RUSTFLAGS` with `--cfg portable_atomic_unstable_coerce_unsized` during `cargo build` (etc.) as needed with `portable-atomic`
+
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE(S) FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 RECOMMENDED USAGE OF THIS FORK (as stated further below):
 
 <!-- NOTE: SHOULD KEEP THIS BLOCK QUOTATION IN SYNC WITH INFO FURTHER BELOW -->
