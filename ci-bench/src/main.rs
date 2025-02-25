@@ -5,7 +5,6 @@ use std::io::{self, BufRead, BufReader, Write};
 use std::mem;
 use std::os::fd::{AsRawFd, FromRawFd};
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
 use std::time::Instant;
 
 use anyhow::Context;
@@ -15,6 +14,9 @@ use fxhash::FxHashMap;
 use itertools::Itertools;
 use rayon::iter::Either;
 use rayon::prelude::*;
+
+use rustls::Arc;
+
 use rustls::client::Resumption;
 use rustls::crypto::{aws_lc_rs, ring, CryptoProvider, GetRandomFailed, SecureRandom};
 use rustls::pki_types::pem::PemObject;

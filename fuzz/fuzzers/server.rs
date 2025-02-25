@@ -4,7 +4,8 @@ extern crate libfuzzer_sys;
 extern crate rustls;
 
 use std::io;
-use std::sync::Arc;
+
+use rustls::Arc;
 
 use rustls::server::{Accepted, Acceptor};
 use rustls::{ServerConfig, ServerConnection};

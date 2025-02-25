@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 #![allow(clippy::duplicate_mod)]
-// QUICK CLIPPY WORKAROUND for `unstable_portable_atomic_arc` IN THIS FORK
+// QUICK CLIPPY WORKAROUND for `unstable_use_arc_from_stdlib` IN THIS FORK
 #![allow(unexpected_cfgs)]
 
 use std::io;
@@ -38,10 +38,7 @@ use webpki::anchor_from_trusted_cert;
 use super::provider;
 
 // UPDATED IN THIS FORK (THIS IMPORT ONLY SEEMS TO BE NEEDED FOR `aws_lc_rs` & `ring` features)
-#[cfg(unstable_portable_atomic_arc)]
-pub use portable_atomic_util::Arc;
-#[cfg(not(unstable_portable_atomic_arc))]
-pub use std::sync::Arc;
+pub use rustls::Arc;
 
 macro_rules! embed_files {
     (

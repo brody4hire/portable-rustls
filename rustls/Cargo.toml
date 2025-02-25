@@ -48,9 +48,9 @@ log = { workspace = true, optional = true }
 # in the error result from `crypto::CryptoProvider::set_default()`, which does not seem
 # worth using the `critical-section` feature with its no-std installation requirements.
 # TODO: specify `once_cell` version in single place - as RECENTLY UPDATED in upstream RUSTLS
+# XXX XXX MUST SPECIFY FEATURES HERE DUE TO UPDATED CONFIG
 # (It may be best to specify the `once_cell` features here, as may be needed for updates moving forward.)
-once_cell = { version = "1.20.3", default-features = false, features = ["alloc", "race"] }
-# TODO: KEEP `portable-atomic-util` OPTIONAL WITH FEATURE CONFIG IN THIS FORK
+once_cell = { version = "1.20.3", default-features = false, features = ["alloc", "portable-atomic", "race"] }
 portable-atomic-util = { version = "0.2.4", default-features = false, features = ["alloc"] }
 ring = { workspace = true, optional = true }
 subtle = { workspace = true }
@@ -129,6 +129,7 @@ rustdoc-args = ["--cfg", "docsrs"]
 [package.metadata.cargo_check_external_types]
 allowed_external_types = [
   # ---
+  "portable_atomic_util::arc::Arc",
   "rustls_pki_types",
   "rustls_pki_types::*",
 ]

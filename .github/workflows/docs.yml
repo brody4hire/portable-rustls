@@ -14,6 +14,9 @@ on:
 
 env:
   MAIN_CRATE: portable-rustls
+  # XXX TBD ??? ???
+  # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
+  RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
 
 jobs:
   generate:
@@ -44,7 +47,8 @@ jobs:
         # (CARGO DOC WITH ALL FEATURES IN THIS FORK)
         run: cargo doc --locked --all-features --no-deps --package ${{ env.MAIN_CRATE }}
         env:
-          RUSTDOCFLAGS: -Dwarnings --cfg=docsrs --html-after-content tag.html
+          # XXX TBD ??? ???
+          RUSTDOCFLAGS: -Dwarnings --cfg=docsrs ${{ env.RUSTFLAGS }} --html-after-content tag.html
 
       # [REMOVED FROM THIS FORK] Generate other pages for website (etc.)
 
