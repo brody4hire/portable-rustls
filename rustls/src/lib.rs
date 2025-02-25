@@ -515,6 +515,7 @@ mod sync {
 mod arc_alias {
     // XXX TBD XXX XXX XXX
     // XXX TODO UPDATE DOC
+    // XXX XXX NOTE THAT THIS USES SEPARATE cfg option per Arc option - EXACTLY ONE is required to build & test
     // NOTE that unstable_use_arc_from_stdlib option is NOT DOCUMENTED and NOT SUPPORTED - primary purpose is for extra testing
     #[cfg(unstable_portable_atomic_arc)]
     #[allow(clippy::disallowed_types)]
