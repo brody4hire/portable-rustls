@@ -651,6 +651,9 @@ jobs:
       - name: run cargo-check-external-types for rustls/
         working-directory: rustls/
         run: cargo check-external-types
+        env:
+          # XXX TBD ??? ???
+          RUSTDOCFLAGS: ${{ env.RUSTFLAGS }}
 
   taplo:
     name: Taplo
