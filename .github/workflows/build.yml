@@ -249,17 +249,16 @@ jobs:
     name: BoGo test suite
     runs-on: ubuntu-latest
     env:
-      # NOTE: USING this unstable cfg option to simplify running this CI job
-      # TODO: test this job with default build configuration (using `portable_atomic_util::Arc`)
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+      # AS NEEDED for default build with portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install nightly toolchain
+        uses: dtolnay/rust-toolchain@nightly
 
       # [FIPS REMOVED FROM THIS FORK]
       # - name: Install golang toolchain - NO LONGER NEEDED
@@ -291,9 +290,8 @@ jobs:
     name: Smoke-test fuzzing targets
     runs-on: ubuntu-latest
     env:
-      # NOTE: USING this unstable cfg option to simplify running this CI job
-      # TODO: test this job with default build configuration (using `portable_atomic_util::Arc`)
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+      # AS NEEDED for default build with portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -317,9 +315,8 @@ jobs:
     name: Run benchmarks
     runs-on: ubuntu-latest
     env:
-      # NOTE: USING this unstable cfg option to simplify running this CI job
-      # TODO: test this job with default build configuration (using `portable_atomic_util::Arc`)
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+      # AS NEEDED for default build with portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -342,16 +339,15 @@ jobs:
       - name: Run micro-benchmarks
         run: cargo bench --locked --all-features
         env:
-          # XXX TBD ??? ???
-          # RUSTFLAGS: --cfg=bench
-          RUSTFLAGS: --cfg bench --cfg unstable_use_arc_from_stdlib
+          # AS NEEDED for bench & default build with portable_atomic_util::Arc
+          RUSTFLAGS: --cfg bench --cfg portable_atomic_unstable_coerce_unsized
 
   docs:
     name: Check for documentation errors
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED FOR XXX XXX
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+      # AS NEEDED for default build with portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -379,8 +375,8 @@ jobs:
     env:
       # Favor CI testing on Rust nightly in this fork
       RUST_VERSION: nightly
-      # AS NEEDED FOR XXX XXX
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+      # AS NEEDED for default build with portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -413,8 +409,8 @@ jobs:
     name: Check minimum versions of direct dependencies
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED FOR XXX XXX
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+      # AS NEEDED for default build with portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -440,8 +436,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name != 'merge_group'
     env:
-      # AS NEEDED FOR XXX XXX
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+      # AS NEEDED for default build with portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     strategy:
       matrix:
         target:
@@ -478,8 +474,8 @@ jobs:
     name: Check semver compatibility
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED FOR XXX XXX
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+      # AS NEEDED for default build with portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -564,8 +560,8 @@ jobs:
     name: Clippy - Rust nightly
     runs-on: ubuntu-latest
     env:
-      # AS NEEDED FOR XXX XXX
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+      # AS NEEDED for default build with portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -624,8 +620,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VERSION: openssl-3.4.0
-      # AS NEEDED FOR XXX XXX
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+      # AS NEEDED for default build with portable_atomic_util::Arc
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
