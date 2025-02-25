@@ -10,7 +10,7 @@
 use std::io::{stdout, Read, Write};
 use std::net::TcpStream;
 
-use rustlls::Arc;
+use rustls::Arc;
 
 fn main() {
     env_logger::init();
