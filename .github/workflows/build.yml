@@ -75,6 +75,8 @@ jobs:
         run: cargo build --locked
         env:
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
       # N/A [FIPS REMOVED FROM THIS FORK]: nb. feature sets that include "fips" ...
       # nb. "--all-targets" does not include doctests
@@ -83,6 +85,8 @@ jobs:
         env:
           RUST_BACKTRACE: 1
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
       # nb. this is separate since `--doc` option cannot be combined with other target option(s) ref:
       # - https://doc.rust-lang.org/cargo/commands/cargo-test.html
@@ -90,13 +94,18 @@ jobs:
         run: cargo test --release --locked --all-features --doc
         env:
           RUST_BACKTRACE: 1
+          # XXX TBD ??? ??? ???:
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo test (debug; aws-lc-rs)
         run: cargo test --no-default-features --features aws_lc_rs,tls12,read_buf,logging,std --all-targets
         env:
           RUST_BACKTRACE: 1
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
       # [FIPS REMOVED FROM THIS FORK]
       # - name: cargo test (release; fips)
@@ -106,26 +115,36 @@ jobs:
         run: cargo build --locked -p rustls-provider-example
         env:
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo build (debug; rustls-provider-example lib in no-std mode)
         run: cargo build --locked -p rustls-provider-example --no-default-features
         env:
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo test (debug; rustls-provider-example; all features)
         run: cargo test --all-features -p rustls-provider-example
         env:
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo build (debug; rustls-provider-test)
         run: cargo build --locked -p rustls-provider-test
         env:
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo test (debug; rustls-provider-test; all features)
         run: cargo test --all-features -p rustls-provider-test
         env:
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo package --all-features -p ${{ env.MAIN_CRATE }}
         run: cargo package --all-features -p ${{ env.MAIN_CRATE }}
@@ -225,6 +244,8 @@ jobs:
         env:
           RUST_BACKTRACE: 1
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo test (debug; no default features)
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
@@ -232,6 +253,8 @@ jobs:
         working-directory: rustls
         env:
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo test (debug; no default features; tls12)
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
@@ -239,6 +262,8 @@ jobs:
         working-directory: rustls
         env:
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo test (debug; no default features; aws-lc-rs,tls12)
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
@@ -246,6 +271,8 @@ jobs:
         working-directory: rustls
         env:
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
       # [FIPS REMOVED FROM THIS FORK]
       # - name: cargo test (debug; no default features; fips,tls12)
@@ -257,6 +284,8 @@ jobs:
         working-directory: rustls
         env:
           RUSTFLAGS: ${{ matrix.rust-flags }}
+          # XXX TBD ??? ??? ???:
+          RUSTDOCFLAGS: ${{ matrix.rust-flags }}
 
   bogo:
     name: BoGo test suite
@@ -360,6 +389,7 @@ jobs:
     name: Check for documentation errors
     runs-on: ubuntu-latest
     env:
+      # XXX ??? ??? ???
       # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
       RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
     steps:
@@ -374,7 +404,8 @@ jobs:
       - name: cargo doc (rustls; all features)
         run: cargo doc --locked --all-features --no-deps --document-private-items --package ${{ env.MAIN_CRATE }}
         env:
-          RUSTDOCFLAGS: -Dwarnings
+          # XXX ??? ??? ???
+          RUSTDOCFLAGS: -Dwarnings ${{ env.RUSTFLAGS }}
 
       - name: Check README.md
         run: |
@@ -391,6 +422,8 @@ jobs:
       RUST_VERSION: nightly
       # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
       RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
+      # XXX TBD ??? ??? ???
+      RUSTDOCFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -600,6 +633,9 @@ jobs:
   check-external-types:
     name: Validate external types appearing in public API
     runs-on: ubuntu-latest
+    env:
+      # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
+      RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -608,6 +644,7 @@ jobs:
       - name: Install rust toolchain
         uses: dtolnay/rust-toolchain@master
         with:
+          # XXX TODO UPDATE
           toolchain: nightly-2024-06-30
           # ^ sync with https://github.com/awslabs/cargo-check-external-types/blob/main/rust-toolchain.toml
       - run: cargo install --locked cargo-check-external-types
