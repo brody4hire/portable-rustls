@@ -9,6 +9,7 @@ use rustls::crypto::hpke::{
     EncapsulatedSecret, Hpke, HpkeOpener, HpkePrivateKey, HpkePublicKey, HpkeSealer, HpkeSuite,
 };
 
+#[cfg(feature = "std")]
 use rustls::Arc;
 
 use rustls::internal::msgs::enums::{
