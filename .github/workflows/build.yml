@@ -166,31 +166,25 @@ jobs:
       # it will catch unwanted usage of libstd in _dependencies_.
       # (may use another target with no std lib - x86_64-unknown-none for example)
       NO_STD_BUILD_TARGET: aarch64-unknown-none
-      # NOTE: USING this unstable cfg option to simplify running this CI job
-      # TODO: test this job with default build configuration (using `portable_atomic_util::Arc`)
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     strategy:
       matrix:
         rust:
-          - stable
-          - beta
           - nightly
         os:
           - ubuntu-latest
           - macos-latest
-          # FOR FUTURE CONSIDERATION:
-          # - windows-latest
-        exclude:
-          # ONLY Rust nightly on Ubuntu in this fork - help save CI testing resources
-          - os: ubuntu-latest
-            rust: stable
-          - os: ubuntu-latest
-            rust: beta
-          # RECOMMENDED UPDATES in case this job is enabled on Windows:
-          # ONLY Rust nightly on Windows - slower platform
-          # ...
-          # and never use Windows for merge checks
-          # ...
+        rust-flags:
+          # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
+          - --cfg portable_atomic_unstable_coerce_unsized
+        include:
+          - rust: stable
+            # AS NEEDED for Rust stable
+            rust-flags: --cfg unstable_use_arc_from_stdlib
+            os: macos-latest
+          - rust: beta
+            # AS NEEDED for Rust beta
+            rust-flags: --cfg unstable_use_arc_from_stdlib
+            os: macos-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -207,16 +201,22 @@ jobs:
       - name: cargo build (debug; default features)
         run: cargo build --locked
         working-directory: rustls
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo build (debug; no default features; no-std) with no-std target - ${{ env.NO_STD_BUILD_TARGET }}
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
         run: cargo build --locked --no-default-features --target ${{ env.NO_STD_BUILD_TARGET }}
         working-directory: rustls
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo build (debug; no default features; no-std, hashbrown) with no-std target - ${{ env.NO_STD_BUILD_TARGET }}
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
         run: cargo build --locked --no-default-features --features hashbrown --target ${{ env.NO_STD_BUILD_TARGET }}
         working-directory: rustls
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       # NOTE: no features are enabled by default on main crate in this fork
       - name: cargo test (debug; default features)
@@ -224,21 +224,28 @@ jobs:
         working-directory: rustls
         env:
           RUST_BACKTRACE: 1
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo test (debug; no default features)
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
         run: cargo test --locked --no-default-features
         working-directory: rustls
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo test (debug; no default features; tls12)
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
         run: cargo test --locked --no-default-features --features tls12,std
         working-directory: rustls
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       - name: cargo test (debug; no default features; aws-lc-rs,tls12)
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
         run: cargo test --no-default-features --features aws_lc_rs,tls12,std
         working-directory: rustls
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
       # [FIPS REMOVED FROM THIS FORK]
       # - name: cargo test (debug; no default features; fips,tls12)
@@ -248,6 +255,8 @@ jobs:
       - name: cargo test (release; no run)
         run: cargo test --locked --release --no-run
         working-directory: rustls
+        env:
+          RUSTFLAGS: ${{ matrix.rust-flags }}
 
   bogo:
     name: BoGo test suite
