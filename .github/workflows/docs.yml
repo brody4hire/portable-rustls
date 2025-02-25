@@ -48,7 +48,7 @@ jobs:
         run: cargo doc --locked --all-features --no-deps --package ${{ env.MAIN_CRATE }}
         env:
           # XXX TBD ??? ???
-          RUSTDOCFLAGS: -Dwarnings --cfg=docsrs ${{ env.RUSTFLAGS }}} --html-after-content tag.html
+          RUSTDOCFLAGS: -Dwarnings --cfg=docsrs ${{ env.RUSTFLAGS }} --html-after-content tag.html
 
       # [REMOVED FROM THIS FORK] Generate other pages for website (etc.)
 
