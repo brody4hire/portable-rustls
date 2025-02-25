@@ -12,6 +12,9 @@
 //!
 //! - Use Rust nightly toolchain
 //! - Use `RUSTFLAGS` with `--cfg portable_atomic_unstable_coerce_unsized` during `cargo build` (etc.) as needed with `portable-atomic`
+//! - in case of no-std: add `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
+//! - possibly more requirements in case of `portable-atomic` with `critical-section` for no-std: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
+//! - need to build with some kind of crypto provider for this TLS functionality to be useful in general
 //!
 //! ## RECOMMENDED USAGE
 //!
@@ -33,17 +36,6 @@
 //! ```rust,ignore
 //! use rustls::Arc;
 //! ```
-//!
-//! ### targets with no atomic ptr
-//!
-//! <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
-//! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH SPECIFIC FEATURES ENABLED:
-//! - add `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
-//! - possibly more requirements in case of `portable-atomic` with `critical-section` for no-std: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
-//!
-//! <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
-//! <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->
-//! ALSO NEED TO BUILD WITH A CRYPTO PROVIDER FOR THIS CRATE TO BE USEFUL IN GENERAL.
 //!
 //! ### Additional notes
 //!
