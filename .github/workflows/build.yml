@@ -38,9 +38,13 @@ jobs:
           - --cfg portable_atomic_unstable_coerce_unsized
         include:
           - rust: stable
+            # AS NEEDED for Rust stable
             rust-flags: --cfg unstable_use_arc_from_stdlib
             os: macos-latest
-          # XXX TODO Rust beta
+          - rust: beta
+            # AS NEEDED for Rust beta
+            rust-flags: --cfg unstable_use_arc_from_stdlib
+            os: macos-latest
         exclude:
           # never use Windows for merge checks
           - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
