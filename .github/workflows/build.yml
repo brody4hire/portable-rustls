@@ -432,12 +432,14 @@ jobs:
         working-directory: rustls/
 
   cross:
+    # NOTE: cross-target testing with Rust nightly toolchain & default build
+    # (with portable_atomic_util::Arc) is covered by portable-rustls-ci-build.yml
     name: cross-target testing
     runs-on: ubuntu-latest
     if: github.event_name != 'merge_group'
     env:
-      # AS NEEDED for default build with portable_atomic_util::Arc
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+      # AS NEEDED for Rust stable
+      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
     strategy:
       matrix:
         target:
@@ -461,8 +463,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install nightly toolchain
-        uses: dtolnay/rust-toolchain@nightly
+      - name: Install rust toolchain
+        uses: dtolnay/rust-toolchain@stable
       - name: Install cross (cross-rs) from GitHub
         run: cargo install cross --git https://github.com/cross-rs/cross
       - name: Install bindgen feature & CLI for aws-lc-sys (as needed for many cross targets)
