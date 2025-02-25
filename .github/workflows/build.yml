@@ -35,15 +35,15 @@ jobs:
           - macos-latest
         rust-flags:
           # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-          - --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          - --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
         include:
           - rust: stable
             # AS NEEDED for Rust stable
-            rust-flags: --cfg unstable_use_arc_from_stdlib
+            rust-flags: --cfg=unstable_use_arc_from_stdlib
             os: macos-latest
           - rust: beta
             # AS NEEDED for Rust beta
-            rust-flags: --cfg unstable_use_arc_from_stdlib
+            rust-flags: --cfg=unstable_use_arc_from_stdlib
             os: macos-latest
         exclude:
           # never use Windows for merge checks
@@ -138,7 +138,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # AS NEEDED for Rust stable
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+      RUSTFLAGS: --cfg=unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -175,15 +175,15 @@ jobs:
           - macos-latest
         rust-flags:
           # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-          - --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          - --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
         include:
           - rust: stable
             # AS NEEDED for Rust stable
-            rust-flags: --cfg unstable_use_arc_from_stdlib
+            rust-flags: --cfg=unstable_use_arc_from_stdlib
             os: macos-latest
           - rust: beta
             # AS NEEDED for Rust beta
-            rust-flags: --cfg unstable_use_arc_from_stdlib
+            rust-flags: --cfg=unstable_use_arc_from_stdlib
             os: macos-latest
     steps:
       - name: Checkout sources
@@ -263,7 +263,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+      RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -304,7 +304,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+      RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -329,7 +329,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+      RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -353,14 +353,15 @@ jobs:
         run: cargo bench --locked --all-features
         env:
           # AS NEEDED for bench & build with Arc alias to portable_atomic_util::Arc
-          RUSTFLAGS: --cfg bench --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          # XXX XXX
+          RUSTFLAGS: --cfg=bench --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
 
   docs:
     name: Check for documentation errors
     runs-on: ubuntu-latest
     env:
       # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+      RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -389,7 +390,7 @@ jobs:
       # Favor CI testing on Rust nightly in this fork
       RUST_VERSION: nightly
       # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+      RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -423,7 +424,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+      RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -452,7 +453,7 @@ jobs:
     if: github.event_name != 'merge_group'
     env:
       # AS NEEDED for Rust stable
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+      RUSTFLAGS: --cfg=unstable_use_arc_from_stdlib
     strategy:
       matrix:
         target:
@@ -490,7 +491,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+      RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -547,7 +548,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # AS NEEDED for Rust stable
-      RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+      RUSTFLAGS: --cfg=unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -574,7 +575,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+      RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -634,7 +635,7 @@ jobs:
     env:
       VERSION: openssl-3.4.0
       # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+      RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4

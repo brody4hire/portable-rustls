@@ -73,7 +73,7 @@ jobs:
         working-directory: rustls
         env:
           # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
 
       # NOTE: BUILD with hashbrown FAILS with no atomic ptr - MISSING SUPPORT in default hasher
       # - name: cargo build (debug; no-std; hashbrown) # (with no built-in provider)
@@ -115,7 +115,7 @@ jobs:
         working-directory: rustls
         env:
           # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
 
       - name: cargo test (debug; all features)
         # QUICK WORKAROUND TO AVOID TEST ISSUE WITH RUST NIGHTLY FROM MAY 2024
@@ -124,7 +124,7 @@ jobs:
         working-directory: rustls
         env:
           # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
 
   cross-build:
     name: cross build test with default Arc alias
@@ -178,7 +178,7 @@ jobs:
       - run: cross build --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
           # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
 
   cross-test:
     # GENERAL NOTE: NO CI TESTING for no-std
@@ -228,8 +228,8 @@ jobs:
       - run: cross test --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
           # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
       - run: cross test --all-features --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
           # AS NEEDED for build with Arc alias to portable_atomic_util::Arc
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized --cfg=unstable_portable_atomic_arc
