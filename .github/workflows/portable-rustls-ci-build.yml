@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   build:
-    name: build with portable_atomic_util::Arc
+    name: build with default Arc alias
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -58,16 +58,21 @@ jobs:
           toolchain: ${{ matrix.rust }}
           target: ${{ matrix.target }}
 
-      # TODO: CARGO FEATURE FOR THIS STEP
-      - name: additional dependencies as needed for target(s) with no atomic ptr
-        run: |
-          cargo add once_cell -F portable-atomic -p ${{ env.MAIN_CRATE }}
-          cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
+      # TODO: ADD CARGO FEATURE TO HELP MAKE THIS STEP A LITTLE EASIER
+      # try installing `portable-atomic` with `unsafe-assume-single-core` as a documented option,
+      # in single case of target with no atomic ptr
+      - run: cargo add portable-atomic -F unsafe-assume-single-core -p ${{ env.MAIN_CRATE }}
+        if: ${{ startsWith(matrix.target, 'riscv32') }}
+      # otherwise try installing `portable-atomic` with `critical-section` (as a documented option)
+      # in the other cases
+      - run: cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
+        if: ${{ !startsWith(matrix.target, 'riscv32') }}
 
       - name: cargo build (debug; no-std) # (with no built-in provider)
         run: cargo build --target ${{ matrix.target }}
         working-directory: rustls
         env:
+          # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
       # NOTE: BUILD with hashbrown FAILS with no atomic ptr - MISSING SUPPORT in default hasher
@@ -77,12 +82,15 @@ jobs:
   test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: test with portable_atomic_util::Arc
+    name: test with default Arc alias
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         rust:
           - nightly
+          # TEST with ALL FEATURES back to:
+          - nightly-2024-07-01
+          # TEST with LIMITED FEATURES back to:
           - nightly-2024-05-01
           # FAILS cargo test: use of unstable library feature in proc-macro2
           # - nightly-2024-04-01
@@ -106,15 +114,20 @@ jobs:
         run: cargo test --features std
         working-directory: rustls
         env:
+          # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
-      # TODO test with all features
-      # - name: cargo test (debug; all features)
-      #   run: ...
-      #   ...
+      - name: cargo test (debug; all features)
+        # QUICK WORKAROUND TO AVOID TEST ISSUE WITH RUST NIGHTLY FROM MAY 2024
+        if: ${{ !startsWith(matrix.rust, 'nightly-2024-05') }}
+        run: cargo test --all-features
+        working-directory: rustls
+        env:
+          # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
   cross-build:
-    name: cross build test with portable_atomic_util::Arc
+    name: cross build test with default Arc alias
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
@@ -153,19 +166,24 @@ jobs:
       # - https://github.com/rustls/rustls/pull/2343
       - name: Install cross (cross-rs) from GitHub
         run: cargo install cross --git https://github.com/cross-rs/cross
-      # TODO: CARGO FEATURE FOR THIS STEP
-      - name: additional dependencies as needed for target(s) with no atomic ptr
-        run: |
-          cargo add once_cell -F portable-atomic -p ${{ env.MAIN_CRATE }}
-          cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
+      # TODO: ADD CARGO FEATURE TO HELP MAKE THIS STEP A LITTLE EASIER
+      # try installing `portable-atomic` with `unsafe-assume-single-core` as a documented option,
+      # in single case of target with no atomic ptr
+      - run: cargo add portable-atomic -F unsafe-assume-single-core -p ${{ env.MAIN_CRATE }}
+        if: ${{ startsWith(matrix.target, 'riscv32') }}
+      # otherwise try installing `portable-atomic` with `critical-section` (as a documented option)
+      # in the other cases
+      - run: cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
+        if: ${{ !startsWith(matrix.target, 'riscv32') }}
       - run: cross build --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
+          # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
   cross-test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: cross-target testing with portable_atomic_util::Arc
+    name: cross-target testing with default Arc alias
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     strategy:
@@ -209,7 +227,9 @@ jobs:
         run: cargo add --dev --features bindgen 'aws-lc-sys@>0.20' --package ${{ env.MAIN_CRATE }} --verbose && cargo install bindgen-cli --verbose
       - run: cross test --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
+          # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
       - run: cross test --all-features --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
+          # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
