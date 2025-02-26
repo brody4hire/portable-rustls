@@ -83,6 +83,10 @@ __IMPORTANT NOTICE:__ regardless of upstream __`rustls`__ project this fork is _
 ## RECOMMENDED USAGE
 
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+__IMPORTANT NOTICE:__ regardless of upstream __`rustls`__ project this fork is __NOT CERTIFIED__ and __NOT PEER-REVIEWED__ - USE AT YOUR OWN RISK
+
+## RECOMMENDED USAGE
+
 RECOMMENDED USAGE OF THIS FORK:
 
 Add dependency on this fork as follows in `Cargo.toml`:
@@ -119,10 +123,11 @@ Must use the following cfg flags in `RUSTFLAGS` FOR `cargo build` (etc.):
 - `--cfg unstable_portable_atomic_arc`
 
 <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
-WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH SPECIFIC FEATURES ENABLED:
-- add `once_cell` with `portable-atomic` feature enabled
-- add `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
-- possibly more requirements in case of `portable-atomic` with `critical-section` for no-std: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
+WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, ENABLE EXACTLY ONE OF THESE FEATURES
+~~(see further below for more info)~~:
+- `critical-section`- _with more requirements for no-std: std: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>_
+- `unsafe-assume-single-core` - _enables `unsafe-assume-single-core` feature on `portable-atomic` - may be easiest to configure, with important requirements and limitations: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>_
+
 
 <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
 <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->

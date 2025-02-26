@@ -8,6 +8,10 @@
 //! ## RECOMMENDED USAGE
 //!
 //! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+//! __IMPORTANT NOTICE:__ regardless of upstream __`rustls`__ project this fork is __NOT CERTIFIED__ and __NOT PEER-REVIEWED__ - USE AT YOUR OWN RISK
+//!
+//! ## RECOMMENDED USAGE
+//!
 //! RECOMMENDED USAGE OF THIS FORK:
 //!
 //! Add dependency on this fork as follows in `Cargo.toml`:
@@ -44,10 +48,11 @@
 //! - `--cfg unstable_portable_atomic_arc`
 //!
 //! <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
-//! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH SPECIFIC FEATURES ENABLED:
-//! - add `once_cell` with `portable-atomic` feature enabled
-//! - add `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
-//! - possibly more requirements in case of `portable-atomic` with `critical-section` for no-std: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
+//! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, ENABLE EXACTLY ONE OF THESE FEATURES
+//! ~~(see further below for more info)~~:
+//! - `critical-section`- _with more requirements for no-std: std: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>_
+//! - `unsafe-assume-single-core` - _enables `unsafe-assume-single-core` feature on `portable-atomic` - may be easiest to configure, with important requirements and limitations: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>_
+//!
 //!
 //! <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
 //! <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->
@@ -426,6 +431,16 @@
 //!
 //! - `zlib`: uses the `zlib-rs` crate for RFC8879 certificate compression support.
 //!
+//! - `critical-section` - includes both `once_cell` and `portable-atomic` with `critical-section`
+//!   feature enabled; need to add a critical section implementation in case of no-std
+//!   as documented in:
+//!   - <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
+//!
+//! - `unsafe-assume-single-core` - includes `portable-atomic` with `unsafe-assume-single-core` feature
+//!   enabled and includes `once_cell` with `critical-section` feature enabled; this feature may not
+//!   be used together with `critical-section`; please see the following for some more important info:
+//!   - <https://docs.rs/portable-atomic#optional-features>
+//!
 //! ## Crate cfg options
 //!
 //! - `unstable_portable_atomic_arc` - configures this fork to use `Arc` from `portable_atomic_util` instead
@@ -486,6 +501,23 @@
 #![cfg_attr(read_buf, feature(core_io_borrowed_buf))]
 #![cfg_attr(bench, feature(test))]
 #![no_std]
+
+// This constraint is also enforced by `portable-atomic` crate - enforcing here as well
+// for extra clarity (with a QUICK WORKAROUND)
+// FOR FUTURE CONSIDERATION: it may be a nicer developer experience if both this crate and
+// `portable-atomic` would allow both of these features in some form, which would provide
+// some form a fallback in case `critical-section` feature is not specified - this is now
+// tracked in: https://github.com/brody4hire/portable-rustls/issues/27
+#[cfg(all(
+    feature = "critical-section",
+    feature = "unsafe-assume-single-core",
+    // QUICK WORKAROUND NEEDED since cargo-semver-checks seems to try running with all features enabled
+    // as tracked in: https://github.com/brody4hire/portable-rustls/issues/28
+    // NOTE that this should be OK as it would be really weird for std to work together with any
+    // target that is supported with `unsafe-assume-single-core` in `portable-atomic`.
+    not(feature = "std"),
+))]
+compile_error!("invalid combination of `critical-section` & `unsafe-assume-single-core` features");
 
 extern crate alloc;
 // This `extern crate` plus the `#![no_std]` attribute changes the default prelude from
