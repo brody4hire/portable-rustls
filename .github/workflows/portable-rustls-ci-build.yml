@@ -121,7 +121,6 @@ jobs:
         working-directory: rustls
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
-          RUSTDOCFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo test (debug; all features except unsafe-assume-single-core)
         # QUICK WORKAROUND TO AVOID TEST ISSUE WITH RUST NIGHTLY FROM MAY 2024
@@ -130,7 +129,6 @@ jobs:
         working-directory: rustls
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
-          RUSTDOCFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
   cross-build:
     name: cross build test with unstable_portable_atomic_arc
