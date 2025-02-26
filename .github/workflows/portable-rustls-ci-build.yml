@@ -85,6 +85,7 @@ jobs:
     name: test with unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-safe: false # XXX XXX
       matrix:
         rust:
           - nightly
@@ -92,8 +93,9 @@ jobs:
           - nightly-2024-07-01
           # TEST with LIMITED FEATURES back to:
           - nightly-2024-05-01
+          # XXX TBD ??? ???
           # FAILS cargo test: use of unstable library feature in proc-macro2
-          # - nightly-2024-04-01
+          - nightly-2024-04-01
         os:
           - ubuntu-latest
           - macos-latest
