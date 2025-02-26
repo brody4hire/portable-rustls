@@ -246,6 +246,7 @@ jobs:
     name: full build with unstable_portable_atomic_arc cfg
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false # XXX XXX
       matrix:
         rust:
           - nightly
@@ -293,6 +294,7 @@ jobs:
     name: full test with unstable_portable_atomic_arc cfg
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false # XXX XXX
       matrix:
         rust:
           - nightly
