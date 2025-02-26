@@ -118,7 +118,7 @@ jobs:
         working-directory: rustls
         env:
           # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
   cross-build:
     name: cross build test with unstable_portable_atomic_arc
