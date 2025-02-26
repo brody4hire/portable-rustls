@@ -33,8 +33,11 @@ jobs:
           - nightly-2024-01-01
           # RUST NIGHTLY version(s) for MSRV - 1.71:
           - nightly-2023-06-01
+          # XXX TBD ???
           # FAILS AT: cargo add once_cell
-          # - nightly-2023-05-01
+          - nightly-2023-05-01
+          - nightly-2023-04-01
+          - nightly-2023-01-01
         os:
           - ubuntu-latest
           # FOR FUTURE CONSIDERATION:
@@ -89,8 +92,12 @@ jobs:
           - nightly-2024-07-01
           # TEST with LIMITED FEATURES back to:
           - nightly-2024-05-01
+          # XXX TBD ??? ???
           # FAILS cargo test: use of unstable library feature in proc-macro2
-          # - nightly-2024-04-01
+          - nightly-2024-04-01
+          - nightly-2024-01-01
+          - nightly-2023-12-01
+          - nightly-2023-09-01
         os:
           - ubuntu-latest
           - macos-latest
@@ -241,8 +248,9 @@ jobs:
           # - nightly-2023-11-01
           # OK WITH NO FEATURES ENABLED (issue with --all-features due to `zlib`)
           - nightly-2023-10-01
+          # XXX TBD ???
           # KNOWN BUILD FAILURE
-          # - nightly-2023-09-01
+          - nightly-2023-09-01
         os:
           - ubuntu-latest
           # FOR FUTURE CONSIDERATION:
@@ -282,8 +290,10 @@ jobs:
         rust:
           - nightly
           - nightly-2024-07-01
+          # XXX TBD ???
           # TEST BUILD FAILURE WITH OLDER RUST NIGHTLY VERSIONS
-          # - nightly-2024-06-01
+          - nightly-2024-06-01
+          - nightly-2024-01-01
           # ...
         os:
           - ubuntu-latest
