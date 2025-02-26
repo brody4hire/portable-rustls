@@ -124,9 +124,8 @@ jobs:
           RUSTDOCFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo test (debug; all features except unsafe-assume-single-core)
-        # XXX TBD ??? ???
         # QUICK WORKAROUND TO AVOID TEST ISSUE WITH RUST NIGHTLY FROM MAY 2024
-        # if: ${{ !startsWith(matrix.rust, 'nightly-2024-05') }}
+        if: ${{ !startsWith(matrix.rust, 'nightly-2024-05') }}
         run: cargo test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
         working-directory: rustls
         env:
