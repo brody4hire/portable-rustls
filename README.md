@@ -95,6 +95,19 @@ Then import and use __`rustls`__ in the code as usual.
 
 (Unlike the original __`rustls`__, no features are enabled by default in this fork.)
 
+<!-- TODO: [...][crate::Arc] pattern is replaced by `admin/pull-readme` - TODO REFERENCE docs.rs when possible -->
+Note that this fork provides a crate-level `Arc` type alias to help use the correct `Arc` type according to the build configuration:
+
+- alias to [`portable_atomic_util::Arc`](https://docs.rs/portable-atomic-util/latest/portable_atomic_util/struct.Arc.html),
+if `RUSTFLAGS` is set with `--cfg unstable_portable_atomic_arc` during Cargo build
+- otherwise alias to [`alloc::sync::Arc`](https://doc.rust-lang.org/nightly/alloc/sync/struct.Arc.html) / [`std::sync::Arc`](https://doc.rust-lang.org/nightly/std/sync/struct.Arc.html)
+
+It is recommended to simply import the crate-level `Arc` type alias from this crate:
+
+```rust,ignore
+use rustls::Arc;
+```
+
 ### targets with no atomic ptr
 
 This fork supports using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:

@@ -732,9 +732,10 @@ mod connection {
     /// ```no_run
     /// # #[cfg(feature = "aws_lc_rs")] {
     /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+    /// # use rustls::Arc; // EXPORTED ALIAS
     /// # fn choose_server_config(
     /// #     _: rustls::server::ClientHello,
-    /// # ) -> std::sync::Arc<rustls::ServerConfig> {
+    /// # ) -> Arc<rustls::ServerConfig> {
     /// #     unimplemented!();
     /// # }
     /// # #[allow(unused_variables)]

@@ -220,3 +220,99 @@ jobs:
       - run: cross test --all-features --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+
+  full-build:
+    # ensure everything builds together with this build cfg option enabled
+    # (with help from exported `Arc` alias)
+    name: full build with unstable_portable_atomic_arc cfg
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        rust:
+          - nightly
+          # try a few Rust nightly versions
+          - nightly-2024-07-01
+          - nightly-2024-01-01
+          - nightly-2023-12-01
+          # SEEMS TO PANIC
+          # - nightly-2023-11-01
+          # OK WITH NO FEATURES ENABLED (issue with --all-features due to `zlib`)
+          - nightly-2023-10-01
+          # KNOWN BUILD FAILURE
+          # - nightly-2023-09-01
+        os:
+          - ubuntu-latest
+          # FOR FUTURE CONSIDERATION:
+          # - macos-latest
+          # - windows-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install ${{ matrix.rust }} toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+
+      - name: cargo build (debug; no-std) # (with no built-in provider)
+        run: cargo build
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+
+      - name: cargo build (debug; std; all features)
+        # QUICK WORKAROUND TO AVOID BUILD ISSUE WITH RUST NIGHTLY FROM OCTOBER 2023
+        if: ${{ !startsWith(matrix.rust, 'nightly-2023-10') }}
+        run: cargo build --all-features
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+
+  full-test:
+    # test everything builds together with this build cfg option enabled
+    # (with help from exported `Arc` alias)
+    name: full test with unstable_portable_atomic_arc cfg
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        rust:
+          - nightly
+          - nightly-2024-07-01
+          # TEST BUILD FAILURE WITH OLDER RUST NIGHTLY VERSIONS
+          # - nightly-2024-06-01
+          # ...
+        os:
+          - ubuntu-latest
+          # FOR FUTURE CONSIDERATION:
+          # - macos-latest
+          # - windows-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install ${{ matrix.rust }} toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+
+      - name: cargo test (debug; no-std) # (with no built-in provider)
+        run: cargo test
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+
+      - name: cargo test (debug; std; all features)
+        run: cargo test --all-features
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+
+      - name: cargo test (debug; rustls-provider-example; all features)
+        run: cargo test --all-features -p rustls-provider-example
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+
+      - name: cargo test (debug; rustls-provider-test; all features)
+        run: cargo test --all-features -p rustls-provider-test
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc

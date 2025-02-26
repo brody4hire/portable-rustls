@@ -20,6 +20,19 @@
 //!
 //! (Unlike the original __`rustls`__, no features are enabled by default in this fork.)
 //!
+//! <!-- TODO: [...][crate::Arc] pattern is replaced by `admin/pull-readme` - TODO REFERENCE docs.rs when possible -->
+//! Note that this fork provides a crate-level [`Arc` type alias][crate::Arc] to help use the correct `Arc` type according to the build configuration:
+//!
+//! - alias to [`portable_atomic_util::Arc`](https://docs.rs/portable-atomic-util/latest/portable_atomic_util/struct.Arc.html),
+//!   if `RUSTFLAGS` is set with `--cfg unstable_portable_atomic_arc` during Cargo build
+//! - otherwise alias to [`alloc::sync::Arc`](https://doc.rust-lang.org/nightly/alloc/sync/struct.Arc.html) / [`std::sync::Arc`](https://doc.rust-lang.org/nightly/std/sync/struct.Arc.html)
+//!
+//! It is recommended to simply import the crate-level [`Arc` type alias][crate::Arc] from this crate:
+//!
+//! ```rust,ignore
+//! use rustls::Arc;
+//! ```
+//!
 //! ### targets with no atomic ptr
 //!
 //! This fork supports using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
@@ -256,8 +269,8 @@
 //! ```rust
 //! # #[cfg(feature = "aws_lc_rs")] {
 //! # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+//! # use rustls::Arc; // EXPORTED ALIAS
 //! # use webpki;
-//! # use std::sync::Arc;
 //! # rustls::crypto::aws_lc_rs::default_provider().install_default();
 //! # let root_store = rustls::RootCertStore::from_iter(
 //! #  webpki_roots::TLS_SERVER_ROOTS
@@ -508,10 +521,23 @@ mod log {
 #[macro_use]
 mod test_macros;
 
+/// `Arc` type alias for this entire crate - may alias to either of these depending on the cfg used when building:
+/// - [`portable_atomic_util::Arc`](https://docs.rs/portable-atomic-util/latest/portable_atomic_util/struct.Arc.html)
+/// - [`alloc::sync::Arc`] / [`std::sync::Arc`](https://doc.rust-lang.org/nightly/std/sync/struct.Arc.html)
+#[allow(unused_qualifications)]
+pub type Arc<T> = crate::arc_type_alias::Arc<T>;
+
 /// This internal `sync` module aliases the `Arc` implementation to allow downstream forks
 /// of rustls targetting architectures without atomic pointers to replace the implementation
 /// with another implementation such as `portable_atomic_util::Arc` in one central location.
 mod sync {
+    // Arc type alias as exported by the public API above
+    pub(crate) use crate::Arc;
+}
+
+/// Keeping the extra level of indirection with this separate internal module so that
+/// the generated doc shows use of exported Arc alias from this crate.
+mod arc_type_alias {
     #[cfg(unstable_portable_atomic_arc)]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;

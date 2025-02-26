@@ -8,6 +8,7 @@ grep '^//!' rustls/src/lib.rs | \
        sed -e 's@^\/\/\! *@@g' | \
        sed -e 's@](manual::_04_features)@](https://docs.rs/portable-rustls/latest/portable_rustls/manual/_04_features/index.html)@' | \
        sed -e 's@\[`crypto::CryptoProvider`\]: crate::crypto::CryptoProvider@[`crypto::CryptoProvider`]: https://docs.rs/portable-rustls/latest/portable_rustls/crypto/struct.CryptoProvider.html@' | \
+       sed -e 's@\[`Arc` type alias\]\[crate::Arc\]@`Arc` type alias@' | \
        awk '/# Rustls - a modern TLS library/{take=1;next}/## Design overview/{take=0}take' >> README.md.new
 awk '/# Example code/{take=1}take' < README.md >> README.md.new
 mv README.md.new README.md
