@@ -8,8 +8,8 @@ ALL_FEATURES_EXCEPT_UNSAFE=$(admin/all-features-except unsafe-assume-single-core
 
 ALL_FEATURES_EXCEPT_UNSAFE_AND_BROTLI=$(admin/all-features-except unsafe-assume-single-core,brotli $MAIN_CRATE)
 
-# (also need to exclude `unstable-std-extra` which includes `zlib` in first case)
-ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB=$(admin/all-features-except unsafe-assume-single-core,unstable-std-extra,zlib $MAIN_CRATE)
+# (also need to exclude `unstable-api-all` which includes `zlib` in first case)
+ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB=$(admin/all-features-except unsafe-assume-single-core,unstable-api-all,zlib $MAIN_CRATE)
 
 source <(cargo llvm-cov show-env --export-prefix "$@")
 cargo llvm-cov clean --workspace

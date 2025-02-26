@@ -134,8 +134,8 @@ jobs:
       # zlib-rs is optional and requires a later MSRV
       - run: cargo check --locked --lib ${{ env.ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB }} -p ${{ env.MAIN_CRATE }}
         env:
-          # (also need to exclude `unstable-std-extra` which includes `zlib`)
-          ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB: $(admin/all-features-except unsafe-assume-single-core,unstable-std-extra,zlib ${{ env.MAIN_CRATE }})
+          # (also need to exclude `unstable-api-all` which includes `zlib`)
+          ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB: $(admin/all-features-except unsafe-assume-single-core,unstable-api-all,zlib ${{ env.MAIN_CRATE }})
 
       - uses: dtolnay/rust-toolchain@master
         with:

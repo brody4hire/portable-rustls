@@ -30,7 +30,7 @@ default = []
 # - docs generate job configured in: .github/workflows/docs.yml
 # XXX TODO RENAME
 # XXX TBD UPDATE CI to use `--features unstable-...`  INSTEAD OF USING all-features-except - ??? ???
-unstable-std-extra = [
+unstable-api-all = [
   # XXX TODO RECONSIDER ORDERING
   "aws-lc-rs",
   "prefer-post-quantum", # (also covers "aws-lc-rs" until removed)
@@ -45,7 +45,7 @@ unstable-std-extra = [
 ]
 
 # XXX TODO UPDATE NOTE(S) HERE
-# IMPORTANT NODE: Any feature that affects documented API must be listed in `unstable-std-extra` above.
+# IMPORTANT NODE: Any feature that affects documented API must be listed in `unstable-api-all` above.
 aws-lc-rs = ["aws_lc_rs"] # ALIAS - FAVORED OVER `aws_lc_rs` FEATURE NAME IN THIS FORK
 aws_lc_rs = ["dep:aws-lc-rs", "webpki/aws_lc_rs"]
 brotli = ["dep:brotli", "dep:brotli-decompressor", "std"]
@@ -162,7 +162,7 @@ path = "tests/runners/unbuffered.rs"
 # IMPORTANT: MUST KEEP IN SYNC AS FOLLOWS:
 # - FEATURE NAME in sync with CORRESPONDING FEATURE NAME in main crate [features] section above
 # - THIS cargo doc config IN SYNC with docs generate job in: .github/workflows/docs.yml
-features = ["unstable-std-extra"]
+features = ["unstable-api-all"]
 rustdoc-args = ["--cfg", "docsrs"]
 
 [package.metadata.cargo_check_external_types]

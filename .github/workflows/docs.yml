@@ -45,7 +45,7 @@ jobs:
         # IMPORTANT: MUST KEEP IN SYNC with `rustls/Cargo.toml` AS FOLLOWS:
         # - [package.metadata.docs.rs] section
         # - FEATURE NAME in sync with CORRESPONDING FEATURE NAME in main crate [features] section
-        run: cargo doc --locked --features unstable-std-extra --no-deps --package ${{ env.MAIN_CRATE }}
+        run: cargo doc --locked --features unstable-api-all --no-deps --package ${{ env.MAIN_CRATE }}
         env:
           RUSTDOCFLAGS: -Dwarnings --cfg=docsrs --html-after-content tag.html
 

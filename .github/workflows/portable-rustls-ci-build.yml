@@ -116,8 +116,8 @@ jobs:
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
-      - name: cargo test (debug; unstable-std-extra [should cover all non-unsafe features])
-        run: cargo test -F unstable-std-extra --all-targets
+      - name: cargo test (debug; unstable-api-all [should cover all non-unsafe features])
+        run: cargo test -F unstable-api-all --all-targets
         working-directory: rustls
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
@@ -231,7 +231,7 @@ jobs:
         # - https://github.com/rustls/rustls/pull/2343
         run: cargo add --dev --features bindgen 'aws-lc-sys@>0.20' --package ${{ env.MAIN_CRATE }} --verbose && cargo install bindgen-cli --verbose
       - run: cross test --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
-      - run: cross test -F unstable-std-extra --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+      - run: cross test -F unstable-api-all --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
       - run: cross test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
