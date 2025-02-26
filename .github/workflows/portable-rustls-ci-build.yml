@@ -119,7 +119,7 @@ jobs:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo test (debug; unstable-api-all [should cover all non-unsafe features])
-        run: cargo test -F unstable-api-all --all-targets
+        run: cargo test -F unstable-api-all
         working-directory: rustls
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
