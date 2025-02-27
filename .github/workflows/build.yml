@@ -444,6 +444,9 @@ jobs:
           # NOTE: This could have some overlap with 64-bit ARM-style CPU on macOS CI host;
           # may have similar ARM-style CPU overlap with standard Windows & possibly Linux in the future
           - aarch64-linux-android
+        cfg:
+          # CFG REQUIRED for Rust stable
+          - unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -458,6 +461,9 @@ jobs:
         if: ${{ matrix.target != 'i686-unknown-linux-gnu' }}
         run: cargo add --dev --features bindgen 'aws-lc-sys@>0.20' --package ${{ env.MAIN_CRATE }} --verbose && cargo install bindgen-cli --verbose
       - run: cross test --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+        env:
+          # XXX ... ...
+          RUSTFLAGS: --cfg ${{ matrix.cfg }}
 
   semver:
     name: Check semver compatibility
