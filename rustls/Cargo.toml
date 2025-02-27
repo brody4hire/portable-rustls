@@ -60,11 +60,19 @@ tls12 = []
 zlib = ["dep:zlib-rs"]
 
 # FEATURES to help build for no-std targets with no atomic ptr - see documentation for more info
-critical-section = ["dep:portable-atomic", "once_cell/portable-atomic", "portable-atomic/critical-section"]
-# XXX TODO MERGE FROM OTHER UPDATE:
-unsafe-assume-single-core = [
+critical-section = [
+  # XXX TBD ??? ??? ???
   "dep:portable-atomic",
-  "once_cell/portable-atomic",
+  # XXX TBD ??? ???
+  # "once_cell/portable-atomic",
+  "portable-atomic/critical-section",
+]
+# XXX TODO REMOVE ENTRIES NO LONGER NEEDED & CLEANUP:
+unsafe-assume-single-core = [
+  # XXX TBD ??? ???
+  "dep:portable-atomic",
+  # XXX TBD ??? ???
+  # "once_cell/portable-atomic",
   "portable-atomic/unsafe-assume-single-core",
 ]
 
@@ -85,9 +93,17 @@ log = { workspace = true, optional = true }
 # Using `once_cell::sync::OnceCell` would let the losing thread to see the winning value
 # in the error result from `crypto::CryptoProvider::set_default()`, which does not seem
 # worth using the `critical-section` feature with its no-std installation requirements.
-# TODO: specify `once_cell` version in single place - as RECENTLY UPDATED in upstream RUSTLS
-# (keeping `once_cell` features list here, with features as needed by this main crate)
-once_cell = { version = "1.20.3", default-features = false, features = ["alloc", "portable-atomic", "race"] }
+# XXX TBD ??? ??? ???:
+# INHERITS VERSION FROM XXX XXX
+# WITH `once_cell` features UPDATED FOR THIS FORK
+once_cell = { workspace = true, default-features = false, features = [
+  # XXX TBD ADDITIONAL COMMENT HERE ??? ??? ???
+  "alloc",
+  # XXX TBD AS NEEDED FOR XXX XXX XXX
+  "portable-atomic",
+  "race",
+] }
+# XXX TBD SHOULD THIS BE AN OPTIONAL DEPENDENCY OR NOT - ???
 # EXPLICIT `portable-atomic` dependency REQUIRED BY BOTH  `critical-section` & `unsafe-assume-single-core` features
 portable-atomic = { version = "1.11", default-features = false, optional = true }
 # TODO: KEEP `portable-atomic-util` OPTIONAL WITH FEATURE CONFIG IN THIS FORK
