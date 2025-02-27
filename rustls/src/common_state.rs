@@ -839,7 +839,7 @@ impl IoState {
     }
 }
 
-pub(crate) trait State<Data> {
+pub(crate) trait State<Data>: Send + Sync {
     fn handle<'m>(
         self: Box<Self>,
         cx: &mut Context<'_, Data>,
