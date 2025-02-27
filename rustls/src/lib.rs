@@ -429,12 +429,16 @@
 //!   feature enabled and includes `once_cell` with `portable-atomic` feature enabled;
 //!   need to add a critical section implementation in case of no-std as documented in:
 //!   <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
+//!   XXX TODO INCLUDE RELATIONSHIP WITH `portable-atomic` feature
 //!
 //! - `unsafe-assume-single-core` - includes `portable-atomic` crate dependency with
 //!   the `unsafe-assume-single-core` feature enabled and includes `once_cell` with
 //!   `portable-atomic` feature enabled; this feature may not be used together with `critical-section`;
 //!   please see the following for some more important info:
 //!   <https://docs.rs/portable-atomic#optional-features>
+//!   XXX TODO INCLUDE RELATIONSHIP WITH `portable-atomic` feature
+//!
+//! - `portable-atomic` - XXX TODO XXX XXX
 //!
 //! ## Crate cfg options
 //!

@@ -60,8 +60,9 @@ tls12 = []
 zlib = ["dep:zlib-rs"]
 
 # FEATURES to help build for no-std targets with no atomic ptr - see documentation for more info
-critical-section = ["dep:portable-atomic", "once_cell/portable-atomic", "portable-atomic/critical-section"]
-unsafe-assume-single-core = ["once_cell/portable-atomic", "portable-atomic/unsafe-assume-single-core"]
+critical-section = ["dep:portable-atomic", "portable-atomic/critical-section"]
+unsafe-assume-single-core = ["dep:portable-atomic", "portable-atomic/unsafe-assume-single-core"]
+portable-atomic = ["dep:portable-atomic", "once_cell/portable-atomic"]
 
 [build-dependencies]
 rustversion = { version = "1.0.6", optional = true }
@@ -83,7 +84,7 @@ log = { workspace = true, optional = true }
 # TODO: specify `once_cell` version in single place - as RECENTLY UPDATED in upstream RUSTLS
 # (It may be best to specify the `once_cell` features here, as may be needed for updates moving forward.)
 once_cell = { version = "1.20.3", default-features = false, features = ["alloc", "race"] }
-# EXPLICIT `portable-atomic` dependency REQUIRED for `unsafe-assume-single-core` feature
+# EXPLICIT `portable-atomic` dependency REQUIRED for `critical-section` & `unsafe-assume-single-core` feature
 portable-atomic = { version = "1.11", default-features = false, optional = true }
 # TODO: KEEP `portable-atomic-util` OPTIONAL WITH FEATURE CONFIG IN THIS FORK
 portable-atomic-util = { version = "0.2.4", default-features = false, features = ["alloc"] }
