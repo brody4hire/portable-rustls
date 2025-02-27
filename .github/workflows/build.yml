@@ -20,6 +20,7 @@ env:
   MAIN_CRATE: portable-rustls
   # FOR DEFAULT CFG FOR CARGO BUILD ETC - MAY OVERRIDE PER CI JOB OR MATRIX ENTRY
   RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized
+  # XXX TODO --cfg=... vs --cfg ... in doc
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
