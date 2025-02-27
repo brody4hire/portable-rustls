@@ -86,6 +86,8 @@ once_cell = { version = "1.20.3", default-features = false, features = ["alloc",
 # EXPLICIT `portable-atomic` dependency REQUIRED BY BOTH  `critical-section` & `unsafe-assume-single-core` features
 portable-atomic = { version = "1.11", default-features = false, optional = true }
 # TODO: KEEP `portable-atomic-util` OPTIONAL WITH FEATURE CONFIG IN THIS FORK
+# NOTE that using Arc from `portable-atomic-util` REQUIRES RUST NIGHTLY
+# together with UNSTABLE CFG OPTION (as documented in this crate)
 portable-atomic-util = { version = "0.2.4", default-features = false, features = ["alloc"] }
 ring = { workspace = true, optional = true }
 subtle = { workspace = true }
