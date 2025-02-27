@@ -447,6 +447,8 @@ jobs:
         cfg:
           # CFG REQUIRED for Rust stable
           - unstable_use_arc_from_stdlib
+          # NOTE: cross test with default Arc alias to portable_atomic_util::Arc
+          # is covered by other workflow
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
