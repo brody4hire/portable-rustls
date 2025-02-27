@@ -33,10 +33,19 @@
 //! use rustls::Arc;
 //! ```
 //!
+//! <!-- XXX TODO CLEANUP -->
+//! __BUILD REQUIREMENT(S)__
+//!
+//! Must use Rust nightly toolchain.
+//!
+//! Must use the following cfg flag in `RUSTFLAGS` FOR `cargo build` (etc.):
+//! - `--cfg portable_atomic_unstable_coerce_unsized`
+//!
 //! ### targets with no atomic ptr
 //!
+//! <!-- XXX TODO CLEANUP -->
 //! <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
-//! When building for a target with no atomic ptr, enable exactly one of the following crate features:
+//! REQUIRED for no-std build: enable exactly one of the following crate features:
 //! - `unsafe-assume-single-core` - enables `unsafe-assume-single-core` feature on `portable-atomic` in crate dependencies - may be easiest to configure, with important requirements and limitations as described in: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
 //! - `critical-section`- enables `critical-section` feature on `portable-atomic` in crate dependencies - with more requirements for no-std, as described in: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
 //!
@@ -430,9 +439,10 @@
 //!
 //! ## Crate cfg options
 //!
+//! <!-- XXX TODO CLEANUP -->
 //! - `unstable_use_arc_from_stdlib` - configures this fork to use `Arc` from `alloc::sync` instead of `portable-atomic-util`;
 //!   may be possible to build with Rust stable or nightly; this option is not actively maintained
-//!   (primarily added for CI testing purposes)
+//!   (primarily added for CI testing purposes); `--cfg portable_atomic_unstable_coerce_unsized` IS NOT REQUIRED WITH THIS CFG OPTION
 //!
 //! [x25519mlkem768-manual]: manual::_05_defaults#about-the-post-quantum-secure-key-exchange-x25519mlkem768
 

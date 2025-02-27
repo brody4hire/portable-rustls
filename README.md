@@ -30,7 +30,9 @@ REQUIREMENTS FOR BUILDING WITH THIS FORK (as stated with more details further be
 
 >- Use Rust nightly toolchain
 >- Use `RUSTFLAGS` with `--cfg portable_atomic_unstable_coerce_unsized` during `cargo build` (etc.) as needed for `portable-atomic-util`
+<!-- XXX GONE:
 >- in case of no-std: add `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
+-- END XXX GONE -->
 
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE(S) FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 RECOMMENDED USAGE OF THIS FORK (as stated further below):
@@ -115,10 +117,19 @@ It is recommended to simply import the crate-level `Arc` type alias from this cr
 use rustls::Arc;
 ```
 
+<!-- XXX TODO CLEANUP -->
+__BUILD REQUIREMENT(S)__
+
+Must use Rust nightly toolchain.
+
+Must use the following cfg flag in `RUSTFLAGS` FOR `cargo build` (etc.):
+- `--cfg portable_atomic_unstable_coerce_unsized`
+
 ### targets with no atomic ptr
 
+<!-- XXX TODO CLEANUP -->
 <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
-When building for a target with no atomic ptr, enable exactly one of the following crate features:
+REQUIRED for no-std build: enable exactly one of the following crate features:
 - `unsafe-assume-single-core` - enables `unsafe-assume-single-core` feature on `portable-atomic` in crate dependencies - may be easiest to configure, with important requirements and limitations as described in: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
 - `critical-section`- enables `critical-section` feature on `portable-atomic` in crate dependencies - with more requirements for no-std, as described in: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
 
