@@ -118,7 +118,7 @@ Must use the following cfg flags in `RUSTFLAGS` FOR `cargo build` (etc.):
 - `--cfg portable_atomic_unstable_coerce_unsized`
 - `--cfg unstable_portable_atomic_arc`
 
-<!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
+<!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS -->
 When building for a target with no atomic ptr, enable exactly one of the following crate features:
 - `unsafe-assume-single-core` - enables `unsafe-assume-single-core` feature on `portable-atomic` in crate dependencies - may be easiest to configure, with important requirements and limitations as described in: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
 - `critical-section`- enables `critical-section` feature on `portable-atomic` in crate dependencies - with more requirements for no-std, as described in: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>

@@ -61,6 +61,7 @@ zlib = ["dep:zlib-rs"]
 
 # FEATURES to help build for no-std targets with no atomic ptr - see documentation for more info
 critical-section = ["dep:portable-atomic", "once_cell/portable-atomic", "portable-atomic/critical-section"]
+# TODO: NEED EXPLICIT "dep:portable-atomic" ITEM FOR THIS FEATURE AS WELL
 unsafe-assume-single-core = ["once_cell/portable-atomic", "portable-atomic/unsafe-assume-single-core"]
 
 [build-dependencies]
@@ -83,7 +84,7 @@ log = { workspace = true, optional = true }
 # TODO: specify `once_cell` version in single place - as RECENTLY UPDATED in upstream RUSTLS
 # (It may be best to specify the `once_cell` features here, as may be needed for updates moving forward.)
 once_cell = { version = "1.20.3", default-features = false, features = ["alloc", "race"] }
-# EXPLICIT `portable-atomic` dependency REQUIRED for `unsafe-assume-single-core` feature
+# EXPLICIT `portable-atomic` dependency REQUIRED for `critical-section` & `unsafe-assume-single-core` features
 portable-atomic = { version = "1.11", default-features = false, optional = true }
 # TODO: KEEP `portable-atomic-util` OPTIONAL WITH FEATURE CONFIG IN THIS FORK
 portable-atomic-util = { version = "0.2.4", default-features = false, features = ["alloc"] }
@@ -167,6 +168,7 @@ rustdoc-args = ["--cfg", "docsrs"]
 [package.metadata.cargo_check_external_types]
 allowed_external_types = [
   # ---
+  # TODO: portable_atomic_util::arc::Arc
   "rustls_pki_types",
   "rustls_pki_types::*",
 ]
