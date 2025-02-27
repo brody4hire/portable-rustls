@@ -60,8 +60,9 @@ tls12 = []
 zlib = ["dep:zlib-rs"]
 
 # FEATURES to help build for no-std targets with no atomic ptr - see documentation for more info
-critical-section = ["dep:portable-atomic", "once_cell/portable-atomic", "portable-atomic/critical-section"]
-unsafe-assume-single-core = ["once_cell/portable-atomic", "portable-atomic/unsafe-assume-single-core"]
+critical-section = ["dep:portable-atomic", "portable-atomic/critical-section"]
+unsafe-assume-single-core = ["dep:portable-atomic", "portable-atomic/unsafe-assume-single-core"]
+portable-atomic = ["dep:portable-atomic", "once_cell/portable-atomic"]
 
 [build-dependencies]
 rustversion = { version = "1.0.6", optional = true }
