@@ -56,6 +56,9 @@ jobs:
         exclude:
           # never use Windows for merge checks
           - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
+    env:
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
+
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -84,8 +87,6 @@ jobs:
       # (may be ideal to contribute this kind of update to upstream RUSTLS, someday)
       - name: cargo build (debug; default features)
         run: cargo build --locked
-        env:
-          RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
 
       # N/A [FIPS REMOVED FROM THIS FORK]: nb. feature sets that include "fips" ...
       # nb. "--all-targets" does not include doctests
@@ -93,7 +94,6 @@ jobs:
         run: cargo test --release --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --all-targets
         env:
           RUST_BACKTRACE: 1
-          RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
 
       # nb. this is separate since `--doc` option cannot be combined with other target option(s) ref:
       # - https://doc.rust-lang.org/cargo/commands/cargo-test.html
@@ -101,13 +101,11 @@ jobs:
         run: cargo test --release --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --doc
         env:
           RUST_BACKTRACE: 1
-          RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
 
       - name: cargo test (debug; aws-lc-rs)
         run: cargo test --no-default-features --features aws_lc_rs,tls12,read_buf,logging,std --all-targets
         env:
           RUST_BACKTRACE: 1
-          RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
 
       # [FIPS REMOVED FROM THIS FORK]
       # - name: cargo test (release; fips)
@@ -115,35 +113,22 @@ jobs:
 
       - name: cargo build (debug; rustls-provider-example)
         run: cargo build --locked -p rustls-provider-example
-        env:
-          RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
 
       - name: cargo build (debug; rustls-provider-example lib in no-std mode)
         run: cargo build --locked -p rustls-provider-example --no-default-features
-        env:
-          RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
 
       - name: cargo test (debug; rustls-provider-example; all features)
         run: cargo test --all-features -p rustls-provider-example
-        env:
-          RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
 
       - name: cargo build (debug; rustls-provider-test)
         run: cargo build --locked -p rustls-provider-test
-        env:
-          RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
 
       - name: cargo test (debug; rustls-provider-test; all features)
         run: cargo test --all-features -p rustls-provider-test
-        env:
-          RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
 
       # TODO: simplify the options used in this `cargo package` command, if possible
       # without negative impact on what is tested in CI - NEEDS INVESTIGATION
       - run: cargo package ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p ${{ env.MAIN_CRATE }}
-        # XXX TBD ??? ???
-        env:
-          RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
 
   msrv:
     # NOTE: MSRV - Rust nightly is covered by multiple jobs in portable-rustls-ci-build.yml
