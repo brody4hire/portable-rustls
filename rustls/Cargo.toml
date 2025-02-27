@@ -83,7 +83,7 @@ log = { workspace = true, optional = true }
 # TODO: specify `once_cell` version in single place - as RECENTLY UPDATED in upstream RUSTLS
 # (keeping `once_cell` features list here, with UPDATED FEATURES as needed by this main crate)
 once_cell = { version = "1.20.3", default-features = false, features = ["alloc", "portable-atomic", "race"] }
-# EXPLICIT `portable-atomic` dependency REQUIRED BY BOTH  `critical-section` & `unsafe-assume-single-core` features
+# EXPLICIT `portable-atomic` dependency REQUIRED for `critical-section` & `unsafe-assume-single-core` features
 portable-atomic = { version = "1.11", default-features = false, optional = true }
 # TODO: KEEP `portable-atomic-util` OPTIONAL WITH FEATURE CONFIG IN THIS FORK
 # NOTE that using Arc from `portable-atomic-util` REQUIRES RUST NIGHTLY
