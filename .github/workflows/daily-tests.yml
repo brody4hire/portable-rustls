@@ -176,14 +176,15 @@ jobs:
 
       - name: Check feature powerset
         # REMOVED cargo hack check --...features OPTIONS FOR `fips` [FIPS REMOVED FROM THIS FORK]
+        # UPDATED with EXCLUSIVE FEATURES: critical-section,unsafe-assume-single-core
         run: >
             cargo hack check
             --package ${{ env.MAIN_CRATE }}
             --feature-powerset
             --no-dev-deps
-            --exclude-features unsafe-assume-single-core
             --group-features aws_lc_rs,aws-lc-rs
             --mutually-exclusive-features custom_provider,aws_lc_rs
             --mutually-exclusive-features custom_provider,ring
+            --mutually-exclusive-features critical-section,unsafe-assume-single-core
         env:
           RUSTFLAGS: --deny warnings
