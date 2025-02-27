@@ -15,6 +15,8 @@ on:
     - cron: '0 18 * * *'
 
 env:
+  # NOTE: `portable-rustls` fork name is REPEATED here in env - TODO avoid repeating if possible
+  ALL_FEATURES_EXCEPT_UNSAFE: $(admin/all-features-except unsafe-assume-single-core portable-rustls)
   MAIN_CRATE: portable-rustls
 
 concurrency:
@@ -71,20 +73,23 @@ jobs:
       # - name: Install golang for aws-lc-fips-sys on macos
       #   ...
 
+      # TODO(general): use some kind of admin scripts or other form of easy-to-understand
+      # functional commands in place of using "fancy" step names here
+      # (may be ideal to contribute this kind of update to upstream RUSTLS, someday)
       - name: cargo build (debug; default features)
         run: cargo build --locked
 
       # N/A [FIPS REMOVED FROM THIS FORK]: nb. feature sets that include "fips" ...
       # nb. "--all-targets" does not include doctests
-      - name: cargo test (release; all features)
-        run: cargo test --release --locked --all-features --all-targets
+      - name: cargo test (release; all features except unsafe-assume-single-core)
+        run: cargo test --release --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --all-targets
         env:
           RUST_BACKTRACE: 1
 
       # nb. this is separate since `--doc` option cannot be combined with other target option(s) ref:
       # - https://doc.rust-lang.org/cargo/commands/cargo-test.html
-      - name: cargo test --doc (release; all-features)
-        run: cargo test --release --locked --all-features --doc
+      - name: cargo test --doc (release; all features except unsafe-assume-single-core)
+        run: cargo test --release --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --doc
         env:
           RUST_BACKTRACE: 1
 
@@ -112,8 +117,9 @@ jobs:
       - name: cargo test (debug; rustls-provider-test; all features)
         run: cargo test --all-features -p rustls-provider-test
 
-      - name: cargo package --all-features -p ${{ env.MAIN_CRATE }}
-        run: cargo package --all-features -p ${{ env.MAIN_CRATE }}
+      # TODO: simplify the options used in this `cargo package` command, if possible
+      # without negative impact on what is tested in CI - NEEDS INVESTIGATION
+      - run: cargo package ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p ${{ env.MAIN_CRATE }}
 
   msrv:
     # NOTE: MSRV - Rust nightly is covered by multiple jobs in portable-rustls-ci-build.yml
@@ -130,13 +136,16 @@ jobs:
           toolchain: "1.71"
 
       # zlib-rs is optional and requires a later MSRV
-      - run: cargo check --locked --lib $(admin/all-features-except zlib ${{ env.MAIN_CRATE }}) -p ${{ env.MAIN_CRATE }}
+      - run: cargo check --locked --lib ${{ env.ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB }} -p ${{ env.MAIN_CRATE }}
+        env:
+          # (also need to exclude `unstable-api-all` which includes `zlib`)
+          ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB: $(admin/all-features-except unsafe-assume-single-core,unstable-api-all,zlib ${{ env.MAIN_CRATE }})
 
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: "1.75"
 
-      - run: cargo check --locked --lib --all-features -p ${{ env.MAIN_CRATE }}
+      - run: cargo check --locked --lib ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p ${{ env.MAIN_CRATE }}
 
   features:
     name: Features
@@ -309,7 +318,7 @@ jobs:
       #   ...
 
       - name: Run micro-benchmarks
-        run: cargo bench --locked --all-features
+        run: cargo bench --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
         env:
           RUSTFLAGS: --cfg=bench
 
@@ -325,14 +334,14 @@ jobs:
       - name: Install rust toolchain
         uses: dtolnay/rust-toolchain@nightly
 
-      - name: cargo doc (rustls; all features)
-        run: cargo doc --locked --all-features --no-deps --document-private-items --package ${{ env.MAIN_CRATE }}
+      - name: cargo doc (rustls; all features except unsafe-assume-single-core)
+        run: cargo doc --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --no-deps --document-private-items --package ${{ env.MAIN_CRATE }}
         env:
           RUSTDOCFLAGS: -Dwarnings
 
       - name: Check README.md
         run: |
-          cargo build --locked --all-features
+          cargo build --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
           ./admin/pull-readme
           git diff --exit-code
 
@@ -439,6 +448,12 @@ jobs:
         with:
           persist-credentials: false
 
+      # QUICK WORKAROUND NEEDED since cargo-semver-checks seems to try running with all features enabled
+      # as tracked in: https://github.com/brody4hire/portable-rustls/issues/28
+      # NOTE that this DOES mutate the configuration in `rustls/Cargo.toml` (and likely in `Cargo.lock`)
+      # within this CI job, which is not expected to be anything serious.
+      - run: cargo remove portable-atomic -p ${{ env.MAIN_CRATE }}
+
       - name: Check semver
         uses: obi1kenobi/cargo-semver-checks-action@v2
 
@@ -505,8 +520,8 @@ jobs:
       # - Allow `clippy::disallowed_types` as a workaround since `disallowed_types` configured in `.clippy.toml`
       #   is only intended for the main `rustls` crate.
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
-      # - Keep the main crate free of all warnings... FOR ALL FEATURES IN MAIN CRATE
-      - run: cargo clippy -p ${{ env.MAIN_CRATE }} --all-features -- --deny warnings
+      # - Keep the main crate free of all warnings... FOR ALL FEATURES - EXCEPT unsafe-assume-single-core IN MAIN CRATE (in this fork)
+      - run: cargo clippy -p ${{ env.MAIN_CRATE }} ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -- --deny warnings
 
   clippy-nightly:
     name: Clippy - Rust nightly
@@ -529,8 +544,8 @@ jobs:
       # - Ignore `clippy::disallowed_types` as a workaround since `disallowed_types` configured in `.clippy.toml`
       #   is only intended for main `rustls` crate.
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
-      # DENY ALL WARNINGS FROM RUST NIGHTLY CLIPPY FOR ALL FEATURES IN MAIN CRATE in this fork
-      - run: cargo clippy -p ${{ env.MAIN_CRATE }} --all-features -- --deny warnings
+      # DENY ALL WARNINGS FROM RUST NIGHTLY CLIPPY FOR ALL FEATURES - EXCEPT unsafe-assume-single-core IN MAIN CRATE (in this fork)
+      - run: cargo clippy -p ${{ env.MAIN_CRATE }} ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -- --deny warnings
 
   check-external-types:
     name: Validate external types appearing in public API

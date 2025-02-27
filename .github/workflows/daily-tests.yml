@@ -181,6 +181,7 @@ jobs:
             --package ${{ env.MAIN_CRATE }}
             --feature-powerset
             --no-dev-deps
+            --exclude-features unsafe-assume-single-core
             --group-features aws_lc_rs,aws-lc-rs
             --mutually-exclusive-features custom_provider,aws_lc_rs
             --mutually-exclusive-features custom_provider,ring

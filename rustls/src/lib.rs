@@ -7,7 +7,7 @@
 //!
 //! ## RECOMMENDED USAGE
 //!
-//! <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+//! <!-- TODO: IMPROVE & CLEAN UP [RECOMMENDED] USAGE NOTES FOR THIS FORK IN GENERAL -->
 //! RECOMMENDED USAGE OF THIS FORK:
 //!
 //! Add dependency on this fork as follows in `Cargo.toml`:
@@ -18,7 +18,7 @@
 //!
 //! Then import and use __`rustls`__ in the code as usual.
 //!
-//! (Unlike the original __`rustls`__, no features are enabled by default in this fork.)
+//! (Unlike the original __`rustls`__, NO CRATE FEATURES are enabled by default in this fork.)
 //!
 //! <!-- TODO: [...][crate::Arc] pattern is replaced by `admin/pull-readme` - TODO REFERENCE docs.rs when possible -->
 //! Note that this fork provides a crate-level [`Arc` type alias][crate::Arc] to help use the correct `Arc` type according to the build configuration:
@@ -44,10 +44,9 @@
 //! - `--cfg unstable_portable_atomic_arc`
 //!
 //! <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
-//! WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH SPECIFIC FEATURES ENABLED:
-//! - add `once_cell` with `portable-atomic` feature enabled
-//! - add `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
-//! - possibly more requirements in case of `portable-atomic` with `critical-section` for no-std: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
+//! When building for a target with no atomic ptr, enable exactly one of the following crate features:
+//! - `unsafe-assume-single-core` - enables `unsafe-assume-single-core` feature on `portable-atomic` in crate dependencies - may be easiest to configure, with important requirements and limitations as described in: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
+//! - `critical-section`- enables `critical-section` feature on `portable-atomic` in crate dependencies - with more requirements for no-std, as described in: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
 //!
 //! <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
 //! <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->
@@ -426,6 +425,17 @@
 //!
 //! - `zlib`: uses the `zlib-rs` crate for RFC8879 certificate compression support.
 //!
+//! - `critical-section` - includes `portable-atomic` crate dependency with the `critical-section`
+//!   feature enabled and includes `once_cell` with `portable-atomic` feature enabled;
+//!   need to add a critical section implementation in case of no-std as documented in:
+//!   <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
+//!
+//! - `unsafe-assume-single-core` - includes `portable-atomic` crate dependency with
+//!   the `unsafe-assume-single-core` feature enabled and includes `once_cell` with
+//!   `portable-atomic` feature enabled; this feature may not be used together with `critical-section`;
+//!   please see the following for some more important info:
+//!   <https://docs.rs/portable-atomic#optional-features>
+//!
 //! ## Crate cfg options
 //!
 //! - `unstable_portable_atomic_arc` - configures this fork to use `Arc` from `portable_atomic_util` instead
@@ -486,6 +496,19 @@
 #![cfg_attr(read_buf, feature(core_io_borrowed_buf))]
 #![cfg_attr(bench, feature(test))]
 #![no_std]
+
+// This constraint is also enforced by `portable-atomic` crate - enforcing here as well
+// for extra clarity (with a QUICK WORKAROUND)
+#[cfg(all(
+    feature = "critical-section",
+    feature = "unsafe-assume-single-core",
+    // QUICK WORKAROUND NEEDED since cargo-semver-checks seems to try running with all features enabled
+    // as tracked in: https://github.com/brody4hire/portable-rustls/issues/28
+    // NOTE that this should be OK as it would be really weird for std to work together with any
+    // target that is supported with `unsafe-assume-single-core` in `portable-atomic`.
+    not(feature = "std"),
+))]
+compile_error!("invalid combination of `critical-section` & `unsafe-assume-single-core` features");
 
 extern crate alloc;
 // This `extern crate` plus the `#![no_std]` attribute changes the default prelude from

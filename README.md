@@ -82,7 +82,7 @@ __IMPORTANT NOTICE:__ regardless of upstream __`rustls`__ project this fork is _
 
 ## RECOMMENDED USAGE
 
-<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK -->
+<!-- TODO: IMPROVE & CLEAN UP [RECOMMENDED] USAGE NOTES FOR THIS FORK IN GENERAL -->
 RECOMMENDED USAGE OF THIS FORK:
 
 Add dependency on this fork as follows in `Cargo.toml`:
@@ -93,7 +93,7 @@ rustls = { package = "portable-rustls", features=[...], ... }
 
 Then import and use __`rustls`__ in the code as usual.
 
-(Unlike the original __`rustls`__, no features are enabled by default in this fork.)
+(Unlike the original __`rustls`__, NO CRATE FEATURES are enabled by default in this fork.)
 
 <!-- TODO: [...][crate::Arc] pattern is replaced by `admin/pull-readme` - TODO REFERENCE docs.rs when possible -->
 Note that this fork provides a crate-level `Arc` type alias to help use the correct `Arc` type according to the build configuration:
@@ -119,10 +119,9 @@ Must use the following cfg flags in `RUSTFLAGS` FOR `cargo build` (etc.):
 - `--cfg unstable_portable_atomic_arc`
 
 <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
-WHEN BUILDING FOR A TARGET WITH NO ATOMIC PTR, NEED TO ADD THE FOLLOWING DEPENDENCIES WITH SPECIFIC FEATURES ENABLED:
-- add `once_cell` with `portable-atomic` feature enabled
-- add `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
-- possibly more requirements in case of `portable-atomic` with `critical-section` for no-std: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
+When building for a target with no atomic ptr, enable exactly one of the following crate features:
+- `unsafe-assume-single-core` - enables `unsafe-assume-single-core` feature on `portable-atomic` in crate dependencies - may be easiest to configure, with important requirements and limitations as described in: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
+- `critical-section`- enables `critical-section` feature on `portable-atomic` in crate dependencies - with more requirements for no-std, as described in: <https://docs.rs/critical-section/latest/critical_section/#usage-in-no-std-binaries>
 
 <!-- TODO: ADDRESS HOW TO BUILD WITH A CRYPTO PROVIDER ON A TARGET WITH NO ATOMIC PTR -->
 <!-- (MAYBE BUILD WITH A BUILT-IN CRYPTO PROVIDER OR MAYBE THIRD-PARTY CRYPTO PROVIDER) -->
