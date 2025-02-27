@@ -18,6 +18,10 @@ env:
   # NOTE: `portable-rustls` fork name is REPEATED here in env - TODO avoid repeating if possible
   ALL_FEATURES_EXCEPT_UNSAFE: $(admin/all-features-except unsafe-assume-single-core portable-rustls)
   MAIN_CRATE: portable-rustls
+  # WITH QUICK WORKAROUND USING UNSTABLE CFG OPTION TO SIMPLIFY RUNNING MANY EXISTING CI JOBS
+  # TODO: UPDATE EXISTING CI JOBS TO WORK WITHOUT THE UNSTABLE CFG OPTION, IN A SIMILAR FASHION TO:
+  # - https://github.com/brody4hire/portable-rustls/pull/52
+  RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
@@ -27,6 +31,8 @@ jobs:
   build:
     name: Build+test
     runs-on: ${{ matrix.os }}
+    # TODO: UPDATE THIS CI JOB TO WORK WITH & WITHOUT UNSTABLE CFG OPTION, IN A SIMILAR FASHION TO:
+    # - https://github.com/brody4hire/portable-rustls/pull/52
     strategy:
       matrix:
         rust:
@@ -320,7 +326,9 @@ jobs:
       - name: Run micro-benchmarks
         run: cargo bench --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
         env:
-          RUSTFLAGS: --cfg=bench
+          # TODO: UPDATE TO WORK WITHOUT THE UNSTABLE CFG OPTION, IN A SIMILAR FASHION TO:
+          # - https://github.com/brody4hire/portable-rustls/pull/52
+          RUSTFLAGS: --cfg=bench --cfg=unstable_use_arc_from_stdlib
 
   docs:
     name: Check for documentation errors

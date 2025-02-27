@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 #![allow(clippy::duplicate_mod)]
-// QUICK CLIPPY WORKAROUND for `unstable_portable_atomic_arc` IN THIS FORK
+// QUICK CLIPPY WORKAROUND for `unstable_use_arc_from_stdlib` IN THIS FORK
 #![allow(unexpected_cfgs)]
 
 use std::io;
