@@ -229,6 +229,8 @@ jobs:
       - name: cargo build (debug; default features)
         run: cargo build --locked
         working-directory: rustls
+        env:
+          RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
 
       - name: cargo build (debug; no default features; no-std) with no-std target - ${{ env.NO_STD_BUILD_TARGET }}
         # (KEEPING --no-default-features which has no effect on main crate in this fork)
