@@ -18,10 +18,10 @@ env:
   # NOTE: `portable-rustls` fork name is REPEATED here in env - TODO avoid repeating if possible
   ALL_FEATURES_EXCEPT_UNSAFE: $(admin/all-features-except unsafe-assume-single-core portable-rustls)
   MAIN_CRATE: portable-rustls
-  # WITH QUICK WORKAROUND USING UNSTABLE CFG OPTION TO SIMPLIFY RUNNING MANY EXISTING CI JOBS
-  # TODO: UPDATE EXISTING CI JOBS TO WORK WITHOUT THE UNSTABLE CFG OPTION, IN A SIMILAR FASHION TO:
-  # - https://github.com/brody4hire/portable-rustls/pull/52
-  RUSTFLAGS: --cfg unstable_use_arc_from_stdlib
+  # XXX TBD ??? ??? ???
+  # XXX TODO XXX RATIONALE
+  RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized
+  RUSTDOCFLAGS: --cfg=portable_atomic_unstable_coerce_unsized
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
@@ -326,9 +326,9 @@ jobs:
       - name: Run micro-benchmarks
         run: cargo bench --locked ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
         env:
-          # TODO: UPDATE TO WORK WITHOUT THE UNSTABLE CFG OPTION, IN A SIMILAR FASHION TO:
-          # - https://github.com/brody4hire/portable-rustls/pull/52
-          RUSTFLAGS: --cfg=bench --cfg=unstable_use_arc_from_stdlib
+          # XXX TBD ???
+          # XXX TODO XXX RATIONALE
+          RUSTFLAGS: --cfg=bench --cfg=portable_atomic_unstable_coerce_unsized
 
   docs:
     name: Check for documentation errors
