@@ -18,9 +18,9 @@ env:
   # NOTE: `portable-rustls` fork name is REPEATED here in env - TODO avoid repeating if possible
   ALL_FEATURES_EXCEPT_UNSAFE: $(admin/all-features-except unsafe-assume-single-core portable-rustls)
   MAIN_CRATE: portable-rustls
-  # XXX TBD ??? ??? ???
-  # XXX TODO XXX RATIONALE
+  # FOR DEFAULT CFG FOR CARGO BUILD ETC - MAY OVERRIDE PER CI JOB OR MATRIX ENTRY
   RUSTFLAGS: --cfg=portable_atomic_unstable_coerce_unsized
+  # XXX TBD ??? ??? ???
   RUSTDOCFLAGS: --cfg=portable_atomic_unstable_coerce_unsized
 
 concurrency:
@@ -36,8 +36,9 @@ jobs:
     strategy:
       matrix:
         rust:
-          - stable
-          - beta
+          # XXX TBD ??? ???
+          # - stable
+          # - beta
           - nightly
         os:
           - ubuntu-latest
@@ -131,6 +132,11 @@ jobs:
     # NOTE: MSRV - Rust nightly is covered by multiple jobs in portable-rustls-ci-build.yml
     name: MSRV - Rust stable
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cfg:
+          # CFG REQUIRED for Rust stable
+          - unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -146,12 +152,17 @@ jobs:
         env:
           # (also need to exclude `unstable-api-all` which includes `zlib`)
           ALL_FEATURES_EXCEPT_UNSAFE_AND_ZLIB: $(admin/all-features-except unsafe-assume-single-core,unstable-api-all,zlib ${{ env.MAIN_CRATE }})
+          # XXX ... ...
+          RUSTFLAGS: --cfg ${{ matrix.cfg }}
 
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: "1.75"
 
       - run: cargo check --locked --lib ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -p ${{ env.MAIN_CRATE }}
+        env:
+          # XXX ... ...
+          RUSTFLAGS: --cfg ${{ matrix.cfg }}
 
   features:
     name: Features
@@ -164,8 +175,9 @@ jobs:
     strategy:
       matrix:
         rust:
-          - stable
-          - beta
+          # XXX XXX
+          # - stable
+          # - beta
           - nightly
         os:
           - ubuntu-latest
@@ -250,8 +262,9 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
+      # Rust nightly required for default Arc alias to portable_atomic_util::Arc
+      - name: Install nightly toolchain
+        uses: dtolnay/rust-toolchain@nightly
 
       # [FIPS REMOVED FROM THIS FORK]
       # - name: Install golang toolchain - NO LONGER NEEDED
@@ -510,6 +523,11 @@ jobs:
   clippy:
     name: Clippy - Rust stable
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cfg:
+          # CFG REQUIRED for Rust stable
+          - unstable_use_arc_from_stdlib
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -528,8 +546,14 @@ jobs:
       # - Allow `clippy::disallowed_types` as a workaround since `disallowed_types` configured in `.clippy.toml`
       #   is only intended for the main `rustls` crate.
       - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
+        env:
+          # XXX ... ...
+          RUSTFLAGS: --cfg ${{ matrix.cfg }}
       # - Keep the main crate free of all warnings... FOR ALL FEATURES - EXCEPT unsafe-assume-single-core IN MAIN CRATE (in this fork)
       - run: cargo clippy -p ${{ env.MAIN_CRATE }} ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -- --deny warnings
+        env:
+          # XXX ... ...
+          RUSTFLAGS: --cfg ${{ matrix.cfg }}
 
   clippy-nightly:
     name: Clippy - Rust nightly
@@ -598,8 +622,9 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
+      # Rust nightly required for default Arc alias to portable_atomic_util::Arc
+      - name: Install nightly toolchain
+        uses: dtolnay/rust-toolchain@nightly
 
       - name: Cache ${{ env.VERSION }}
         uses: actions/cache@v4
