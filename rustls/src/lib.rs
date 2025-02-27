@@ -21,11 +21,11 @@
 //! (Unlike the original __`rustls`__, NO CRATE FEATURES are enabled by default in this fork.)
 //!
 //! <!-- TODO: [...][crate::Arc] pattern is replaced by `admin/pull-readme` - TODO REFERENCE docs.rs when possible -->
-//! Note that this fork provides a crate-level [`Arc` type alias][crate::Arc] to help use the correct `Arc` type according to the build configuration:
+//! Note that this fork provides a crate-level [`Arc` type alias][crate::Arc] to help use the correct `Arc` type (according to the build configuration):
 //!
-//! - alias to [`portable_atomic_util::Arc`](https://docs.rs/portable-atomic-util/latest/portable_atomic_util/struct.Arc.html),
-//!   if `RUSTFLAGS` is set with `--cfg unstable_portable_atomic_arc` during Cargo build
-//! - otherwise alias to [`alloc::sync::Arc`](https://doc.rust-lang.org/nightly/alloc/sync/struct.Arc.html) / [`std::sync::Arc`](https://doc.rust-lang.org/nightly/std/sync/struct.Arc.html)
+//! - alias to [`portable_atomic_util::Arc`](https://docs.rs/portable-atomic-util/latest/portable_atomic_util/struct.Arc.html), by default build configuration - supports targets with no atomic ptr
+//! - alias to [`alloc::sync::Arc`](https://doc.rust-lang.org/nightly/alloc/sync/struct.Arc.html) / [`std::sync::Arc`](https://doc.rust-lang.org/nightly/std/sync/struct.Arc.html),
+//!   if enabled by crate cfg option as documented further below (not actively maintained)
 //!
 //! It is recommended to simply import the crate-level [`Arc` type alias][crate::Arc] from this crate:
 //!
@@ -34,14 +34,6 @@
 //! ```
 //!
 //! ### targets with no atomic ptr
-//!
-//! This fork supports using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
-//!
-//! Must use Rust nightly toolchain.
-//!
-//! Must use the following cfg flags in `RUSTFLAGS` FOR `cargo build` (etc.):
-//! - `--cfg portable_atomic_unstable_coerce_unsized`
-//! - `--cfg unstable_portable_atomic_arc`
 //!
 //! <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
 //! When building for a target with no atomic ptr, enable exactly one of the following crate features:
@@ -438,9 +430,9 @@
 //!
 //! ## Crate cfg options
 //!
-//! - `unstable_portable_atomic_arc` - configures this fork to use `Arc` from `portable_atomic_util` instead
-//!   of `std::sync::Arc` - requires Rust nightly together with `portable_atomic_unstable_coerce_unsized`
-//!   to build successfully.
+//! - `unstable_use_arc_from_stdlib` - configures this fork to use `Arc` from `alloc::sync` instead of `portable-atomic-util`;
+//!   may be possible to build with Rust stable or nightly; this option is not actively maintained
+//!   (primarily added for CI testing purposes)
 //!
 //! [x25519mlkem768-manual]: manual::_05_defaults#about-the-post-quantum-secure-key-exchange-x25519mlkem768
 
@@ -480,7 +472,7 @@
     clippy::single_component_path_imports,
     clippy::new_without_default
 )]
-// QUICK CLIPPY WORKAROUND for `unstable_portable_atomic_arc` IN THIS FORK
+// QUICK CLIPPY WORKAROUND for `unstable_use_arc_from_stdlib` IN THIS FORK
 #![allow(unexpected_cfgs)]
 // Enable documentation for all features on docs.rs
 #![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
@@ -561,10 +553,13 @@ mod sync {
 /// Keeping the extra level of indirection with this separate internal module so that
 /// the generated doc shows use of exported Arc alias from this crate.
 mod arc_type_alias {
-    #[cfg(unstable_portable_atomic_arc)]
+    // NOTE that unstable_use_arc_from_stdlib option is NOT WELL DOCUMENTED and NOT MAINTAINED;
+    // primary purpose is for extra CI testing
+    // (may update to test more extensively with multiple options & potentially with alloc::rc::Rc as well)
+    #[cfg(not(unstable_use_arc_from_stdlib))]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;
-    #[cfg(not(unstable_portable_atomic_arc))]
+    #[cfg(unstable_use_arc_from_stdlib)]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = alloc::sync::Arc<T>;
 }

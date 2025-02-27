@@ -25,8 +25,11 @@ concurrency:
 
 jobs:
   build:
-    name: build with unstable_portable_atomic_arc
+    name: build with default Arc alias
     runs-on: ${{ matrix.os }}
+    env:
+      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     strategy:
       matrix:
         rust:
@@ -63,16 +66,12 @@ jobs:
       - name: cargo build (debug; no-std; critical-section) # (with no built-in provider)
         run: cargo build -F critical-section --target ${{ matrix.target }}
         working-directory: rustls
-        env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo build (debug; no-std; unsafe-assume-single-core) # (with no built-in provider)
         # TODO: UPDATE to match in case of any more target(s) are added with no atomic ptr
         if: startsWith(matrix.target, 'riscv') || startsWith(matrix.target, 'thumbv6')
         run: cargo build -F unsafe-assume-single-core --target ${{ matrix.target }}
         working-directory: rustls
-        env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       # NOTE: BUILD with hashbrown FAILS with no atomic ptr - MISSING SUPPORT in default hasher
       # - name: cargo build (debug; no-std; hashbrown) # (with no built-in provider)
@@ -81,8 +80,11 @@ jobs:
   test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: test with unstable_portable_atomic_arc
+    name: test with default Arc alias
     runs-on: ${{ matrix.os }}
+    env:
+      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     strategy:
       matrix:
         rust:
@@ -112,8 +114,6 @@ jobs:
       - name: cargo test (debug; std) # no built-in provider
         run: cargo test --features std
         working-directory: rustls
-        env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo test (debug; unstable-api-all [should cover most if not all non-unsafe features])
         # QUICK WORKAROUND to avoid test issue with Rust nightly-2024-05-...
@@ -128,13 +128,14 @@ jobs:
         if: ${{ !startsWith(matrix.rust, 'nightly-2024-05-') }}
         run: cargo test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
         working-directory: rustls
-        env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
   cross-build:
-    name: cross build test with unstable_portable_atomic_arc
+    name: cross build test with default Arc alias
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
+    env:
+      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     strategy:
       matrix:
         rust:
@@ -172,23 +173,19 @@ jobs:
       - name: Install cross (cross-rs) from GitHub
         run: cargo install cross --git https://github.com/cross-rs/cross
       - run: cross build --package ${{ env.MAIN_CRATE }} -F critical-section --target ${{ matrix.target }}
-        env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
       - run: cross build --package ${{ env.MAIN_CRATE }} -F unsafe-assume-single-core --target ${{ matrix.target }}
         # TODO: UPDATE to match in case of any more target(s) are added with no atomic ptr
         if: startsWith(matrix.target, 'thumbv6')
-        env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
   cross-test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: cross-target testing with unstable_portable_atomic_arc
+    name: cross-target testing with default Arc alias
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
-    # TODO env with RUSTFLAGS in a similar fashion for other CI jobs - avoid repeating in many CI jobs steps
     env:
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     strategy:
       matrix:
         rust:
@@ -237,6 +234,9 @@ jobs:
     # (with help from exported `Arc` alias)
     name: full build with unstable_portable_atomic_arc cfg
     runs-on: ${{ matrix.os }}
+    env:
+      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     strategy:
       matrix:
         rust:
@@ -269,21 +269,20 @@ jobs:
 
       - name: cargo build (debug; no-std) # (with no built-in provider)
         run: cargo build
-        env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo build (debug; std; all features except unsafe-assume-single-core)
         # QUICK WORKAROUND TO AVOID BUILD ISSUE WITH RUST NIGHTLY FROM OCTOBER 2023
         if: ${{ !startsWith(matrix.rust, 'nightly-2023-10') }}
         run: cargo build ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
-        env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
   full-test:
     # test everything builds together with this build cfg option enabled
     # (with help from exported `Arc` alias)
     name: full test with unstable_portable_atomic_arc cfg
     runs-on: ${{ matrix.os }}
+    env:
+      # AS NEEDED for default build (with default Arc alias to portable_atomic_util::Arc)
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
     strategy:
       matrix:
         rust:
@@ -310,20 +309,12 @@ jobs:
 
       - name: cargo test (debug; no-std) # (with no built-in provider)
         run: cargo test
-        env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo test (debug; std; all features except unsafe-assume-single-core)
         run: cargo test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
-        env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo test (debug; rustls-provider-example; all features)
         run: cargo test --all-features -p rustls-provider-example
-        env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo test (debug; rustls-provider-test; all features)
         run: cargo test --all-features -p rustls-provider-test
-        env:
-          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc

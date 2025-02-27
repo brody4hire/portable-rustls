@@ -25,7 +25,14 @@ Rustls is a modern TLS library written in Rust.
 <!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 __IMPORTANT NOTICE:__ regardless of upstream __`rustls`__ project this fork is __NOT CERTIFIED__ and __NOT PEER-REVIEWED__ - USE AT YOUR OWN RISK (as stated further below)
 
-<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE DOC FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
+REQUIREMENTS FOR BUILDING WITH THIS FORK (as stated with more details further below):
+
+>- Use Rust nightly toolchain
+>- Use `RUSTFLAGS` with `--cfg portable_atomic_unstable_coerce_unsized` during `cargo build` (etc.) as needed for `portable-atomic-util`
+>- in case of no-std: add `portable-atomic` with `critical-section` or `unsafe-assume-single-core` feature enabled - see the following for more info & requirements: <https://docs.rs/portable-atomic/latest/portable_atomic/#optional-features>
+
+<!-- TODO(portable-rustls) CLEANUP & IMPROVE NOTE(S) FOR THIS FORK; REWORK TO AVOID REPEATED INFO -->
 RECOMMENDED USAGE OF THIS FORK (as stated further below):
 
 <!-- NOTE: SHOULD KEEP THIS BLOCK QUOTATION IN SYNC WITH INFO FURTHER BELOW -->
@@ -96,11 +103,11 @@ Then import and use __`rustls`__ in the code as usual.
 (Unlike the original __`rustls`__, NO CRATE FEATURES are enabled by default in this fork.)
 
 <!-- TODO: [...][crate::Arc] pattern is replaced by `admin/pull-readme` - TODO REFERENCE docs.rs when possible -->
-Note that this fork provides a crate-level `Arc` type alias to help use the correct `Arc` type according to the build configuration:
+Note that this fork provides a crate-level `Arc` type alias to help use the correct `Arc` type (according to the build configuration):
 
-- alias to [`portable_atomic_util::Arc`](https://docs.rs/portable-atomic-util/latest/portable_atomic_util/struct.Arc.html),
-if `RUSTFLAGS` is set with `--cfg unstable_portable_atomic_arc` during Cargo build
-- otherwise alias to [`alloc::sync::Arc`](https://doc.rust-lang.org/nightly/alloc/sync/struct.Arc.html) / [`std::sync::Arc`](https://doc.rust-lang.org/nightly/std/sync/struct.Arc.html)
+- alias to [`portable_atomic_util::Arc`](https://docs.rs/portable-atomic-util/latest/portable_atomic_util/struct.Arc.html), by default build configuration - supports targets with no atomic ptr
+- alias to [`alloc::sync::Arc`](https://doc.rust-lang.org/nightly/alloc/sync/struct.Arc.html) / [`std::sync::Arc`](https://doc.rust-lang.org/nightly/std/sync/struct.Arc.html),
+if enabled by crate cfg option as documented further below (not actively maintained)
 
 It is recommended to simply import the crate-level `Arc` type alias from this crate:
 
@@ -109,14 +116,6 @@ use rustls::Arc;
 ```
 
 ### targets with no atomic ptr
-
-This fork supports using `Arc` from `portable-atomic-util` to support targets with no atomic ptr, with the following requirements:
-
-Must use Rust nightly toolchain.
-
-Must use the following cfg flags in `RUSTFLAGS` FOR `cargo build` (etc.):
-- `--cfg portable_atomic_unstable_coerce_unsized`
-- `--cfg unstable_portable_atomic_arc`
 
 <!-- TODO: IMPROVE & CLEAN UP DOCUMENTATION FOR THIS; ADD CARGO FEATURE(S) TO HELP AUTOMATE THIS STEP -->
 When building for a target with no atomic ptr, enable exactly one of the following crate features:
