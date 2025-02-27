@@ -423,7 +423,8 @@ jobs:
         working-directory: rustls/
 
   cross:
-    name: cross-target testing
+    # XXX TBD ???
+    # name: cross-target testing
     runs-on: ubuntu-latest
     if: github.event_name != 'merge_group'
     strategy:
