@@ -581,26 +581,48 @@ jobs:
 
   openssl-tests:
     name: Run openssl-tests
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     env:
       VERSION: openssl-3.4.0
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
+    strategy:
+      matrix:
+        rust:
+          - nightly
+        os:
+          - ubuntu-latest
+          # FOR FUTURE CONSIDERATION - REQUIRES UPDATES TO OpenSSL cache
+          # - macos-latest
+        cfg-rust-flags: ['']
+        include:
+          - rust: nightly
+            os: ubuntu-latest
+            # CI job with portable_atomic_util::Arc
+            cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
+          # FOR FUTURE CONSIDERATION:
+          # - rust: stable
+          #   os: ubuntu-latest
+          # - rust: beta
+          #   os: ubuntu-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install ${{ matrix.rust }} toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
 
-      - name: Cache ${{ env.VERSION }}
+      - name: Cache ${{ env.VERSION }} - Ubuntu only
         uses: actions/cache@v4
         id: cache-openssl
         with:
           path: ${{ env.VERSION }}
           key: ${{ env.VERSION }}
 
-      - name: Fetch and build ${{ env.VERSION }}
+      - name: Fetch and build ${{ env.VERSION }} - Ubuntu only
         if: steps.cache-openssl.outputs.cache-hit != 'true'
         run: |
           wget https://github.com/openssl/openssl/releases/download/$VERSION/$VERSION.tar.gz
@@ -610,7 +632,7 @@ jobs:
           make -j$(nproc)
           make install
 
-      - name: Use ${{ env.VERSION }}
+      - name: Use ${{ env.VERSION }} - Ubuntu only
         run: |
          path=$(pwd)/$VERSION/built/
          echo "$path/bin" >> $GITHUB_PATH
