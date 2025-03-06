@@ -523,7 +523,26 @@ jobs:
 
   clippy-nightly:
     name: Clippy - Rust nightly
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    env:
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
+    strategy:
+      matrix:
+        rust:
+          - nightly
+        os:
+          - ubuntu-latest
+          - macos-latest
+        cfg-rust-flags: ['']
+        include:
+          - rust: nightly
+            os: macos-latest
+            # CI job with portable_atomic_util::Arc
+            cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
+          - rust: stable
+            os: macos-latest
+          - rust: beta
+            os: macos-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
