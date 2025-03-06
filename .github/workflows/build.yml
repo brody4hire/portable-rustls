@@ -543,7 +543,8 @@ jobs:
       # Deny warnings from Clippy - Rust nightly in this fork
       # - Ignore `clippy::disallowed_types` as a workaround since `disallowed_types` configured in `.clippy.toml`
       #   is only intended for main `rustls` crate.
-      - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types
+      # - Ignore `clippy::io-other-error` for now - TODO contribute update to upstream RUSTLS to resolve this
+      - run: ./admin/clippy -- --deny warnings --allow clippy::disallowed_types --allow clippy::io-other-error
       # DENY ALL WARNINGS FROM RUST NIGHTLY CLIPPY FOR ALL FEATURES - EXCEPT unsafe-assume-single-core IN MAIN CRATE (in this fork)
       - run: cargo clippy -p ${{ env.MAIN_CRATE }} ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} -- --deny warnings
 
