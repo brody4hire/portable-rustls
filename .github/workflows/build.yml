@@ -27,29 +27,30 @@ jobs:
   build:
     name: Build+test
     runs-on: ${{ matrix.os }}
+    env:
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
     strategy:
       matrix:
         rust:
-          - stable
-          - beta
           - nightly
         os:
           - ubuntu-latest
           - windows-latest
           - macos-latest
+        cfg-rust-flags: ['']
+        include:
+          - rust: nightly
+            os: macos-latest
+            cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
+          - rust: stable
+            os: macos-latest
+          # XXX TODO
+          # - rust: beta
+          #   os: macos-latest
         exclude:
-          # ONLY Rust nightly on Ubuntu in this fork - help save CI testing resources
-          - os: ubuntu-latest
-            rust: stable
-          - os: ubuntu-latest
-            rust: beta
-          # ONLY Rust nightly on Windows - slower platform
-          - os: windows-latest
-            rust: stable
-          - os: windows-latest
-            rust: beta
-          # and never use Windows for merge checks
+          # never use Windows for merge checks
           - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
+
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
