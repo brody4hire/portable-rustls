@@ -44,9 +44,8 @@ jobs:
             cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
           - rust: stable
             os: macos-latest
-          # XXX TODO
-          # - rust: beta
-          #   os: macos-latest
+          - rust: beta
+            os: macos-latest
         exclude:
           # never use Windows for merge checks
           - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
@@ -156,28 +155,23 @@ jobs:
       # it will catch unwanted usage of libstd in _dependencies_.
       # (may use another target with no std lib - x86_64-unknown-none for example)
       NO_STD_BUILD_TARGET: aarch64-unknown-none
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
     strategy:
       matrix:
         rust:
-          - stable
-          - beta
           - nightly
         os:
           - ubuntu-latest
           - macos-latest
-          # FOR FUTURE CONSIDERATION:
-          # - windows-latest
-        exclude:
-          # ONLY Rust nightly on Ubuntu in this fork - help save CI testing resources
-          - os: ubuntu-latest
-            rust: stable
-          - os: ubuntu-latest
-            rust: beta
-          # RECOMMENDED UPDATES in case this job is enabled on Windows:
-          # ONLY Rust nightly on Windows - slower platform
-          # ...
-          # and never use Windows for merge checks
-          # ...
+        cfg-rust-flags: ['']
+        include:
+          - rust: nightly
+            os: macos-latest
+            cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
+          - rust: stable
+            os: macos-latest
+          - rust: beta
+            os: macos-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
