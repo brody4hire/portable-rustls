@@ -41,6 +41,7 @@ jobs:
         include:
           - rust: nightly
             os: macos-latest
+            # CI job with portable_atomic_util::Arc
             cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
           - rust: stable
             os: macos-latest
@@ -167,6 +168,7 @@ jobs:
         include:
           - rust: nightly
             os: macos-latest
+            # CI job with portable_atomic_util::Arc
             cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
           - rust: stable
             os: macos-latest
