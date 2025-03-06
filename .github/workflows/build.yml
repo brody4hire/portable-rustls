@@ -503,9 +503,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install valgrind
-        if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y valgrind
+      # XXX TBD REMOVE - ???
+      # - name: Install valgrind
+      #   if: runner.os == 'Linux'
+      #   run: sudo apt-get update && sudo apt-get install -y valgrind
 
       - name: Install rust toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -527,9 +528,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install valgrind
-        if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y valgrind
+      # XXX TBD REMOVE - ???
+      # - name: Install valgrind
+      #   if: runner.os == 'Linux'
+      #   run: sudo apt-get update && sudo apt-get install -y valgrind
 
       - name: Install rust toolchain
         uses: dtolnay/rust-toolchain@nightly
