@@ -505,10 +505,10 @@ jobs:
         with:
           persist-credentials: false
 
-      # XXX TBD REMOVE - ???
-      # - name: Install valgrind
-      #   if: runner.os == 'Linux'
-      #   run: sudo apt-get update && sudo apt-get install -y valgrind
+      # AS REQUIRED for crabgrind on Linux
+      - name: Install valgrind
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y valgrind
 
       - name: Install rust toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -549,10 +549,10 @@ jobs:
         with:
           persist-credentials: false
 
-      # XXX TBD REMOVE - ???
-      # - name: Install valgrind
-      #   if: runner.os == 'Linux'
-      #   run: sudo apt-get update && sudo apt-get install -y valgrind
+      # AS REQUIRED for crabgrind on Linux
+      - name: Install valgrind
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y valgrind
 
       - name: Install rust toolchain
         uses: dtolnay/rust-toolchain@nightly
