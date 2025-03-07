@@ -37,7 +37,7 @@ jobs:
           - ubuntu-latest
           - windows-latest
           - macos-latest
-        cfg-rust-flags: ['']
+        cfg-rust-flags: [''] # [empty by default]
         include:
           - rust: nightly
             os: macos-latest
@@ -164,7 +164,7 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
-        cfg-rust-flags: ['']
+        cfg-rust-flags: [''] # [empty by default]
         include:
           - rust: nightly
             os: macos-latest
@@ -533,7 +533,7 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
-        cfg-rust-flags: ['']
+        cfg-rust-flags: [''] # [empty by default]
         include:
           - rust: nightly
             os: macos-latest
@@ -610,9 +610,9 @@ jobs:
           - nightly
         os:
           - ubuntu-latest
-          # FOR FUTURE CONSIDERATION - REQUIRES UPDATES TO OpenSSL cache
+          # FOR FUTURE CONSIDERATION - REQUIRES UPDATES TO OpenSSL CACHING
           # - macos-latest
-        cfg-rust-flags: ['']
+        cfg-rust-flags: [''] # [empty by default]
         include:
           - rust: nightly
             os: ubuntu-latest
