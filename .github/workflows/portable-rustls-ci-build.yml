@@ -315,6 +315,52 @@ jobs:
       - name: cargo test (debug; rustls-provider-test; all features)
         run: cargo test --all-features -p rustls-provider-test
 
+  embedded-powerset-build-check:
+    name: embedded cargo hack powerset build check
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        rust:
+          - nightly
+        os:
+          # SKIP FOR NOW:
+          # - ubuntu-latest
+          - macos-latest
+        target:
+          # 32-BIT TARGET(S) WITH NO ATOMIC PTR:
+          - riscv32imc-unknown-none-elf
+          - thumbv6m-none-eabi
+        cfg-rust-flags:
+          # build with unstable_portable_atomic_arc
+          - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install ${{ matrix.rust }} toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+
+      - name: Install cargo hack
+        uses: taiki-e/install-action@cargo-hack
+
+      - name: limited-depth powerset build check
+        run: >
+            cargo hack check
+            --package ${{ env.MAIN_CRATE }}
+            --feature-powerset
+            --no-dev-deps
+            --exclude-features aws_lc_rs,aws-lc-rs,brotli,prefer-post-quantum,read_buf,ring,std,unstable-api-all,zlib
+            --mutually-exclusive-features custom_provider,aws_lc_rs
+            --mutually-exclusive-features custom_provider,ring
+            --mutually-exclusive-features critical-section,unsafe-assume-single-core
+            --target ${{ matrix.target }}
+        env:
+          RUSTFLAGS: ${{ matrix.cfg-rust-flags }} --deny warnings
+
   limited-powerset-build-check:
     name: limited cargo hack powerset build check with unstable_portable_atomic_arc cfg
     runs-on: ${{ matrix.os }}
