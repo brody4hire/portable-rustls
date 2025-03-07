@@ -316,18 +316,21 @@ jobs:
         run: cargo test --all-features -p rustls-provider-test
 
   limited-powerset-build-check:
-    name: limited cargo cack powerset build check with unstable_portable_atomic_arc cfg
+    name: limited cargo hack powerset build check with unstable_portable_atomic_arc cfg
     runs-on: ${{ matrix.os }}
-    env:
-      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
     strategy:
       matrix:
         rust:
           - nightly
         os:
-          # XXX TBD ???
+          # SKIP FOR NOW:
           # - ubuntu-latest
           - macos-latest
+        cfg-rust-flags:
+          # build with unstable_portable_atomic_arc
+          - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
+          # build with `alloc::sync::Arc`
+          - ''
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -342,14 +345,6 @@ jobs:
       - name: Install cargo hack
         uses: taiki-e/install-action@cargo-hack
 
-      - name: cargo build (debug; no-std) # (with no built-in provider)
-        run: cargo build
-
-      - name: cargo build (debug; std; all features except unsafe-assume-single-core)
-        # QUICK WORKAROUND TO AVOID BUILD ISSUE WITH RUST NIGHTLY FROM OCTOBER 2023
-        if: ${{ !startsWith(matrix.rust, 'nightly-2023-10') }}
-        run: cargo build ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
-
       - name: limited-depth powerset build check
         run: >
             cargo hack check
@@ -361,7 +356,5 @@ jobs:
             --mutually-exclusive-features custom_provider,aws_lc_rs
             --mutually-exclusive-features custom_provider,ring
             --depth 2
-
-        # XXX TBD
-        # env:
-        #   RUSTFLAGS: --deny warnings ${{ XXX XXX }}
+        env:
+          RUSTFLAGS: ${{ matrix.cfg-rust-flags }} --deny warnings
