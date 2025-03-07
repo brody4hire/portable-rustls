@@ -353,9 +353,8 @@ jobs:
             --package ${{ env.MAIN_CRATE }}
             --feature-powerset
             --no-dev-deps
+            --at-least-one-of critical-section,unsafe-assume-single-core
             --exclude-features aws_lc_rs,aws-lc-rs,brotli,prefer-post-quantum,read_buf,ring,std,unstable-api-all,zlib
-            --mutually-exclusive-features custom_provider,aws_lc_rs
-            --mutually-exclusive-features custom_provider,ring
             --mutually-exclusive-features critical-section,unsafe-assume-single-core
             --target ${{ matrix.target }}
         env:
