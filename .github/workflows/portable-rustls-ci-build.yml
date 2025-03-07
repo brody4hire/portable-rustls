@@ -321,6 +321,7 @@ jobs:
     strategy:
       matrix:
         rust:
+          # Rust nightly REQUIRED for build with unstable_portable_atomic_arc
           - nightly
         os:
           # SKIP FOR NOW:
@@ -331,7 +332,7 @@ jobs:
           - riscv32imc-unknown-none-elf
           - thumbv6m-none-eabi
         cfg-rust-flags:
-          # build with unstable_portable_atomic_arc
+          # build with unstable_portable_atomic_arc - AS REQUIRED for 32-BIT TARGET(S) WITH NO ATOMIC PTR
           - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
     steps:
       - name: Checkout sources
@@ -343,6 +344,7 @@ jobs:
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust }}
+          target: ${{ matrix.target }}
 
       - name: Install cargo hack
         uses: taiki-e/install-action@cargo-hack
@@ -366,6 +368,7 @@ jobs:
     strategy:
       matrix:
         rust:
+          # Rust nightly REQUIRED for build with unstable_portable_atomic_arc
           - nightly
         os:
           # SKIP FOR NOW:
