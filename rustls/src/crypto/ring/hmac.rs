@@ -21,6 +21,7 @@ impl crypto::hmac::Hmac for Hmac {
         self.0.digest_algorithm().output_len()
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         super::fips()
     }

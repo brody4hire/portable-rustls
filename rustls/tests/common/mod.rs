@@ -38,7 +38,9 @@ use webpki::anchor_from_trusted_cert;
 use super::provider;
 
 // UPDATED IN THIS FORK (THIS IMPORT ONLY SEEMS TO BE NEEDED FOR `aws_lc_rs` & `ring` features)
-pub use rustls::internal::sync::Arc;
+// XXX TBD ??? ???
+// pub use rustls::internal::sync::Arc;
+pub use rustls::Arc;
 
 macro_rules! embed_files {
     (

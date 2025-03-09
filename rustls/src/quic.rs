@@ -619,6 +619,7 @@ pub trait Algorithm: Send + Sync {
     fn aead_key_len(&self) -> usize;
 
     /// Whether this algorithm is FIPS-approved.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         false
     }

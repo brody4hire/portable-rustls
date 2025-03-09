@@ -41,8 +41,12 @@ jobs:
             "</script>"
 
       - name: cargo doc
-        # (CARGO DOC WITH ALL FEATURES IN THIS FORK)
-        run: cargo doc --locked --all-features --no-deps --package ${{ env.MAIN_CRATE }}
+        # Generate docs in a similar fashion to the docs.rs service
+        # IMPORTANT: MUST KEEP IN SYNC with `rustls/Cargo.toml` AS FOLLOWS:
+        # - [package.metadata.docs.rs] section
+        # - FEATURE NAME in sync with CORRESPONDING FEATURE NAME in main crate [features] section
+        # TODO: document how a developer should do tasks like this while testing (may be ideal to add admin scripts for this)
+        run: cargo doc --locked --features unstable-api-all --no-deps --package ${{ env.MAIN_CRATE }}
         env:
           RUSTDOCFLAGS: -Dwarnings --cfg=docsrs --html-after-content tag.html
 

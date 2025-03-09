@@ -15,6 +15,8 @@ on:
     - cron: '0 18 * * *'
 
 env:
+  # NOTE: `portable-rustls` fork name is REPEATED here in env - TODO avoid repeating if possible
+  ALL_FEATURES_EXCEPT_UNSAFE: $(admin/all-features-except unsafe-assume-single-core portable-rustls)
   MAIN_CRATE: portable-rustls
 
 concurrency:
@@ -58,14 +60,17 @@ jobs:
           toolchain: ${{ matrix.rust }}
           target: ${{ matrix.target }}
 
-      # TODO: CARGO FEATURE FOR THIS STEP
-      - name: additional dependencies as needed for target(s) with no atomic ptr
-        run: |
-          cargo add once_cell -F critical-section -p ${{ env.MAIN_CRATE }}
-          cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
+      - name: cargo build (debug; no-std; critical-section) # (with no built-in provider)
+        run: cargo build -F critical-section --target ${{ matrix.target }}
+        working-directory: rustls
+        env:
+          # XXX TBD ??? ???
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
-      - name: cargo build (debug; no-std) # (with no built-in provider)
-        run: cargo build --target ${{ matrix.target }}
+      - name: cargo build (debug; no-std; unsafe-assume-single-core) # (with no built-in provider)
+        # TODO: UPDATE to match in case of any more target(s) are added with no atomic ptr
+        if: startsWith(matrix.target, 'riscv') || startsWith(matrix.target, 'thumbv6')
+        run: cargo build -F unsafe-assume-single-core --target ${{ matrix.target }}
         working-directory: rustls
         env:
           RUSTFLAGS: --cfg use_rc_alias
@@ -83,6 +88,9 @@ jobs:
       matrix:
         rust:
           - nightly
+          # TEST with ALL FEATURES back to:
+          - nightly-2024-07-01
+          # TEST with LIMITED FEATURES back to:
           - nightly-2024-05-01
           # FAILS cargo test: use of unstable library feature in proc-macro2
           # - nightly-2024-04-01
@@ -108,10 +116,23 @@ jobs:
         env:
           RUSTFLAGS: --cfg use_rc_alias
 
-      # TODO test with all features
-      # - name: cargo test (debug; all features)
-      #   run: ...
-      #   ...
+      - name: cargo test (debug; unstable-api-all [should cover most if not all non-unsafe features])
+        # QUICK WORKAROUND to avoid test issue with Rust nightly-2024-05-...
+        if: ${{ !startsWith(matrix.rust, 'nightly-2024-05-') }}
+        run: cargo test -F unstable-api-all
+        working-directory: rustls
+        env:
+          # XXX TBD ??? ???
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+
+      - name: cargo test (debug; all features except unsafe-assume-single-core)
+        # QUICK WORKAROUND to avoid test issue with Rust nightly-2024-05-...
+        if: ${{ !startsWith(matrix.rust, 'nightly-2024-05-') }}
+        run: cargo test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
+        working-directory: rustls
+        env:
+          # XXX TBD ??? ???
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
   cross-build:
     name: cross build test with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
@@ -153,12 +174,12 @@ jobs:
       # - https://github.com/rustls/rustls/pull/2343
       - name: Install cross (cross-rs) from GitHub
         run: cargo install cross --git https://github.com/cross-rs/cross
-      # TODO: CARGO FEATURE FOR THIS STEP
-      - name: additional dependencies as needed for target(s) with no atomic ptr
-        run: |
-          cargo add once_cell -F critical-section -p ${{ env.MAIN_CRATE }}
-          cargo add portable-atomic -F critical-section -p ${{ env.MAIN_CRATE }}
-      - run: cross build --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+      - run: cross build --package ${{ env.MAIN_CRATE }} -F critical-section --target ${{ matrix.target }}
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+      - run: cross build --package ${{ env.MAIN_CRATE }} -F unsafe-assume-single-core --target ${{ matrix.target }}
+        # TODO: UPDATE to match in case of any more target(s) are added with no atomic ptr
+        if: startsWith(matrix.target, 'thumbv6')
         env:
           RUSTFLAGS: --cfg use_rc_alias
 
@@ -168,6 +189,9 @@ jobs:
     name: cross-target testing with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
+    # TODO env with RUSTFLAGS in a similar fashion for other CI jobs - avoid repeating in many CI jobs steps
+    env:
+      RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
     strategy:
       matrix:
         rust:
@@ -208,8 +232,107 @@ jobs:
         # - https://github.com/rustls/rustls/pull/2343
         run: cargo add --dev --features bindgen 'aws-lc-sys@>0.20' --package ${{ env.MAIN_CRATE }} --verbose && cargo install bindgen-cli --verbose
       - run: cross test --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+      - run: cross test -F unstable-api-all --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+      - run: cross test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+
+  full-build:
+    # ensure everything builds together with this build cfg option enabled
+    # (with help from exported `Arc` alias)
+    name: full build with unstable_portable_atomic_arc cfg
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        rust:
+          - nightly
+          # try a few Rust nightly versions
+          - nightly-2024-07-01
+          - nightly-2024-01-01
+          - nightly-2023-12-01
+          # SEEMS TO PANIC
+          # - nightly-2023-11-01
+          # OK WITH NO FEATURES ENABLED (issue with --all-features due to `zlib`)
+          - nightly-2023-10-01
+          # KNOWN BUILD FAILURE
+          # - nightly-2023-09-01
+        os:
+          - ubuntu-latest
+          # FOR FUTURE CONSIDERATION:
+          # - macos-latest
+          # - windows-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install ${{ matrix.rust }} toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+
+      - name: cargo build (debug; no-std) # (with no built-in provider)
+        run: cargo build
         env:
           RUSTFLAGS: --cfg use_rc_alias
-      - run: cross test --all-features --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+
+      - name: cargo build (debug; std; all features except unsafe-assume-single-core)
+        # QUICK WORKAROUND TO AVOID BUILD ISSUE WITH RUST NIGHTLY FROM OCTOBER 2023
+        if: ${{ !startsWith(matrix.rust, 'nightly-2023-10') }}
+        run: cargo build ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
         env:
+          # XXX TBD ??? ???
+          # RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+          RUSTFLAGS: --cfg use_rc_alias
+
+  full-test:
+    # test everything builds together with this build cfg option enabled
+    # (with help from exported `Arc` alias)
+    name: full test with unstable_portable_atomic_arc cfg
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        rust:
+          - nightly
+          - nightly-2024-07-01
+          # TEST BUILD FAILURE WITH OLDER RUST NIGHTLY VERSIONS
+          # - nightly-2024-06-01
+          # ...
+        os:
+          - ubuntu-latest
+          # FOR FUTURE CONSIDERATION:
+          # - macos-latest
+          # - windows-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install ${{ matrix.rust }} toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+
+      - name: cargo test (debug; no-std) # (with no built-in provider)
+        run: cargo test
+        env:
+          # XXX TBD ??? ???
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+
+      - name: cargo test (debug; std; all features except unsafe-assume-single-core)
+        run: cargo test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
+        env:
+          # XXX TBD ??? ???
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+
+      - name: cargo test (debug; rustls-provider-example; all features)
+        run: cargo test --all-features -p rustls-provider-example
+        env:
+          # XXX TBD ??? ???
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
+
+      - name: cargo test (debug; rustls-provider-test; all features)
+        run: cross test --all-features --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+        env:
+          # XXX TBD ??? ???
           RUSTFLAGS: --cfg use_rc_alias

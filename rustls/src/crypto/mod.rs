@@ -63,7 +63,7 @@ pub use crate::suites::CipherSuiteCommon;
 ///
 /// - [`crypto::aws_lc_rs::default_provider`] (behind the optional `aws-lc-rs` crate feature):
 ///   This provider uses the [aws-lc-rs](https://github.com/aws/aws-lc-rs)
-///   crate.  The `fips` crate feature makes this option use FIPS140-3-approved cryptography.
+///   crate. <!-- FIPS REMOVED FROM THIS FORK] The `fips` crate feature makes this option use FIPS140-3-approved cryptography. -->
 /// - [`crypto::ring::default_provider`] (behind the optional `ring` crate feature):
 ///   This provider uses the [*ring*](https://github.com/briansmith/ring)
 ///   crate.
@@ -125,7 +125,9 @@ pub use crate::suites::CipherSuiteCommon;
 /// ```
 /// # #[cfg(feature = "aws_lc_rs")] {
 /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
-/// # use rustls::internal::sync::Arc;
+/// # // XXX TBD ??? ???
+/// # // use rustls::internal::sync::Arc;
+/// # use rustls::Arc; // EXPORTED ALIAS
 /// # mod fictious_hsm_api { pub fn load_private_key(key_der: pki_types::PrivateKeyDer<'static>) -> ! { unreachable!(); } }
 /// use rustls::crypto::aws_lc_rs;
 ///
@@ -172,15 +174,17 @@ pub use crate::suites::CipherSuiteCommon;
 /// Content-Length: 19899
 /// ```
 ///
-/// [provider-example/]: https://github.com/rustls/rustls/tree/main/provider-example/
+/// [provider-example/]: https://github.com/brody4hire/portable-rustls/tree/main-develop-head/provider-example/
 /// [rust-crypto]: https://github.com/rustcrypto
 /// [dalek-cryptography]: https://github.com/dalek-cryptography
 ///
+/// <!-- [FIPS REMOVED FROM THIS FORK]
 /// # FIPS-approved cryptography
 /// The `fips` crate feature enables use of the `aws-lc-rs` crate in FIPS mode.
 ///
 /// You can verify the configuration at runtime by checking
 /// [`ServerConfig::fips()`]/[`ClientConfig::fips()`] return `true`.
+/// - END [FIPS REMOVED FROM THIS FORK] -->
 #[derive(Debug, Clone)]
 pub struct CryptoProvider {
     /// List of supported ciphersuites, in preference order -- the first element
@@ -296,6 +300,7 @@ impl CryptoProvider {
     /// also TLS protocol-level recommendations made by NIST.  You should
     /// prefer to call [`ClientConfig::fips()`] or [`ServerConfig::fips()`]
     /// which take these into account.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     pub fn fips(&self) -> bool {
         let Self {
             cipher_suites,
@@ -327,6 +332,7 @@ pub trait SecureRandom: Send + Sync + Debug {
     fn fill(&self, buf: &mut [u8]) -> Result<(), GetRandomFailed>;
 
     /// Return `true` if this is backed by a FIPS-approved implementation.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         false
     }
@@ -339,7 +345,7 @@ pub trait SecureRandom: Send + Sync + Debug {
 /// keys held in hardware security modules (HSMs) or physical tokens. For these use-cases
 /// see the Rustls manual section on [customizing private key usage].
 ///
-/// [customizing private key usage]: <https://docs.rs/rustls/latest/rustls/manual/_03_howto/index.html#customising-private-key-usage>
+/// [customizing private key usage]: <https://docs.rs/portable-rustls/latest/portable_rustls/manual/_03_howto/index.html#customising-private-key-usage>
 pub trait KeyProvider: Send + Sync + Debug {
     /// Decode and validate a private signing key from `key_der`.
     ///
@@ -357,6 +363,7 @@ pub trait KeyProvider: Send + Sync + Debug {
     ///
     /// If this returns `true`, that must be the case for all possible key types
     /// supported by [`KeyProvider::load_private_key()`].
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         false
     }
@@ -422,6 +429,7 @@ pub trait SupportedKxGroup: Send + Sync + Debug {
     fn name(&self) -> NamedGroup;
 
     /// Return `true` if this is backed by a FIPS-approved implementation.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         false
     }

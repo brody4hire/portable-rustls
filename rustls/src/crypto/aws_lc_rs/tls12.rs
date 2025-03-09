@@ -187,6 +187,7 @@ impl Tls12AeadAlgorithm for GcmAlgorithm {
         })
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         super::fips()
     }
@@ -237,6 +238,7 @@ impl Tls12AeadAlgorithm for ChaCha20Poly1305 {
         })
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         false // not FIPS approved
     }
@@ -459,6 +461,7 @@ impl Prf for Tls12Prf {
         Ok(())
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         super::fips()
     }

@@ -48,6 +48,7 @@ pub enum EchMode {
 
 impl EchMode {
     /// Returns true if the ECH mode will use a FIPS approved HPKE suite.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     pub fn fips(&self) -> bool {
         match self {
             Self::Enable(ech_config) => ech_config.suite.fips(),
@@ -93,9 +94,9 @@ impl EchConfig {
     /// One of the provided ECH configurations must be compatible with the HPKE provider's supported
     /// suites or an error will be returned.
     ///
-    /// See the [ech-client.rs] example for a complete example of fetching ECH configs from DNS.
+    /// See the __[`ech-client.rs`]__ example for a complete example of fetching ECH configs from DNS.
     ///
-    /// [ech-client.rs]: https://github.com/rustls/rustls/blob/main/examples/src/bin/ech-client.rs
+    /// [`ech-client.rs`]: https://github.com/brody4hire/portable-rustls/blob/main-develop-head/examples/src/bin/ech-client.rs
     pub fn new(
         ech_config_list: EchConfigListBytes<'_>,
         hpke_suites: &[&'static dyn Hpke],

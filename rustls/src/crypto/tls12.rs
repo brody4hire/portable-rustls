@@ -65,6 +65,7 @@ pub trait Prf: Send + Sync {
     fn for_secret(&self, output: &mut [u8], secret: &[u8], label: &[u8], seed: &[u8]);
 
     /// Return `true` if this is backed by a FIPS-approved implementation.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         false
     }

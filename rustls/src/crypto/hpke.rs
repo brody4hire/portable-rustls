@@ -79,6 +79,7 @@ pub trait Hpke: Debug + Send + Sync {
     fn generate_key_pair(&self) -> Result<(HpkePublicKey, HpkePrivateKey), Error>;
 
     /// Return whether the HPKE instance is FIPS compatible.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         false
     }

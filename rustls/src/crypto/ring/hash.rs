@@ -30,6 +30,7 @@ impl crypto::hash::Hash for Hash {
         self.1
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         super::fips()
     }

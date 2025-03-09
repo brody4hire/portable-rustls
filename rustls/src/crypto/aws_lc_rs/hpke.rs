@@ -359,6 +359,7 @@ impl<const KEY_SIZE: usize, const KDF_SIZE: usize> Hpke for HpkeAwsLcRs<KEY_SIZE
         Ok(Box::new(Opener::new(self, enc, info, secret_key)?))
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         matches!(
             // We make a FIPS determination based on the suite's DH KEM and AEAD choice.
@@ -1008,6 +1009,7 @@ mod tests {
     }
 
     // [FIPS REMOVED FROM THIS FORK] #[cfg(not(... "fips"))] // Ensure all supported suites are available to test.
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     #[test]
     fn test_fips() {
         let testcases: &[(&dyn Hpke, bool)] = &[

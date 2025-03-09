@@ -2,6 +2,8 @@
 
 <!-- TODO(portable-rustls) UPDATE INFO BELOW FOR THIS FORK -->
 
+__IMPORTANT NOTICE:__ regardless of upstream __`rustls`__ project this fork is __NOT CERTIFIED__ and __NOT PEER-REVIEWED__ - USE AT YOUR OWN RISK (as stated elsewhere)
+
 ## Supported Versions
 
 <!-- TODO(portable-rustls) UPDATE INFO FOR THIS FORK -->
@@ -72,11 +74,11 @@ MSRV than this policy.
 ## Reporting a Vulnerability
 
 <!-- TODO(portable-rustls) CLEANUP & UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->
-PLEASE REPORT ANY SECURITY ISSUES SPECIFIC TO THIS FORK PRIVATELY TO A MAINTAINER OF THIS FORK, NOT VIA PUBLIC GITHUB ISSUE, DISCUSSION or PR.
+PLEASE REPORT ANY POSSIBLE OR POTENTIAL SECURITY ISSUES SPECIFIC TO THIS FORK PRIVATELY TO A MAINTAINER OF THIS FORK or [open a draft security advisory on `portable-rustls` in GitHub](https://github.com/brody4hire/portable-rustls/security/advisories/new), NOT VIA PUBLIC GITHUB ISSUE, DISCUSSION or PR.
 
 <!-- TODO(portable-rustls) CLEANUP & UPDATE WITH MORE SPECIFIC INFO: -->
-FOR ANY SECURITY ISSUES WITH `rustls` IN GENERAL:
-Please report security bugs [via github](https://github.com/rustls/rustls/security/advisories/new).
+FOR ANY POSSIBLE OR POTENTIAL SECURITY ISSUES WITH __`rustls`__ IN GENERAL:
+Please report security bugs [privately to `rustls` via github](https://github.com/rustls/rustls/security/advisories/new).
 AS STATED ABOVE: NOT VIA PUBLIC GITHUB ISSUE, DISCUSSION or PR.
 
 <!-- TODO(portable-rustls) UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->

@@ -68,6 +68,7 @@ impl SupportedKxGroup for Hybrid {
         self.name
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         // Behold! The Night Mare: SP800-56C rev 2:
         //

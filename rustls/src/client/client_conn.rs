@@ -365,6 +365,7 @@ impl ClientConfig {
     /// is concerned only with cryptography, whereas this _also_ covers TLS-level
     /// configuration that NIST recommends, as well as ECH HPKE suites if applicable.
     /// -- -->
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     pub fn fips(&self) -> bool {
         let mut is_fips = self.provider.fips();
 
@@ -761,6 +762,7 @@ mod connection {
         /// it is concerned only with cryptography, whereas this _also_ covers TLS-level
         /// configuration that NIST recommends, as well as ECH HPKE suites if applicable.
         /// -- -->
+        #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
         pub fn fips(&self) -> bool {
             self.inner.core.common_state.fips
         }
@@ -825,7 +827,9 @@ impl ConnectionCore<ClientConnectionData> {
         common_state.set_max_fragment_size(config.max_fragment_size)?;
         common_state.protocol = proto;
         common_state.enable_secret_extraction = config.enable_secret_extraction;
-        common_state.fips = config.fips();
+        // [FIPS REMOVED FROM THIS FORK]
+        // common_state.fips = config.fips();
+
         let mut data = ClientConnectionData::new();
 
         let mut cx = hs::ClientContext {

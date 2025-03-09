@@ -19,4 +19,4 @@ using post-quantum algorithms instead of using this crate.
 This crate is release under the same licenses as the [main rustls crate][rustls].
 
 [rustls]: https://crates.io/crates/rustls
-[`rustls::crypto::CryptoProvider`]: https://docs.rs/rustls/latest/rustls/crypto/struct.CryptoProvider.html
+<!-- OUTDATED REFERENCE REMOVED: [`rustls::crypto::CryptoProvider`] -->

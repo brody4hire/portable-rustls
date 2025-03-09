@@ -1,6 +1,6 @@
-## Before making a release
+## Before making a release - INFO FROM UPSTREAM RUSTLS
 
-<!-- TODO(portable-rustls) UPDATE INFO BELOW FOR THIS FORK -->
+<!-- TODO(portable-rustls) UPDATE & CUSTOMIZE INFO BELOW FOR THIS FORK -->
 
 1. Run `cargo update` followed by `cargo outdated`, to check if we have any
    dependency updates which are not already automatically taken by their semver specs.

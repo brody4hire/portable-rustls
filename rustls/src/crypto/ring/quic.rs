@@ -207,6 +207,7 @@ impl quic::Algorithm for KeyBuilder {
         self.packet_alg.key_len()
     }
 
+    #[cfg(unstable_api_not_supported)] // [FIPS REMOVED FROM THIS FORK]
     fn fips(&self) -> bool {
         super::fips()
     }

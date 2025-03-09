@@ -2,6 +2,8 @@
 
 <!-- TODO(portable-rustls) UPDATE INFO BELOW FOR THIS FORK -->
 
+__NOTE THAT MOST OF THIS INFO COMES DIRECTLY FROM UPSTREAM `RUSTLS`; PRIMARY MAINTAINER OF THIS FORK WOULD LIKE TO KEEP THINGS OPEN FOR DISCUSSION AND RECONSIDERATION__
+
 Thanks for considering helping this project.  There are many
 ways you can help: using the library and reporting bugs,
 reporting usability issues, making additions and improvements
@@ -17,8 +19,8 @@ Feel free to file github issues to get help, or ask a question.
 
 <!-- TODO(portable-rustls) CLEANUP & UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->
 If you believe you've found a security bug please
-- IF SPECIFIC TO THIS FORK: REPORT PRIVATELY TO A MAINTAINER OF THIS FORK, NOT VIA PUBLIC GITHUB ISSUE, DISCUSSION or PR.
-- FOR `rustls` IN GENERAL: [open a draft security advisory on `rustls` in GitHub](https://github.com/rustls/rustls/security/advisories/new) ... NOT AS A REGULAR REPOSITORY ISSUE
+- IF SPECIFIC TO THIS FORK: REPORT PRIVATELY TO A MAINTAINER OF THIS FORK or [open a draft security advisory on `portable-rustls` in GitHub](https://github.com/brody4hire/portable-rustls/security/advisories/new), NOT VIA PUBLIC GITHUB ISSUE, DISCUSSION or PR.
+- FOR __`rustls`__ IN GENERAL: [open a draft security advisory on `rustls` in GitHub](https://github.com/rustls/rustls/security/advisories/new) ... NOT AS A REGULAR REPOSITORY ISSUE
 
 <!-- TODO(portable-rustls) CLEANUP FOR THIS FORK -->
 SEE [SECURITY.md] FOR MORE INFORMATION.
@@ -55,8 +57,8 @@ Our default workflow is to rebase clean commit history from a PR to `main`.
 
 <!-- TODO(portable-rustls) CLEANUP & UPDATE WITH MORE SPECIFIC INFO FOR THIS FORK: -->
 AS STATED ABOVE:
-- IF SPECIFIC TO THIS FORK: REPORT PRIVATELY TO A MAINTAINER OF THIS FORK, NOT VIA PUBLIC GITHUB ISSUE, DISCUSSION or PR.
-- FOR `rustls` IN GENERAL: [open a draft security advisory on `rustls` in GitHub](https://github.com/rustls/rustls/security/advisories/new) ... NOT AS A REGULAR REPOSITORY ISSUE
+- IF SPECIFIC TO THIS FORK: REPORT PRIVATELY TO A MAINTAINER OF THIS FORK or [open a draft security advisory on `portable-rustls` in GitHub](https://github.com/brody4hire/portable-rustls/security/advisories/new), NOT VIA PUBLIC GITHUB ISSUE, DISCUSSION or PR.
+- FOR __`rustls`__ IN GENERAL: [open a draft security advisory on `rustls` in GitHub](https://github.com/rustls/rustls/security/advisories/new) ... NOT AS A REGULAR REPOSITORY ISSUE
 
 See [SECURITY.md] for more information.
 
@@ -456,7 +458,7 @@ encode our experience of TLS in this way, and we should not require that
 users are experts in TLS to end up with a result that is working,
 secure, stable, and performant.
 
-[defaults]: https://docs.rs/rustls/latest/rustls/manual/_05_defaults/index.html
+[defaults]: https://docs.rs/portable-rustls/latest/portable_rustls/manual/_05_defaults/index.html
 
 ### Separation of mechanism and policy
 
