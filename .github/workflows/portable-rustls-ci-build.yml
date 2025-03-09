@@ -339,7 +339,7 @@ jobs:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo test (debug; rustls-provider-test; all features)
-        run: cross test --all-features --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
+        run: cargo test --all-features -p rustls-provider-test
         env:
           # XXX TODO FIX FOR & TEST WITH BOTH SETS OF cfg options
           # RUSTFLAGS: --cfg use_rc_alias
