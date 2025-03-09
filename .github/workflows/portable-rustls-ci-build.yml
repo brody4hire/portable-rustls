@@ -65,6 +65,7 @@ jobs:
         working-directory: rustls
         env:
           # XXX TBD ??? ???
+          # XXX TODO TEST WITH BOTH SETS OF cfg options
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo build (debug; no-std; unsafe-assume-single-core) # (with no built-in provider)
@@ -73,6 +74,7 @@ jobs:
         run: cargo build -F unsafe-assume-single-core --target ${{ matrix.target }}
         working-directory: rustls
         env:
+          # XXX TODO TEST WITH BOTH SETS OF cfg options
           RUSTFLAGS: --cfg use_rc_alias
 
       # NOTE: BUILD with hashbrown FAILS with no atomic ptr - MISSING SUPPORT in default hasher
@@ -273,16 +275,18 @@ jobs:
       - name: cargo build (debug; no-std) # (with no built-in provider)
         run: cargo build
         env:
-          RUSTFLAGS: --cfg use_rc_alias
+          # XXX TODO FIX FOR & TEST WITH BOTH SETS OF cfg options
+          # RUSTFLAGS: --cfg use_rc_alias
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo build (debug; std; all features except unsafe-assume-single-core)
         # QUICK WORKAROUND TO AVOID BUILD ISSUE WITH RUST NIGHTLY FROM OCTOBER 2023
         if: ${{ !startsWith(matrix.rust, 'nightly-2023-10') }}
         run: cargo build ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
         env:
-          # XXX TBD ??? ???
-          # RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
-          RUSTFLAGS: --cfg use_rc_alias
+          # XXX TODO FIX FOR & TEST WITH BOTH SETS OF cfg options
+          # RUSTFLAGS: --cfg use_rc_alias
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
   full-test:
     # test everything builds together with this build cfg option enabled
@@ -316,23 +320,27 @@ jobs:
       - name: cargo test (debug; no-std) # (with no built-in provider)
         run: cargo test
         env:
-          # XXX TBD ??? ???
+          # XXX TODO FIX FOR & TEST WITH BOTH SETS OF cfg options
+          # RUSTFLAGS: --cfg use_rc_alias
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo test (debug; std; all features except unsafe-assume-single-core)
         run: cargo test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
         env:
-          # XXX TBD ??? ???
+          # XXX TODO FIX FOR & TEST WITH BOTH SETS OF cfg options
+          # RUSTFLAGS: --cfg use_rc_alias
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo test (debug; rustls-provider-example; all features)
         run: cargo test --all-features -p rustls-provider-example
         env:
-          # XXX TBD ??? ???
+          # XXX TODO FIX FOR & TEST WITH BOTH SETS OF cfg options
+          # RUSTFLAGS: --cfg use_rc_alias
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
 
       - name: cargo test (debug; rustls-provider-test; all features)
         run: cross test --all-features --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
         env:
-          # XXX TBD ??? ???
-          RUSTFLAGS: --cfg use_rc_alias
+          # XXX TODO FIX FOR & TEST WITH BOTH SETS OF cfg options
+          # RUSTFLAGS: --cfg use_rc_alias
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
