@@ -36,7 +36,8 @@ jobs:
       matrix:
         rust:
           - nightly
-          - nightly-2024-01-01
+          # FOR FUTURE CONSIDERATION:
+          # - nightly-2024-01-01
           # RUST NIGHTLY version(s) for MSRV - 1.71:
           - nightly-2023-06-01
           # FAILS AT: cargo add once_cell
@@ -97,8 +98,9 @@ jobs:
           - nightly
           # TEST with ALL FEATURES back to:
           - nightly-2024-07-01
+          # FOR FUTURE CONSIDERATION:
           # TEST with LIMITED FEATURES back to:
-          - nightly-2024-05-01
+          # - nightly-2024-05-01
           # FAILS cargo test: use of unstable library feature in proc-macro2
           # - nightly-2024-04-01
         os:
@@ -252,9 +254,10 @@ jobs:
       matrix:
         rust:
           - nightly
+          # FOR FUTURE CONSIDERATION:
           # try a few Rust nightly versions
-          - nightly-2024-07-01
-          - nightly-2024-01-01
+          # - nightly-2024-07-01
+          # - nightly-2024-01-01
           - nightly-2023-12-01
           # SEEMS TO PANIC
           # - nightly-2023-11-01
