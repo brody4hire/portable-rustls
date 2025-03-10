@@ -544,6 +544,7 @@ mod log {
 #[macro_use]
 mod test_macros;
 
+// XXX XXX XXX
 /// `Arc` type alias for this entire crate - may alias to either of these depending on the cfg used when building:
 /// - [`portable_atomic_util::Arc`](https://docs.rs/portable-atomic-util/latest/portable_atomic_util/struct.Arc.html)
 /// - [`alloc::sync::Arc`] / [`std::sync::Arc`](https://doc.rust-lang.org/nightly/std/sync/struct.Arc.html)
@@ -553,6 +554,7 @@ pub type Arc<T> = crate::arc_type_alias::Arc<T>;
 /// This internal `sync` module aliases the `Arc` implementation to allow downstream forks
 /// of rustls targetting architectures without atomic pointers to replace the implementation
 /// with another implementation such as `portable_atomic_util::Arc` in one central location.
+// XXX TBD ALIAS MOD NAMING - ???
 mod sync {
     // Arc type alias as exported by the public API above
     pub(crate) use crate::Arc;
@@ -561,13 +563,22 @@ mod sync {
 /// Keeping the extra level of indirection with this separate internal module so that
 /// the generated doc shows use of exported Arc alias from this crate.
 mod arc_type_alias {
+    // XXX TBD DISALLOWED TYPES - ???
+    // XXX TODO ENFORCE CONSTRAINT AGAINST MULTIPLE ARC ALIAS OPTIONS
+    // XXX TODO DOCUMENT NEW cfg option: --cfg use_rc_alias
+    #[cfg(use_rc_alias)]
+    pub use alloc::rc::Rc as Arc;
     #[cfg(unstable_portable_atomic_arc)]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;
-    #[cfg(not(unstable_portable_atomic_arc))]
+    #[cfg(not(any(unstable_portable_atomic_arc, use_rc_alias)))]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = alloc::sync::Arc<T>;
 }
+
+// XXX TBD NAMING - XXX TBD INLINE ???
+#[macro_use]
+mod trait_macros;
 
 #[macro_use]
 mod msgs;
@@ -649,6 +660,11 @@ pub mod internal {
 
     pub mod fuzzing {
         pub use crate::msgs::deframer::fuzz_deframer;
+    }
+    // XXX TBD ??? ??? ???
+    // EXPORTED for tests & examples; TODO: REPLACE WITH A MORE STABLE ARC ALIAS API
+    pub mod sync {
+        pub type Arc<T> = crate::sync::Arc<T>;
     }
 }
 

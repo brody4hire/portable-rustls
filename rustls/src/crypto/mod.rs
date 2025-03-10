@@ -125,6 +125,8 @@ pub use crate::suites::CipherSuiteCommon;
 /// ```
 /// # #[cfg(feature = "aws_lc_rs")] {
 /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+/// # // XXX TBD ??? ???
+/// # // use rustls::internal::sync::Arc;
 /// # use rustls::Arc; // EXPORTED ALIAS
 /// # mod fictious_hsm_api { pub fn load_private_key(key_der: pki_types::PrivateKeyDer<'static>) -> ! { unreachable!(); } }
 /// use rustls::crypto::aws_lc_rs;
@@ -227,14 +229,19 @@ impl CryptoProvider {
     /// Call this early in your process to configure which provider is used for
     /// the provider.  The configuration should happen before any use of
     /// [`ClientConfig::builder()`] or [`ServerConfig::builder()`].
-    pub fn install_default(self) -> Result<(), Arc<Self>> {
+    // XXX TBD CONSIDER BETTER SOLUTION THAN #[allow(unused_qualifications)] - ???
+    #[allow(unused_qualifications)]
+    pub fn install_default(self) -> Result<(), static_default::Arc<Self>> {
         static_default::install_default(self)
     }
 
     /// Returns the default `CryptoProvider` for this process.
     ///
     /// This will be `None` if no default has been set yet.
-    pub fn get_default() -> Option<&'static Arc<Self>> {
+    // XXX TBD CONSIDER BETTER SOLUTION THAN #[allow(unused_qualifications)] - ???
+    #[allow(unused_qualifications)]
+    // XXX TBD CLIPPY RECOMMENDS RETURNING SIMPLY 'static &Self IN CASE RC ALIAS IS ENABLED
+    pub fn get_default() -> Option<&'static static_default::Arc<Self>> {
         static_default::get_default()
     }
 
@@ -243,7 +250,10 @@ impl CryptoProvider {
     /// - gets the pre-installed default, or
     /// - installs one `from_crate_features()`, or else
     /// - panics about the need to call [`CryptoProvider::install_default()`]
-    pub(crate) fn get_default_or_install_from_crate_features() -> &'static Arc<Self> {
+    // XXX TBD CONSIDER BETTER SOLUTION THAN #[allow(unused_qualifications)] - ???
+    #[allow(unused_qualifications)]
+    pub(crate) fn get_default_or_install_from_crate_features() -> &'static static_default::Arc<Self>
+    {
         if let Some(provider) = Self::get_default() {
             return provider;
         }
@@ -676,7 +686,12 @@ mod static_default {
     use once_cell::race::OnceBox;
 
     use super::CryptoProvider;
-    use crate::sync::Arc;
+
+    // XXX TBD XXX XXX
+    #[cfg(not(use_rc_alias))]
+    pub(crate) use crate::sync::Arc;
+    #[cfg(use_rc_alias)]
+    pub(crate) use alloc::boxed::Box as Arc;
 
     #[cfg(feature = "std")]
     pub(crate) fn install_default(

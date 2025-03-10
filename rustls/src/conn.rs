@@ -667,7 +667,10 @@ impl<Data> ConnectionCommon<Data> {
                     let _ignored = self.write_tls(io);
                     let _ignored = io.flush();
 
+                    #[cfg(not(use_rc_alias))]
                     return Err(io::Error::new(io::ErrorKind::InvalidData, e));
+                    #[cfg(use_rc_alias)]
+                    return Err(io::Error::from(io::ErrorKind::InvalidData));
                 }
             };
 

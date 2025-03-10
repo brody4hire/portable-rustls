@@ -176,6 +176,7 @@ jobs:
 
       - name: Check feature powerset
         # REMOVED cargo hack check --...features OPTIONS FOR `fips` [FIPS REMOVED FROM THIS FORK]
+        # NOTE: POWERSET CHECK with unsafe-assume-single-core is done in other CI workflow
         run: >
             cargo hack check
             --package ${{ env.MAIN_CRATE }}
