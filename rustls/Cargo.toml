@@ -98,6 +98,9 @@ pki-types = { workspace = true }
 zeroize = { workspace = true }
 zlib-rs = { workspace = true, optional = true }
 
+# XXX TBD ORDERING ???
+coarsetime = { version = "0.1.36", default-features = false }
+
 [dev-dependencies]
 base64 = { workspace = true }
 bencher = { workspace = true }
