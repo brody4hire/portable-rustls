@@ -67,8 +67,8 @@ jobs:
           toolchain: ${{ matrix.rust }}
           target: ${{ matrix.target }}
 
-      - name: cargo build (debug; no-std; x-no-atomic-rc) # (with no built-in provider)
-        run: cargo build -F x-no-atomic-rc --target ${{ matrix.target }}
+      - name: cargo build (debug; no-std; critical-section; x-no-atomic-rc) # (with no built-in provider)
+        run: cargo build -F critical-section,x-no-atomic-rc --target ${{ matrix.target }}
         working-directory: rustls
 
       # XXX ONLY NEEDED WITH --cfg unstable_portable_atomic_arc ...
@@ -393,6 +393,7 @@ jobs:
       - name: powerset build check
         # IMPORTANT REQUIREMENTS:
         # - EXCLUDE many features that require `std` lib support
+        # - EXCLUDE FOR NOW (AT LEAST): x-no-atomic-rc
         # - INCLUDE EXACTLY ONE of these features:
         #   - critical-section
         #   - unsafe-assume-single-core
@@ -402,7 +403,7 @@ jobs:
             --feature-powerset
             --no-dev-deps
             --at-least-one-of critical-section,unsafe-assume-single-core
-            --exclude-features aws_lc_rs,aws-lc-rs,brotli,prefer-post-quantum,read_buf,ring,std,unstable-api-all,zlib
+            --exclude-features aws_lc_rs,aws-lc-rs,brotli,prefer-post-quantum,read_buf,ring,std,unstable-api-all,zlib,x-no-atomic-rc
             --mutually-exclusive-features critical-section,unsafe-assume-single-core
             --target ${{ matrix.target }}
         env:
@@ -446,12 +447,13 @@ jobs:
       - name: limited-depth powerset build check
         # USING depth of 2 to test individual feature builds & any combination of 2 features
         # WITHOUT TESTING EXCESSIVE feature combinations for each update
+        # EXCLUDE: XXX XXX
         run: >
             cargo hack check
             --package ${{ env.MAIN_CRATE }}
             --feature-powerset
             --no-dev-deps
-            --exclude-features unsafe-assume-single-core
+            --exclude-features unsafe-assume-single-core,x-no-atomic-rc
             --group-features aws_lc_rs,aws-lc-rs
             --mutually-exclusive-features custom_provider,aws_lc_rs
             --mutually-exclusive-features custom_provider,ring
