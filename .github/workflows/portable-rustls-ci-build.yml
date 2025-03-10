@@ -28,10 +28,9 @@ concurrency:
 
 jobs:
   build:
+    # XXX TODO UPDATE AS NEEDED:
     name: build with --cfg use_rc_alias & --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
-    env:
-      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
     strategy:
       matrix:
         rust:
@@ -54,9 +53,6 @@ jobs:
           # 64-bit target(s) with no std crate - for comparison:
           - aarch64-unknown-none
           - x86_64-unknown-none
-        cfg-rust-flags:
-          - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
-          - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -69,10 +65,16 @@ jobs:
           toolchain: ${{ matrix.rust }}
           target: ${{ matrix.target }}
 
+      - name: cargo build (debug; no-std; x-no-atomic-rc) # (with no built-in provider)
+        run: cargo build -F x-no-atomic-rc --target ${{ matrix.target }}
+        working-directory: rustls
+
       # XXX ONLY NEEDED WITH --cfg unstable_portable_atomic_arc ...
       - name: cargo build (debug; no-std; critical-section) # (with no built-in provider)
         run: cargo build -F critical-section --target ${{ matrix.target }}
         working-directory: rustls
+        env:
+          RUSTFLAGS: --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
 
       # XXX ONLY NEEDED WITH --cfg unstable_portable_atomic_arc ...
       - name: cargo build (debug; no-std; unsafe-assume-single-core) # (with no built-in provider)
@@ -80,12 +82,15 @@ jobs:
         if: startsWith(matrix.target, 'riscv') || startsWith(matrix.target, 'thumbv6')
         run: cargo build -F unsafe-assume-single-core --target ${{ matrix.target }}
         working-directory: rustls
+        env:
+          RUSTFLAGS: --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
 
       # NOTE: BUILD with hashbrown FAILS with no atomic ptr - MISSING SUPPORT in default hasher
       # - name: cargo build (debug; no-std; hashbrown) # (with no built-in provider)
       #   ...
 
   test:
+    # XXX TODO UPDATE AS NEEDED:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
     name: test with --cfg use_rc_alias & --cfg unstable_portable_atomic_arc
@@ -110,7 +115,8 @@ jobs:
           # - windows-latest
         cfg-rust-flags:
           - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
-          - --cfg use_rc_alias
+          # XXX TODO TEST WITH FEATURE: x-no-atomic-rc
+          # - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -139,6 +145,7 @@ jobs:
         working-directory: rustls
 
   cross-build:
+    # XXX TODO UPDATE AS NEEDED:
     name: cross build test with --cfg use_rc_alias & --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
@@ -167,7 +174,8 @@ jobs:
           - aarch64-linux-android
         cfg-rust-flags:
           - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
-          - --cfg use_rc_alias
+          # XXX TODO TEST WITH FEATURE: x-no-atomic-rc
+          # - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -189,6 +197,7 @@ jobs:
         if: startsWith(matrix.target, 'thumbv6')
 
   cross-test:
+    # XXX TODO UPDATE AS NEEDED:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
     name: cross-target testing with --cfg use_rc_alias & --cfg unstable_portable_atomic_arc
@@ -218,7 +227,8 @@ jobs:
           # ...
         cfg-rust-flags:
           - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
-          - --cfg use_rc_alias
+          # XXX TODO TEST WITH FEATURE: x-no-atomic-rc
+          # - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -272,7 +282,7 @@ jobs:
           # - windows-latest
         cfg-rust-flags:
           - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
-          # XXX TODO FIX & RE-ENABLE:
+          # XXX TODO TEST BUILD WITH FEATURE: x-no-atomic-rc
           # - --cfg use_rc_alias
     steps:
       - name: Checkout sources
@@ -360,7 +370,7 @@ jobs:
         cfg-rust-flags:
           # build with unstable_portable_atomic_arc
           - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
-          # XXX TODO FIX & RE-ENABLE:
+          # XXX TODO TEST BUILD WITH FEATURE: x-no-atomic-rc
           # build with `alloc::rc::Rc`
           # - --cfg use_rc_alias
     steps:
@@ -412,7 +422,7 @@ jobs:
         cfg-rust-flags:
           # build with unstable_portable_atomic_arc
           - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
-          # XXX TODO FIX & RE-ENABLE:
+          # XXX TODO TEST BUILD WITH FEATURE: x-no-atomic-rc
           # build with `alloc::rc::Rc`
           # - --cfg use_rc_alias
           # build with `alloc::sync::Arc`
