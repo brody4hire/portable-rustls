@@ -27,28 +27,29 @@ jobs:
   build:
     name: Build+test
     runs-on: ${{ matrix.os }}
+    env:
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
     strategy:
       matrix:
         rust:
-          - stable
-          - beta
           - nightly
         os:
           - ubuntu-latest
           - windows-latest
           - macos-latest
+        cfg-rust-flags:
+          - '' # [empty]
+        include:
+          - rust: nightly
+            os: macos-latest
+            # unstable_portable_atomic_arc cfg option to select portable_atomic_util::Arc
+            cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
+          - rust: stable
+            os: macos-latest
+          - rust: beta
+            os: macos-latest
         exclude:
-          # ONLY Rust nightly on Ubuntu in this fork - help save CI testing resources
-          - os: ubuntu-latest
-            rust: stable
-          - os: ubuntu-latest
-            rust: beta
-          # ONLY Rust nightly on Windows - slower platform
-          - os: windows-latest
-            rust: stable
-          - os: windows-latest
-            rust: beta
-          # and never use Windows for merge checks
+          # never use Windows for merge checks
           - os: ${{ github.event_name == 'merge_group' && 'windows-latest' }}
     steps:
       - name: Checkout sources
@@ -155,28 +156,25 @@ jobs:
       # it will catch unwanted usage of libstd in _dependencies_.
       # (may use another target with no std lib - x86_64-unknown-none for example)
       NO_STD_BUILD_TARGET: aarch64-unknown-none
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
     strategy:
       matrix:
         rust:
-          - stable
-          - beta
           - nightly
         os:
           - ubuntu-latest
           - macos-latest
-          # FOR FUTURE CONSIDERATION:
-          # - windows-latest
-        exclude:
-          # ONLY Rust nightly on Ubuntu in this fork - help save CI testing resources
-          - os: ubuntu-latest
-            rust: stable
-          - os: ubuntu-latest
-            rust: beta
-          # RECOMMENDED UPDATES in case this job is enabled on Windows:
-          # ONLY Rust nightly on Windows - slower platform
-          # ...
-          # and never use Windows for merge checks
-          # ...
+        cfg-rust-flags:
+          - '' # [empty]
+        include:
+          - rust: nightly
+            os: macos-latest
+            # unstable_portable_atomic_arc cfg option to select portable_atomic_util::Arc
+            cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
+          - rust: stable
+            os: macos-latest
+          - rust: beta
+            os: macos-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -508,6 +506,7 @@ jobs:
         with:
           persist-credentials: false
 
+      # AS REQUIRED for crabgrind on Linux
       - name: Install valgrind
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y valgrind
@@ -525,13 +524,34 @@ jobs:
 
   clippy-nightly:
     name: Clippy - Rust nightly
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    env:
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
+    strategy:
+      matrix:
+        rust:
+          - nightly
+        os:
+          - ubuntu-latest
+          - macos-latest
+        cfg-rust-flags:
+          - '' # [empty]
+        include:
+          - rust: nightly
+            os: macos-latest
+            # unstable_portable_atomic_arc cfg option to select portable_atomic_util::Arc
+            cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
+          - rust: stable
+            os: macos-latest
+          - rust: beta
+            os: macos-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
+      # AS REQUIRED for crabgrind on Linux
       - name: Install valgrind
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y valgrind
@@ -582,26 +602,49 @@ jobs:
 
   openssl-tests:
     name: Run openssl-tests
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     env:
       VERSION: openssl-3.4.0
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
+    strategy:
+      matrix:
+        rust:
+          - nightly
+        os:
+          - ubuntu-latest
+          # FOR FUTURE CONSIDERATION - REQUIRES UPDATES TO OpenSSL CACHING
+          # - macos-latest
+        cfg-rust-flags:
+          - '' # [empty]
+        include:
+          - rust: nightly
+            os: ubuntu-latest
+            # unstable_portable_atomic_arc cfg option to select portable_atomic_util::Arc
+            cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
+          # FOR FUTURE CONSIDERATION:
+          # - rust: stable
+          #   os: ubuntu-latest
+          # - rust: beta
+          #   os: ubuntu-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install ${{ matrix.rust }} toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
 
-      - name: Cache ${{ env.VERSION }}
+      - name: Cache ${{ env.VERSION }} [Ubuntu only at this point]
         uses: actions/cache@v4
         id: cache-openssl
         with:
           path: ${{ env.VERSION }}
           key: ${{ env.VERSION }}
 
-      - name: Fetch and build ${{ env.VERSION }}
+      - name: Fetch and build ${{ env.VERSION }} [Ubuntu only at this point]
         if: steps.cache-openssl.outputs.cache-hit != 'true'
         run: |
           wget https://github.com/openssl/openssl/releases/download/$VERSION/$VERSION.tar.gz
@@ -611,7 +654,7 @@ jobs:
           make -j$(nproc)
           make install
 
-      - name: Use ${{ env.VERSION }}
+      - name: Use ${{ env.VERSION }} [Ubuntu only at this point]
         run: |
          path=$(pwd)/$VERSION/built/
          echo "$path/bin" >> $GITHUB_PATH
