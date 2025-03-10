@@ -44,6 +44,7 @@ jobs:
             os: macos-latest
             # unstable_portable_atomic_arc cfg option to select portable_atomic_util::Arc
             cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
+            # XXX TODO TEST WITH cfg-rust-flags: --cfg use_rc_alias
           - rust: stable
             os: macos-latest
           - rust: beta
@@ -171,6 +172,7 @@ jobs:
             os: macos-latest
             # unstable_portable_atomic_arc cfg option to select portable_atomic_util::Arc
             cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
+            # XXX TODO TEST WITH cfg-rust-flags: --cfg use_rc_alias
           - rust: stable
             os: macos-latest
           - rust: beta
@@ -541,6 +543,7 @@ jobs:
             os: macos-latest
             # unstable_portable_atomic_arc cfg option to select portable_atomic_util::Arc
             cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
+            # XXX TODO TEST WITH cfg-rust-flags: --cfg use_rc_alias
           - rust: stable
             os: macos-latest
           - rust: beta
@@ -621,6 +624,7 @@ jobs:
             os: ubuntu-latest
             # unstable_portable_atomic_arc cfg option to select portable_atomic_util::Arc
             cfg-rust-flags: --cfg=unstable_portable_atomic_arc --cfg=portable_atomic_unstable_coerce_unsized
+            # XXX TODO TEST WITH cfg-rust-flags: --cfg use_rc_alias
           # FOR FUTURE CONSIDERATION:
           # - rust: stable
           #   os: ubuntu-latest
