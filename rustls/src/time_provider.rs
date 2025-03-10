@@ -18,13 +18,16 @@ pub trait TimeProvider: Debug + Send + Sync {
 }
 
 #[derive(Debug)]
-#[cfg(feature = "std")]
 /// Default `TimeProvider` implementation that uses `std`
 pub struct DefaultTimeProvider;
 
-#[cfg(feature = "std")]
 impl TimeProvider for DefaultTimeProvider {
     fn current_time(&self) -> Option<UnixTime> {
-        Some(UnixTime::now())
+        let clock_time = rustix::time::clock_gettime(rustix::time::ClockId::Realtime);
+        Some(UnixTime::since_unix_epoch(core::time::Duration::new(
+            clock_time.tv_sec.try_into().unwrap(),
+            // XXX TBD IS THIS IGNORED ??? ??? ???
+            clock_time.tv_nsec.try_into().unwrap(),
+        )))
     }
 }

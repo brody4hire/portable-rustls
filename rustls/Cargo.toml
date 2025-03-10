@@ -97,6 +97,7 @@ webpki = { workspace = true }
 pki-types = { workspace = true }
 zeroize = { workspace = true }
 zlib-rs = { workspace = true, optional = true }
+rustix = { version = "1.0.1", default-features = false, features = ["time"] }
 
 [dev-dependencies]
 base64 = { workspace = true }

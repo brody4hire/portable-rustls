@@ -26,7 +26,6 @@ use crate::msgs::enums::CertificateType;
 use crate::msgs::handshake::{ClientHelloPayload, ProtocolName, ServerExtension};
 use crate::msgs::message::Message;
 use crate::sync::Arc;
-#[cfg(feature = "std")]
 use crate::time_provider::DefaultTimeProvider;
 use crate::time_provider::TimeProvider;
 use crate::vecbuf::ChunkVecBuffer;
@@ -443,7 +442,6 @@ impl ServerConfig {
     /// version is not supported by the provider's ciphersuites.
     ///
     /// For more information, see the [`ConfigBuilder`] documentation.
-    #[cfg(feature = "std")]
     pub fn builder_with_provider(
         provider: Arc<CryptoProvider>,
     ) -> ConfigBuilder<Self, WantsVersions> {
