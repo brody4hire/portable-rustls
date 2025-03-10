@@ -688,9 +688,9 @@ mod static_default {
     use super::CryptoProvider;
 
     // XXX TBD XXX XXX
-    #[cfg(not(use_rc_alias))]
+    #[cfg(not(feature = "x-no-atomic-rc"))]
     pub(crate) use crate::sync::Arc;
-    #[cfg(use_rc_alias)]
+    #[cfg(feature = "x-no-atomic-rc")]
     pub(crate) use alloc::boxed::Box as Arc;
 
     #[cfg(feature = "std")]

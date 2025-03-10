@@ -59,6 +59,9 @@ std = ["webpki/std", "pki-types/std", "once_cell/std"]
 tls12 = []
 zlib = ["dep:zlib-rs"]
 
+# XXX TBD ??? ???
+x-no-atomic-rc = []
+
 # FEATURES to help build for no-std targets with no atomic ptr - see documentation for more info
 critical-section = ["dep:portable-atomic", "once_cell/portable-atomic", "portable-atomic/critical-section"]
 unsafe-assume-single-core = [

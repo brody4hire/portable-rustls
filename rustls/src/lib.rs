@@ -565,13 +565,13 @@ mod sync {
 mod arc_type_alias {
     // XXX TBD DISALLOWED TYPES - ???
     // XXX TODO ENFORCE CONSTRAINT AGAINST MULTIPLE ARC ALIAS OPTIONS
-    // XXX TODO DOCUMENT NEW cfg option: --cfg use_rc_alias
-    #[cfg(use_rc_alias)]
+    // XXX TODO DOCUMENT NEW FEATURE:
+    #[cfg(feature = "x-no-atomic-rc")]
     pub use alloc::rc::Rc as Arc;
     #[cfg(unstable_portable_atomic_arc)]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = portable_atomic_util::Arc<T>;
-    #[cfg(not(any(unstable_portable_atomic_arc, use_rc_alias)))]
+    #[cfg(not(any(unstable_portable_atomic_arc, feature = "x-no-atomic-rc")))]
     #[allow(clippy::disallowed_types)]
     pub(crate) type Arc<T> = alloc::sync::Arc<T>;
 }
