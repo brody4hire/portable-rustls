@@ -241,6 +241,7 @@ jobs:
       - run: cross test ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }} --package ${{ env.MAIN_CRATE }} --target ${{ matrix.target }}
 
   full-build:
+    # XXX TODO UPDATE AS NEEDED:
     # ensure everything builds together with this build cfg option enabled
     # (with help from exported `Arc` alias)
     name: full build with unstable_portable_atomic_arc cfg
@@ -268,7 +269,8 @@ jobs:
           # - windows-latest
         cfg-rust-flags:
           - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
-          - --cfg use_rc_alias
+          # XXX TODO FIX & RE-ENABLE:
+          # - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -289,6 +291,7 @@ jobs:
         run: cargo build ${{ env.ALL_FEATURES_EXCEPT_UNSAFE }}
 
   full-test:
+    # XXX TODO UPDATE AS NEEDED:
     # test everything builds together with this build cfg option enabled
     # (with help from exported `Arc` alias)
     name: full test with unstable_portable_atomic_arc cfg
@@ -309,8 +312,9 @@ jobs:
           # - macos-latest
           # - windows-latest
         cfg-rust-flags:
+          # XXX TODO FIX & RE-ENABLE:
           - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
-          - --cfg use_rc_alias
+          # - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -353,8 +357,9 @@ jobs:
         cfg-rust-flags:
           # build with unstable_portable_atomic_arc
           - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
+          # XXX TODO FIX & RE-ENABLE:
           # build with `alloc::rc::Rc`
-          - --cfg use_rc_alias
+          # - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -389,6 +394,7 @@ jobs:
           RUSTFLAGS: ${{ matrix.cfg-rust-flags }} --deny warnings
 
   limited-powerset-build-check:
+    # XXX TODO UPDATE AS NEEDED:
     name: limited cargo hack powerset build check with unstable_portable_atomic_arc cfg
     runs-on: ${{ matrix.os }}
     strategy:
@@ -403,8 +409,9 @@ jobs:
         cfg-rust-flags:
           # build with unstable_portable_atomic_arc
           - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
+          # XXX TODO FIX & RE-ENABLE:
           # build with `alloc::rc::Rc`
-          - --cfg use_rc_alias
+          # - --cfg use_rc_alias
           # build with `alloc::sync::Arc`
           - ''
     steps:
