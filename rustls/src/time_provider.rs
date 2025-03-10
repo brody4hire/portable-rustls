@@ -18,11 +18,9 @@ pub trait TimeProvider: Debug + Send + Sync {
 }
 
 #[derive(Debug)]
-#[cfg(feature = "std")]
 /// Default `TimeProvider` implementation that uses `std`
 pub struct DefaultTimeProvider;
 
-#[cfg(feature = "std")]
 impl TimeProvider for DefaultTimeProvider {
     fn current_time(&self) -> Option<UnixTime> {
         Some(UnixTime::since_unix_epoch(core::time::Duration::new(

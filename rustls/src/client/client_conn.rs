@@ -20,7 +20,6 @@ use crate::msgs::handshake::ClientExtension;
 use crate::msgs::persist;
 use crate::suites::SupportedCipherSuite;
 use crate::sync::Arc;
-#[cfg(feature = "std")]
 use crate::time_provider::DefaultTimeProvider;
 use crate::time_provider::TimeProvider;
 use crate::unbuffered::{EncryptError, TransmitTlsData};
@@ -317,7 +316,6 @@ impl ClientConfig {
     /// version is not supported by the provider's ciphersuites.
     ///
     /// For more information, see the [`ConfigBuilder`] documentation.
-    #[cfg(feature = "std")]
     pub fn builder_with_provider(
         provider: Arc<CryptoProvider>,
     ) -> ConfigBuilder<Self, WantsVersions> {
