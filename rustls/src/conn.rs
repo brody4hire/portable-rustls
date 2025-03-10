@@ -667,7 +667,10 @@ impl<Data> ConnectionCommon<Data> {
                     let _ignored = self.write_tls(io);
                     let _ignored = io.flush();
 
+                    #[cfg(not(feature = "x-no-atomic-rc"))]
                     return Err(io::Error::new(io::ErrorKind::InvalidData, e));
+                    #[cfg(feature = "x-no-atomic-rc")]
+                    return Err(io::Error::from(io::ErrorKind::InvalidData));
                 }
             };
 

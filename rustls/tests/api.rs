@@ -2283,6 +2283,8 @@ fn client_flush_does_nothing() {
     assert!(matches!(client.writer().flush(), Ok(())));
 }
 
+// XXX TBD ??? ???
+#[cfg(not(feature = "x-no-atomic-rc"))]
 #[allow(clippy::no_effect)]
 #[test]
 fn server_is_send_and_sync() {
@@ -2291,6 +2293,8 @@ fn server_is_send_and_sync() {
     &server as &dyn Sync;
 }
 
+// XXX TBD ??? ???
+#[cfg(not(feature = "x-no-atomic-rc"))]
 #[allow(clippy::no_effect)]
 #[test]
 fn client_is_send_and_sync() {
@@ -3173,6 +3177,8 @@ fn make_disjoint_suite_configs() -> (ClientConfig, ServerConfig) {
     (client_config, server_config)
 }
 
+// XXX TBD ??? ???
+#[cfg(not(feature = "x-no-atomic-rc"))]
 #[test]
 fn client_stream_handshake_error() {
     let (client_config, server_config) = make_disjoint_suite_configs();
@@ -3196,6 +3202,8 @@ fn client_stream_handshake_error() {
     }
 }
 
+// XXX TBD ??? ???
+#[cfg(not(feature = "x-no-atomic-rc"))]
 #[test]
 fn client_streamowned_handshake_error() {
     let (client_config, server_config) = make_disjoint_suite_configs();
@@ -3219,6 +3227,8 @@ fn client_streamowned_handshake_error() {
     let (_, _) = client_stream.into_parts();
 }
 
+// XXX TBD ??? ???
+#[cfg(not(feature = "x-no-atomic-rc"))]
 #[test]
 fn server_stream_handshake_error() {
     let (client_config, server_config) = make_disjoint_suite_configs();
@@ -3242,6 +3252,8 @@ fn server_stream_handshake_error() {
     }
 }
 
+// XXX TBD ??? ???
+#[cfg(not(feature = "x-no-atomic-rc"))]
 #[test]
 fn server_streamowned_handshake_error() {
     let (client_config, server_config) = make_disjoint_suite_configs();

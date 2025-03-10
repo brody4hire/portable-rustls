@@ -34,29 +34,31 @@ use crate::vecbuf::ChunkVecBuffer;
 use crate::WantsVerifier;
 use crate::{compress, sign, verify, versions, DistinguishedName, KeyLog, WantsVersions};
 
-/// A trait for the ability to store server session data.
-///
-/// The keys and values are opaque.
-///
-/// Inserted keys are randomly chosen by the library and have
-/// no internal structure (in other words, you may rely on all
-/// bits being uniformly random).  Queried keys are untrusted data.
-///
-/// Both the keys and values should be treated as
-/// **highly sensitive data**, containing enough key material
-/// to break all security of the corresponding sessions.
-///
-/// Implementations can be lossy (in other words, forgetting
-/// key/value pairs) without any negative security consequences.
-///
-/// However, note that `take` **must** reliably delete a returned
-/// value.  If it does not, there may be security consequences.
-///
-/// `put` and `take` are mutating operations; this isn't expressed
-/// in the type system to allow implementations freedom in
-/// how to achieve interior mutability.  `Mutex` is a common
-/// choice.
-pub trait StoresServerSessions: Debug + Send + Sync {
+rustls_api_trait!(StoresServerSessions, doc = "\
+A trait for the ability to store server session data.
+
+The keys and values are opaque.
+
+Inserted keys are randomly chosen by the library and have
+no internal structure (in other words, you may rely on all
+bits being uniformly random).  Queried keys are untrusted data.
+
+Both the keys and values should be treated as
+**highly sensitive data**, containing enough key material
+to break all security of the corresponding sessions.
+
+Implementations can be lossy (in other words, forgetting
+key/value pairs) without any negative security consequences.
+
+However, note that `take` **must** reliably delete a returned
+value.  If it does not, there may be security consequences.
+
+`put` and `take` are mutating operations; this isn't expressed
+in the type system to allow implementations freedom in
+how to achieve interior mutability.  `Mutex` is a common
+choice.
+", _________________________________________________________________________________________________________, {
+    // {
     /// Store session secrets encoded in `value` against `key`,
     /// overwrites any existing value against `key`.  Returns `true`
     /// if the value was stored.
@@ -74,8 +76,9 @@ pub trait StoresServerSessions: Debug + Send + Sync {
     /// whether their session can be resumed; the implementation is not required to remember
     /// a session even if it returns `true` here.
     fn can_cache(&self) -> bool;
-}
+});
 
+// XXX XXX USE rustls_api_trait! - ???
 /// A trait for the ability to encrypt and decrypt tickets.
 pub trait ProducesTickets: Debug + Send + Sync {
     /// Returns true if this implementation will encrypt/decrypt
@@ -109,16 +112,17 @@ pub trait ProducesTickets: Debug + Send + Sync {
     fn decrypt(&self, cipher: &[u8]) -> Option<Vec<u8>>;
 }
 
-/// How to choose a certificate chain and signing key for use
-/// in server authentication.
-///
-/// This is suitable when selecting a certificate does not require
-/// I/O or when the application is using blocking I/O anyhow.
-///
-/// For applications that use async I/O and need to do I/O to choose
-/// a certificate (for instance, fetching a certificate from a data store),
-/// the [`Acceptor`] interface is more suitable.
-pub trait ResolvesServerCert: Debug + Send + Sync {
+rustls_api_trait!(ResolvesServerCert, doc = "\
+How to choose a certificate chain and signing key for use
+in server authentication.
+
+This is suitable when selecting a certificate does not require
+I/O or when the application is using blocking I/O anyhow.
+
+For applications that use async I/O and need to do I/O to choose
+a certificate (for instance, fetching a certificate from a data store),
+the [`Acceptor`] interface is more suitable.
+", _________________________________________________________________________________________________________, {
     /// Choose a certificate chain and matching key given simplified
     /// ClientHello information.
     ///
@@ -129,7 +133,7 @@ pub trait ResolvesServerCert: Debug + Send + Sync {
     fn only_raw_public_keys(&self) -> bool {
         false
     }
-}
+});
 
 /// A struct representing the received Client Hello
 #[derive(Debug)]
@@ -428,8 +432,11 @@ impl ServerConfig {
         // Safety assumptions:
         // 1. that the provider has been installed (explicitly or implicitly)
         // 2. that the process-level default provider is usable with the supplied protocol versions.
-        Self::builder_with_provider(Arc::clone(
-            CryptoProvider::get_default_or_install_from_crate_features(),
+        // XXX TBD ??? ???
+        #[allow(clippy::clone_on_ref_ptr)]
+        Self::builder_with_provider(Arc::from(
+            // XXX TODO ADD NOTE THAT THIS IS A HACK NEEDED FOR XXX XXX
+            CryptoProvider::get_default_or_install_from_crate_features().clone(),
         ))
         .with_protocol_versions(versions)
         .unwrap()
@@ -731,7 +738,10 @@ mod connection {
     ///
     /// ```no_run
     /// # #[cfg(feature = "aws_lc_rs")] {
+    /// # // XXX XXX
     /// # use portable_rustls as rustls; // DOC IMPORT WORKAROUND for this fork
+    /// # // XXX TBD ??? ???
+    /// # // use rustls::internal::sync::Arc;
     /// # use rustls::Arc; // EXPORTED ALIAS
     /// # fn choose_server_config(
     /// #     _: rustls::server::ClientHello,

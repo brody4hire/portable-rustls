@@ -12,7 +12,9 @@ script_args="$@"
 
 MAIN_CRATE=portable-rustls
 
-ALL_FEATURES_EXCEPT_UNSAFE=$(admin/all-features-except unsafe-assume-single-core $MAIN_CRATE)
+# XXX TODO UPDATE ENV NAME
+# XXX TODO IMPROVE TESTING WITH & WITHOUT x-no-atomic-rc
+ALL_FEATURES_EXCEPT_UNSAFE=$(admin/all-features-except unsafe-assume-single-core,x-no-atomic-rc $MAIN_CRATE)
 
 function run_clippy() {
   if ! ( set -x ; cargo clippy --locked "$@" $script_args ) ; then
