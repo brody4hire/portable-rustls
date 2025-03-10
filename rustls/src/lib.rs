@@ -564,6 +564,7 @@ mod sync {
 /// the generated doc shows use of exported Arc alias from this crate.
 mod arc_type_alias {
     // XXX TBD DISALLOWED TYPES - ???
+    // XXX TODO ENFORCE CONSTRAINT AGAINST MULTIPLE ARC ALIAS OPTIONS
     // XXX TODO DOCUMENT NEW cfg option: --cfg use_rc_alias
     #[cfg(use_rc_alias)]
     pub use alloc::rc::Rc as Arc;
