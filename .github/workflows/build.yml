@@ -28,6 +28,7 @@ jobs:
     name: Build+test
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false # XXX
       matrix:
         rust:
           - stable
@@ -156,6 +157,7 @@ jobs:
       # (may use another target with no std lib - x86_64-unknown-none for example)
       NO_STD_BUILD_TARGET: aarch64-unknown-none
     strategy:
+      fail-fast: false # XXX
       matrix:
         rust:
           - stable
