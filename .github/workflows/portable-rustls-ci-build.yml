@@ -31,9 +31,7 @@ jobs:
     name: build with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     env:
-      # XXX TODO TEST WITH BOTH SETS OF cfg options
-      # RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
-      RUSTFLAGS: --cfg use_rc_alias
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
     strategy:
       matrix:
         rust:
@@ -55,6 +53,9 @@ jobs:
           # 64-bit target(s) with no std crate - for comparison:
           - aarch64-unknown-none
           - x86_64-unknown-none
+        cfg-rust-flags:
+          - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
+          - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -87,9 +88,7 @@ jobs:
     name: test with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     env:
-      # XXX TODO TEST WITH BOTH SETS OF cfg options
-      # RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
-      RUSTFLAGS: --cfg use_rc_alias
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
     strategy:
       matrix:
         rust:
@@ -105,6 +104,9 @@ jobs:
           - macos-latest
           # FOR FUTURE CONSIDERATION:
           # - windows-latest
+        cfg-rust-flags:
+          - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
+          - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -137,9 +139,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     env:
-      # XXX TODO TEST WITH BOTH SETS OF cfg options
-      # RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
-      RUSTFLAGS: --cfg use_rc_alias
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
     strategy:
       matrix:
         rust:
@@ -161,6 +161,9 @@ jobs:
           # NOTE: This could have some overlap with 64-bit ARM-style CPU on macOS CI host;
           # may have similar ARM-style CPU overlap with standard Windows & possibly Linux in the future
           - aarch64-linux-android
+        cfg-rust-flags:
+          - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
+          - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -188,9 +191,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     env:
-      # XXX TODO TEST WITH BOTH SETS OF cfg options
-      # RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
-      RUSTFLAGS: --cfg use_rc_alias
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
     strategy:
       matrix:
         rust:
@@ -211,6 +212,9 @@ jobs:
           - ubuntu-latest
           # FOR FUTURE CONSIDERATION:
           # ...
+        cfg-rust-flags:
+          - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
+          - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -240,9 +244,7 @@ jobs:
     name: full build with unstable_portable_atomic_arc cfg
     runs-on: ${{ matrix.os }}
     env:
-      # XXX TODO TEST WITH BOTH SETS OF cfg options
-      # RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
-      RUSTFLAGS: --cfg use_rc_alias
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
     strategy:
       matrix:
         rust:
@@ -262,6 +264,9 @@ jobs:
           # FOR FUTURE CONSIDERATION:
           # - macos-latest
           # - windows-latest
+        cfg-rust-flags:
+          - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
+          - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -287,9 +292,7 @@ jobs:
     name: full test with unstable_portable_atomic_arc cfg
     runs-on: ${{ matrix.os }}
     env:
-      # XXX TODO TEST WITH BOTH SETS OF cfg options
-      # RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized --cfg unstable_portable_atomic_arc
-      RUSTFLAGS: --cfg use_rc_alias
+      RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
     strategy:
       matrix:
         rust:
@@ -303,6 +306,9 @@ jobs:
           # FOR FUTURE CONSIDERATION:
           # - macos-latest
           # - windows-latest
+        cfg-rust-flags:
+          - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
+          - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -343,11 +349,10 @@ jobs:
           - riscv32imc-unknown-none-elf
           - thumbv6m-none-eabi
         cfg-rust-flags:
-          # XXX TODO FIX FOR & TEST WITH BOTH SETS OF cfg options
-          # XXX build with XXX cfg option(s) - AS REQUIRED for 32-BIT TARGET(S) WITH NO ATOMIC PTR
+          # build with unstable_portable_atomic_arc
           - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
-          # XXX TODO
-          # - --cfg use_rc_alias
+          # build with `alloc::rc::Rc`
+          - --cfg use_rc_alias
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -394,11 +399,10 @@ jobs:
           # - ubuntu-latest
           - macos-latest
         cfg-rust-flags:
-          # XXX TODO FIX FOR & TEST WITH BOTH SETS OF cfg options
           # build with unstable_portable_atomic_arc
           - --cfg unstable_portable_atomic_arc --cfg portable_atomic_unstable_coerce_unsized
-          # XXX TODO
-          # - --cfg use_rc_alias
+          # build with `alloc::rc::Rc`
+          - --cfg use_rc_alias
           # build with `alloc::sync::Arc`
           - ''
     steps:
