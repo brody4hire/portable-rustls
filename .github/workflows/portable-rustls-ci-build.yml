@@ -28,7 +28,7 @@ concurrency:
 
 jobs:
   build:
-    name: build with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
+    name: build with --cfg use_rc_alias & --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     env:
       RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
@@ -68,10 +68,12 @@ jobs:
           toolchain: ${{ matrix.rust }}
           target: ${{ matrix.target }}
 
+      # XXX ONLY NEEDED WITH --cfg unstable_portable_atomic_arc ...
       - name: cargo build (debug; no-std; critical-section) # (with no built-in provider)
         run: cargo build -F critical-section --target ${{ matrix.target }}
         working-directory: rustls
 
+      # XXX ONLY NEEDED WITH --cfg unstable_portable_atomic_arc ...
       - name: cargo build (debug; no-std; unsafe-assume-single-core) # (with no built-in provider)
         # TODO: UPDATE to match in case of any more target(s) are added with no atomic ptr
         if: startsWith(matrix.target, 'riscv') || startsWith(matrix.target, 'thumbv6')
@@ -85,7 +87,7 @@ jobs:
   test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: test with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
+    name: test with --cfg use_rc_alias & --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     env:
       RUSTFLAGS: ${{ matrix.cfg-rust-flags }}
@@ -135,7 +137,7 @@ jobs:
         working-directory: rustls
 
   cross-build:
-    name: cross build test with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
+    name: cross build test with --cfg use_rc_alias & --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     env:
@@ -187,7 +189,7 @@ jobs:
   cross-test:
     # GENERAL NOTE: NO CI TESTING for no-std
     # (CI TESTING with no-std & with no atomic ptr FOR FUTURE CONSIDERATION)
-    name: cross-target testing with use_rc_alias # XXX TODO TEST WITH BOTH --cfg use_rc_alias && --cfg unstable_portable_atomic_arc
+    name: cross-target testing with --cfg use_rc_alias & --cfg unstable_portable_atomic_arc
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'merge_group'
     env:
